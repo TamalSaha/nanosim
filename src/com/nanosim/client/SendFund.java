@@ -2,40 +2,50 @@ package com.nanosim.client;
 
 import java.util.Date;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.AbstractImagePrototype;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.DockPanel;
+import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.ImageBundle;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.Tree;
+import com.google.gwt.user.client.ui.TreeImages;
+import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
+import com.google.gwt.user.client.ui.ImageBundle.Resource;
+import com.nanosim.client.LeftPanel.Images;
 import com.nanosim.client.event.ILoginHandler;
 import com.nanosim.client.internal.EventHandlerCollection;
-import com.nanosim.client.rpc.SigninService;
-import com.nanosim.client.rpc.SigninServiceAsync;
+import com.nanosim.client.rpc.LoginService;
+import com.nanosim.client.rpc.LoginServiceAsync;
 import com.nanosim.client.rpc.TransferService;
 import com.nanosim.client.rpc.TransferServiceAsync;
 import com.nanosim.model.Budget;
+import com.nanosim.model.Person;
 
 /**
  * Composite that represents a collection of <code>Task</code> items.
  */
 public class SendFund extends Composite {
-
-	private final TransferServiceAsync transferService = TransferService.Util
-			.getInstance();
-
-/*	public SendFund() {
-		SimplePanel panel = new SimplePanel();
-		VerticalPanel list = new VerticalPanel();
-		panel.setWidget(list);
-		list.add(new CheckBox("See the status"));
-		list.add(new CheckBox("Send Fund"));
-		initWidget(panel);
-		setStyleName("NanoSim-Research");
-
-	}*/
+	private static SendFund singleton;
+	private SendFundScreen sendFundScreen;
+	String width = new String("70%");
+	
+	/*private final TransferServiceAsync transferService = TransferService.Util
+			.getInstance();*/
 	
 
-	public void insertDatabase(Double credit) {
+	/*public void insertDatabase(Double credit) {
 		Date now = new Date();
 		System.out.println(now.getTime());
 		Budget b[] = new Budget[1];
@@ -53,107 +63,100 @@ public class SendFund extends Composite {
 				// do stuff on success with GUI, like load the next GUI element
 			}
 		});
-	}
+	}*/
 	
 	//----------------------------
 	private EventHandlerCollection<ILoginHandler> loginHandlerColl = new EventHandlerCollection<ILoginHandler>();
 
-	private final SigninServiceAsync loginService = SigninService.Util
+	private final LoginServiceAsync loginService = LoginService.Util
 			.getInstance();
+	/**
+	 * Specifies the images that will be bundled for this Composite and specify
+	 * that tree's images should also be included in the same bundle.
+	 */
+	public interface Images extends ImageBundle, TreeImages {
+		AbstractImagePrototype drafts();
 
-	public SendFund() {
-		SimplePanel panel = new SimplePanel();
+		AbstractImagePrototype home();
+		
+		AbstractImagePrototype transactions();
+
+		AbstractImagePrototype inbox();
+
+		AbstractImagePrototype sent();
+
+		@Resource("noimage.png")
+		AbstractImagePrototype treeLeaf();
+	}
+
+	private Tree tree;
+
+	public SendFund(Images images) {
+		/*SimplePanel panel = new SimplePanel();
 		VerticalPanel list = new VerticalPanel();
 		panel.setWidget(list);
 		list.add(new CheckBox("See the status"));
 		list.add(new CheckBox("Send Fund"));
 		initWidget(panel);
-		setStyleName("NanoSim-Research");
-		////////////////////////////////////////
-		/*DockPanel dock = new DockPanel();
-		dock.setSpacing(4);
-		dock.setHorizontalAlignment(DockPanel.ALIGN_CENTER);
+		setStyleName("nanosim-Research");*/
+		//
+		singleton = this;
+		tree = new Tree(images);
+		TreeItem root = new TreeItem(imageItemHTML(images.transactions(),
+				"Transactions"));
+		tree.addItem(root);
 
-		// Create a Flex Table
-		final FlexTable flexTable = new FlexTable();
-		FlexCellFormatter cellFormatter = flexTable.getFlexCellFormatter();
-		flexTable.addStyleName("cw-FlexTable");
-		flexTable.setWidth("32em");
-		flexTable.setCellSpacing(5);
-		flexTable.setCellPadding(3);
+		addImageItem(root, "Send Fund", images.sent());
+		addImageItem(root, "View history", images.drafts());
+		//addImageItem(root, "Sent", images.sent());
 
-		// Add some text
-		cellFormatter.setHorizontalAlignment(0, 1,
-				HasHorizontalAlignment.ALIGN_LEFT);
-		// Label lblMsg = new Label();
-		// flexTable.setHTML(0, 0, lblMsg);
-		cellFormatter.setColSpan(0, 0, 2);
+		// MailList uses Mail.get() in its constructor, so initialize it after
+		// 'singleton'.
+		sendFundScreen = new SendFundScreen();
+		//
+		// // Create the right panel, containing the email list & details.
+//		System.out.println(LeftPanel.whichItemChosen() +" here!");
 
-		final Label lblUsername = new Label();
-		lblUsername.setText("Username: ");
-		flexTable.setWidget(1, 0, lblUsername);
-
-		final TextBox txtUsername = new TextBox();
-		flexTable.setWidget(1, 1, txtUsername);
-
-		final Label lblPassword = new Label();
-		lblPassword.setText("Password: ");
-		flexTable.setWidget(2, 0, lblPassword);
-
-		final PasswordTextBox txtPassowrd = new PasswordTextBox();
-		flexTable.setWidget(2, 1, txtPassowrd);
-
-		Button btnSignin = new Button("Sign in");
-		flexTable.setWidget(3, 0, btnSignin);
-		cellFormatter.setColSpan(3, 0, 2);
-		btnSignin.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				String userName = txtUsername.getText();
-				String password = txtPassowrd.getText();
-
-				if (userName == null || userName.equals("")) {
-					flexTable.setHTML(0, 0, "Username not found.");
-				} else if (password == null || password.equals("")) {
-					flexTable.setHTML(0, 0, "Password not found.");
-				} else {
-					loginService.signin(userName, password,
-							new AsyncCallback<Person>() {
-
-								@Override
-								public void onFailure(Throwable caught) {
-									flexTable.setHTML(0, 0,
-											"Authentication failed !!!");
-								}
-
-								@Override
-								public void onSuccess(Person result) {
-									if (result == null) {
-										flexTable.setHTML(0, 0,
-												"Authentication failed !!!");
-									} else {
-										flexTable.setHTML(0, 0, "");
-										for (ILoginHandler handler : loginHandlerColl
-												.getList()) {
-											handler.OnSuccess(result);
-										}
-									}
-								}
-							});
-				}
-			}
-		});
-
-		dock.add(flexTable, DockPanel.CENTER);
-		initWidget(dock);
+		root.setState(true);
+		try {
+			initWidget(tree);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		
+	}
+	
+	public void loadRightPanel(){
+		RightPanel.clear();
+		RightPanel.add(sendFundScreen);
+		//RightPanel.add(mailDetail);
+		sendFundScreen.setWidth(width);
+		//mailDetail.setWidth(width);
+		
+	}
+	
+	/**
+	 * A helper method to simplify adding tree items that have attached images.
+	 * {@link #addImageItem(TreeItem, String, AbstractImagePrototype) code}
+	 * 
+	 * @param root the tree item to which the new item will be added.
+	 * @param title the text associated with this item.
+	 */
+	private TreeItem addImageItem(TreeItem root, String title,
+			AbstractImagePrototype imageProto) {
+		TreeItem item = new TreeItem(imageItemHTML(imageProto, title));
+		root.addItem(item);
+		return item;
 	}
 
-	public void addLoginHandler(ILoginHandler handler) {
-		loginHandlerColl.addListener(handler);
+	/**
+	 * Generates HTML for a tree item with an attached icon.
+	 * 
+	 * @param imageProto the image prototype to use
+	 * @param title the title of the item
+	 * @return the resultant HTML
+	 */
+	private String imageItemHTML(AbstractImagePrototype imageProto, String title) {
+		return imageProto.getHTML() + " " + title;
 	}
-
-	public void removeLoginHandler(ILoginHandler handler) {
-		loginHandlerColl.removeListener(handler);
-	}*/
-}}
+}
