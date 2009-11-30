@@ -65,6 +65,7 @@ public class SigninScreen extends Composite {
 		flexTable.setWidget(2, 0, lblUsername);
 
 		final TextBox txtUsername = new TextBox();
+		txtUsername.setText("ibm");		
 		flexTable.setWidget(2, 1, txtUsername);
 
 		final Label lblPassword = new Label();
@@ -72,6 +73,7 @@ public class SigninScreen extends Composite {
 		flexTable.setWidget(3, 0, lblPassword);
 
 		final PasswordTextBox txtPassowrd = new PasswordTextBox();
+		txtPassowrd.setText("demo");
 		flexTable.setWidget(3, 1, txtPassowrd);
 
 		Button btnSignin = new Button("Sign in");
