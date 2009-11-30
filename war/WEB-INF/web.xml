@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE web-app
+    PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+    "http://java.sun.com/dtd/web-app_2_3.dtd">
+
+<web-app>
+
+	<!-- Default page to serve -->
+	<welcome-file-list>
+		<welcome-file>Nanosim.html</welcome-file>
+	</welcome-file-list>
+
+	<!-- Servlets -->
+	<servlet>
+		<servlet-name>SigninService</servlet-name>
+		<servlet-class>com.nanosim.server.SigninServiceImpl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SigninService</servlet-name>
+		<url-pattern>/nanosim/SigninService</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>PatentService</servlet-name>
+		<servlet-class>com.nanosim.server.PatentServiceImpl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PatentService</servlet-name>
+		<url-pattern>/nanosim/PatentService</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>ProposalService</servlet-name>
+		<servlet-class>com.nanosim.server.ProposalServiceImpl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ProposalService</servlet-name>
+		<url-pattern>/nanosim/ProposalService</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>GroupService</servlet-name>
+		<servlet-class>com.nanosim.server.GroupServiceImpl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GroupService</servlet-name>
+		<url-pattern>/nanosim/GroupService</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>TransferService</servlet-name>
+		<servlet-class>com.nanosim.server.TransferServiceImpl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>TransferService</servlet-name>
+		<url-pattern>/nanosim/TransferService</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>ResearchService</servlet-name>
+		<servlet-class>com.nanosim.server.ResearchServiceImpl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ResearchService</servlet-name>
+		<url-pattern>/nanosim/ResearchService</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>NewspaperService</servlet-name>
+		<servlet-class>com.nanosim.server.NewspaperServiceImpl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>NewspaperService</servlet-name>
+		<url-pattern>/nanosim/NewspaperService</url-pattern>
+	</servlet-mapping>
+
+</web-app>
