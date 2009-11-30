@@ -1,5 +1,8 @@
 package com.nanosim.client;
 
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Element;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DecoratedStackPanel;
@@ -19,7 +22,8 @@ public class LeftPanel extends Composite {
 	 * An image bundle specifying the images for this Widget and aggragating
 	 * images needed in child widgets.
 	 */
-	public interface Images extends Contacts.Images, Mailboxes.Images {
+
+	public interface Images extends Contacts.Images, Mailboxes.Images, SendFund.Images {
 		AbstractImagePrototype mail();
 
 		AbstractImagePrototype group();
@@ -34,7 +38,9 @@ public class LeftPanel extends Composite {
 	}
 
 	private int nextHeaderIndex = 0;
-	private DecoratedStackPanel stackPanel = new DecoratedStackPanel();
+	private static DecoratedStackPanel stackPanel = new DecoratedStackPanel();
+	private SendFund sendFund;
+	private Mailboxes mailboxes;
 
 	/**
 	 * Constructs a new shortcuts widget using the specified images.
@@ -44,21 +50,64 @@ public class LeftPanel extends Composite {
 	 */
 	public LeftPanel(GroupType groupType, Images images) {
 		// Create the groups within the stack panel.
-		add(new Mailboxes(images), images.mail(), "Mail");
+		mailboxes = new Mailboxes(images);
+		add(mailboxes, images.mail(), "Mail");
 		add(new Contacts(images), images.group(), "Group Contacts");
 		add(new Proposals(), images.proposal(), "Proposals");
 		add(new Research(), images.research(), "Research");
 		if (groupType.getHasPatents())
 			add(new Patents(), images.patent(), "Patents");
-		add(new SendFund(), images.transfer(), "Transfers");
+		sendFund = new SendFund(images);
+		add(sendFund, images.transfer(), "Transfers");
 
 		initWidget(stackPanel);
+		//stackPanel.
 	}
 
 	@Override
 	protected void onLoad() {
 		// Show the mailboxes group by default.
 		stackPanel.showStack(0);
+		mailboxes.loadRightPanel();
+	}
+	@Override
+	  public void onBrowserEvent(Event event) {
+		if (DOM.eventGetType(event) == Event.ONCLICK) {
+		      Element target = DOM.eventGetTarget(event);
+		      int index = findDividerIndex(target);
+		      if (index != -1) {
+		        stackPanel.showStack(index);
+			    	
+		      }
+		    }
+		    super.onBrowserEvent(event);
+		    if(stackPanel.getSelectedIndex()== 5)
+		    	sendFund.loadRightPanel();
+		    else if(stackPanel.getSelectedIndex() == 0)
+		    	mailboxes.loadRightPanel();
+		      
+	}
+	
+		private int findDividerIndex(Element elem) {
+		    while (elem != getElement()) {
+		      String expando = DOM.getElementProperty(elem, "__index");
+		      if (expando != null) {
+		        // Make sure it belongs to me!
+		        int ownerHash = DOM.getElementPropertyInt(elem, "__owner");
+		        if (ownerHash == hashCode()) {
+		          // Yes, it's mine.
+		          return Integer.parseInt(expando);
+		        } else {
+		          // It must belong to some nested StackPanel.
+		          return -1;
+		        }
+		      }
+		      elem = DOM.getParent(elem);
+		    }
+		    return -1;
+		  }
+	public static int whichItemChosen(){
+		return stackPanel.getSelectedIndex();
 	}
 
 	private void add(Widget widget, AbstractImagePrototype imageProto,
@@ -88,4 +137,5 @@ public class LeftPanel extends Composite {
 				+ caption + "</b></td></tr></table>";
 		return captionHTML;
 	}
+
 }
