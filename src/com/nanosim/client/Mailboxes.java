@@ -59,7 +59,7 @@ public class Mailboxes extends Composite {
 		singleton = this;
 		tree = new Tree(images);
 		TreeItem root = new TreeItem(imageItemHTML(images.home(),
-				"user@NanoSim.com"));
+				"user@nanosim.com"));
 		tree.addItem(root);
 
 		addImageItem(root, "Inbox", images.inbox());
@@ -68,6 +68,20 @@ public class Mailboxes extends Composite {
 
 		// MailList uses Mail.get() in its constructor, so initialize it after
 		// 'singleton'.
+		/*mailList = new MailList();
+		//
+		// // Create the right panel, containing the email list & details.
+		RightPanel.add(mailList);
+		RightPanel.add(mailDetail);
+		mailList.setWidth(width);
+		mailDetail.setWidth(width);*/
+		
+		root.setState(true);
+		initWidget(tree);
+	}
+	
+	public void loadRightPanel(){
+		RightPanel.clear();
 		mailList = new MailList();
 		//
 		// // Create the right panel, containing the email list & details.
@@ -75,9 +89,6 @@ public class Mailboxes extends Composite {
 		RightPanel.add(mailDetail);
 		mailList.setWidth(width);
 		mailDetail.setWidth(width);
-		
-		root.setState(true);
-		initWidget(tree);
 	}
 
 	/**

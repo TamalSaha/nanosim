@@ -26,8 +26,8 @@ import com.google.gwt.user.client.ui.ImageBundle.Resource;
 import com.nanosim.client.LeftPanel.Images;
 import com.nanosim.client.event.ILoginHandler;
 import com.nanosim.client.internal.EventHandlerCollection;
-import com.nanosim.client.rpc.LoginService;
-import com.nanosim.client.rpc.LoginServiceAsync;
+import com.nanosim.client.rpc.SigninService;
+import com.nanosim.client.rpc.SigninServiceAsync;
 import com.nanosim.client.rpc.TransferService;
 import com.nanosim.client.rpc.TransferServiceAsync;
 import com.nanosim.model.Budget;
@@ -68,7 +68,7 @@ public class SendFund extends Composite {
 	//----------------------------
 	private EventHandlerCollection<ILoginHandler> loginHandlerColl = new EventHandlerCollection<ILoginHandler>();
 
-	private final LoginServiceAsync loginService = LoginService.Util
+	private final SigninServiceAsync loginService = SigninService.Util
 			.getInstance();
 	/**
 	 * Specifies the images that will be bundled for this Composite and specify
