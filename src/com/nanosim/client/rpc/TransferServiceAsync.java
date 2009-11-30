@@ -1,9 +1,11 @@
 package com.nanosim.client.rpc;
 
 import com.nanosim.model.Budget;
+import com.nanosim.model.Person;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-
 public interface TransferServiceAsync {
-	public void insertBudget(Budget b, AsyncCallback<Budget> callback);
+	void insertBudget(String credit, String id, AsyncCallback<Integer> callback);
+
+
 }
