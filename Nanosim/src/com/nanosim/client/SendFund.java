@@ -1,37 +1,15 @@
 package com.nanosim.client;
 
-import java.util.Date;
-
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AbstractImagePrototype;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.DockPanel;
-import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.ImageBundle;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.PasswordTextBox;
-import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeImages;
 import com.google.gwt.user.client.ui.TreeItem;
-import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
-import com.google.gwt.user.client.ui.ImageBundle.Resource;
-import com.nanosim.client.LeftPanel.Images;
 import com.nanosim.client.event.ILoginHandler;
 import com.nanosim.client.internal.EventHandlerCollection;
 import com.nanosim.client.rpc.SigninService;
 import com.nanosim.client.rpc.SigninServiceAsync;
-import com.nanosim.client.rpc.TransferService;
-import com.nanosim.client.rpc.TransferServiceAsync;
-import com.nanosim.model.Budget;
-import com.nanosim.model.Person;
 
 /**
  * Composite that represents a collection of <code>Task</code> items.
