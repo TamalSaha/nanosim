@@ -11,12 +11,14 @@ public class TransferServiceImpl extends RemoteServiceServlet implements
 	private static final long serialVersionUID = 164797187055616290L;
 
 	@Override
-	public Budget insertBudget(Budget b) {
+	public int insertBudget(String credit, String id) {
 		try {
 			BudgetDAO budgetDao = new BudgetDAO();
-			return budgetDao.insertBudget(b);
+			return budgetDao.insertBudget(Double.parseDouble(credit), Integer.parseInt(id));
 		} catch (Exception e) {
-			return null;
+			System.out.println("In TransferServiceImpl "+ e.toString());
+			return -1;
 		}
 	}
+
 }
