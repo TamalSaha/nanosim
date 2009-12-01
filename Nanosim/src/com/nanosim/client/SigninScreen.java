@@ -6,12 +6,13 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ImageBundle;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
@@ -21,13 +22,12 @@ import com.nanosim.client.rpc.SigninService;
 import com.nanosim.client.rpc.SigninServiceAsync;
 import com.nanosim.model.Person;
 
-
 public class SigninScreen extends Composite {
-	
+
 	private EventHandlerCollection<ILoginHandler> loginHandlerColl = new EventHandlerCollection<ILoginHandler>();
 
 	private final SigninServiceAsync signinService = SigninService.Util
-	.getInstance();
+			.getInstance();
 
 	/**
 	 * An image bundle for this widgets images.
@@ -35,50 +35,55 @@ public class SigninScreen extends Composite {
 	public interface Images extends ImageBundle {
 		AbstractImagePrototype logo();
 	}
-	
+
 	public SigninScreen(NanosimImages images) {
-				
+		final Image logo = images.logo().createImage();
+		logo.setHeight("150px");
+
 		DockPanel dock = new DockPanel();
 		dock.setSpacing(4);
 		dock.setHorizontalAlignment(DockPanel.ALIGN_CENTER);
+		HTML h1 = new HTML();
+		h1.setHeight("100px");
+		dock.add(h1, DockPanel.NORTH);
+		dock.add(logo, DockPanel.NORTH);
 
-		// Create a Flex Table
-		final FlexTable flexTable = new FlexTable();
-		FlexCellFormatter cellFormatter = flexTable.getFlexCellFormatter();
-		flexTable.addStyleName("cw-FlexTable");
-		flexTable.setWidth("32em");
-		flexTable.setCellSpacing(5);
-		flexTable.setCellPadding(3);
+		// Create a table to layout the form options
+		final FlexTable layout = new FlexTable();
+		layout.setWidth("300px");
+		layout.setCellSpacing(6);
+		FlexCellFormatter cellFormatter = layout.getFlexCellFormatter();
 
-		// Add some text
-		cellFormatter.setHorizontalAlignment(0, 1,
-				HasHorizontalAlignment.ALIGN_LEFT);
-		// Label lblMsg = new Label();
-		// flexTable.setHTML(0, 0, lblMsg);
+		// Add a title to the form
+		layout.setHTML(0, 0, "");
 		cellFormatter.setColSpan(0, 0, 2);
+		cellFormatter.setHorizontalAlignment(0, 0,
+				HasHorizontalAlignment.ALIGN_CENTER);
 
-		final Image logo = images.logo().createImage();
-		flexTable.setWidget(1, 0, logo);
-
-		final Label lblUsername = new Label();
-		lblUsername.setText("Username: ");
-		flexTable.setWidget(2, 0, lblUsername);
-
+		layout.setHTML(1, 0, "Username:");
+		cellFormatter.setHorizontalAlignment(1, 0,
+				HasHorizontalAlignment.ALIGN_CENTER);
 		final TextBox txtUsername = new TextBox();
-		txtUsername.setText("ibm");		
-		flexTable.setWidget(2, 1, txtUsername);
+		txtUsername.setText("ibm");
+		txtUsername.setWidth("150px");
+		layout.setWidget(1, 1, txtUsername);
 
-		final Label lblPassword = new Label();
-		lblPassword.setText("Password: ");
-		flexTable.setWidget(3, 0, lblPassword);
-
+		layout.setHTML(2, 0, "Passowrd:");
+		cellFormatter.setHorizontalAlignment(2, 0,
+				HasHorizontalAlignment.ALIGN_CENTER);
 		final PasswordTextBox txtPassowrd = new PasswordTextBox();
 		txtPassowrd.setText("demo");
-		flexTable.setWidget(3, 1, txtPassowrd);
+		txtPassowrd.setWidth("150px");
+		layout.setWidget(2, 1, txtPassowrd);
+
+		layout.setHTML(3, 0, "");
+		layout.setHTML(3, 1, "");
 
 		Button btnSignin = new Button("Sign in");
-		flexTable.setWidget(4, 1, btnSignin);
-		cellFormatter.setColSpan(4, 1, 1);
+		layout.setWidget(4, 0, btnSignin);
+		cellFormatter.setColSpan(4, 0, 2);
+		cellFormatter.setHorizontalAlignment(4, 0,
+				HasHorizontalAlignment.ALIGN_CENTER);
 		btnSignin.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -87,38 +92,45 @@ public class SigninScreen extends Composite {
 				String password = txtPassowrd.getText();
 
 				if (userName == null || userName.equals("")) {
-					flexTable.setHTML(0, 0, "Username not found.");
+					layout.setHTML(0, 0, "<p>Username not found.</p><p></p>");
 				} else if (password == null || password.equals("")) {
-					flexTable.setHTML(0, 0, "Password not found.");
+					layout.setHTML(0, 0, "<p>Password not found.</p><p></p>");
 				} else {
 					signinService.signin(userName, password,
 							new AsyncCallback<Person>() {
 
-						@Override
-						public void onFailure(Throwable caught) {
-							flexTable.setHTML(0, 0,
-									"Authentication failed !!!");
-						}
-
-						@Override
-						public void onSuccess(Person result) {
-							if (result == null) {
-								flexTable.setHTML(0, 0,
-										"Authentication failed !!!");
-							} else {
-								flexTable.setHTML(0, 0, "");
-								for (ILoginHandler handler : loginHandlerColl
-										.getList()) {
-									handler.OnSuccess(result);
+								@Override
+								public void onFailure(Throwable caught) {
+									layout
+											.setHTML(0, 0,
+													"<p>Authentication failed !!!</p><p></p>");
 								}
-							}
-						}
-					});
+
+								@Override
+								public void onSuccess(Person result) {
+									if (result == null) {
+										layout
+												.setHTML(0, 0,
+														"<p>Authentication failed !!!</p><p></p>");
+									} else {
+										layout.setHTML(0, 0, "");
+										for (ILoginHandler handler : loginHandlerColl
+												.getList()) {
+											handler.OnSuccess(result);
+										}
+									}
+								}
+							});
 				}
 			}
 		});
 
-		dock.add(flexTable, DockPanel.CENTER);
+		// Wrap the content in a DecoratorPanel
+		DecoratorPanel decPanel = new DecoratorPanel();
+		decPanel.setWidget(layout);
+
+		dock.add(decPanel, DockPanel.CENTER);
+		dock.setWidth("100%");
 		initWidget(dock);
 	}
 
