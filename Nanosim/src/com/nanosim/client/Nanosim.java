@@ -8,7 +8,7 @@ import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.nanosim.client.event.ILoginHandler;
+import com.nanosim.client.event.ISigninHandler;
 import com.nanosim.client.icons.NanosimImages;
 import com.nanosim.client.internal.NanosimConstants;
 import com.nanosim.model.Person;
@@ -55,7 +55,7 @@ public class Nanosim implements EntryPoint, ResizeHandler {
 
 	private void setSigninScreen() {
 		SigninScreen signinScreen = new SigninScreen();
-		signinScreen.addLoginHandler(new ILoginHandler() {
+		signinScreen.addLoginHandler(new ISigninHandler() {
 
 			@Override
 			public void OnSuccess(Person p) {

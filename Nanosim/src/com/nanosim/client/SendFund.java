@@ -4,7 +4,7 @@ import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
-import com.nanosim.client.event.ILoginHandler;
+import com.nanosim.client.event.ISigninHandler;
 import com.nanosim.client.icons.NanosimImages;
 import com.nanosim.client.internal.EventHandlerCollection;
 import com.nanosim.client.rpc.SigninService;
@@ -39,7 +39,7 @@ public class SendFund extends Composite {
 	 */
 
 	// ----------------------------
-	private EventHandlerCollection<ILoginHandler> loginHandlerColl = new EventHandlerCollection<ILoginHandler>();
+	private EventHandlerCollection<ISigninHandler> loginHandlerColl = new EventHandlerCollection<ISigninHandler>();
 
 	private final SigninServiceAsync loginService = SigninService.Util
 			.getInstance();
