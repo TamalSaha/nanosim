@@ -21,7 +21,7 @@ public class AboutDialog extends DialogBox {
 		HTML text = new HTML("NanoSim is a Role play simularion of the NNI "
 				+ "developed by: <br />"
 				+ "Yina Arenas, Tamal Saha and Mona Sergi" + " 2009");
-		text.setStyleName("NanoSim-AboutText");
+		text.setStyleName("nanosim-AboutText");
 		outer.add(text);
 
 		outer.add(new Button("Close", new ClickHandler() {

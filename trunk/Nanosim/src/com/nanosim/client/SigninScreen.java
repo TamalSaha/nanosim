@@ -14,7 +14,7 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
-import com.nanosim.client.event.ILoginHandler;
+import com.nanosim.client.event.ISigninHandler;
 import com.nanosim.client.internal.EventHandlerCollection;
 import com.nanosim.client.rpc.SigninService;
 import com.nanosim.client.rpc.SigninServiceAsync;
@@ -22,7 +22,7 @@ import com.nanosim.model.Person;
 
 public class SigninScreen extends Composite {
 
-	private EventHandlerCollection<ILoginHandler> loginHandlerColl = new EventHandlerCollection<ILoginHandler>();
+	private EventHandlerCollection<ISigninHandler> signinHandlerColl = new EventHandlerCollection<ISigninHandler>();
 
 	private final SigninServiceAsync signinService = SigninService.Util
 			.getInstance();
@@ -105,7 +105,7 @@ public class SigninScreen extends Composite {
 														"<p>Authentication failed !!!</p><p></p>");
 									} else {
 										layout.setHTML(0, 0, "");
-										for (ILoginHandler handler : loginHandlerColl
+										for (ISigninHandler handler : signinHandlerColl
 												.getList()) {
 											handler.OnSuccess(result);
 										}
@@ -125,11 +125,13 @@ public class SigninScreen extends Composite {
 		initWidget(dock);
 	}
 
-	public void addLoginHandler(ILoginHandler handler) {
-		loginHandlerColl.addListener(handler);
+	public void addLoginHandler(ISigninHandler handler) {
+		if (handler != null)
+			signinHandlerColl.addListener(handler);
 	}
 
-	public void removeLoginHandler(ILoginHandler handler) {
-		loginHandlerColl.removeListener(handler);
+	public void removeLoginHandler(ISigninHandler handler) {
+		if (handler != null)
+			signinHandlerColl.removeListener(handler);
 	}
 }
