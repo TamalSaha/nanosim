@@ -15,8 +15,9 @@ public class PersonDAO {
 					.executeQuery(
 							"select * from persons where name = ? and password=?",
 							userName, password);
-			Person p = new Person();
+			Person p = null;
 			if (rs.next()) {
+				p = new Person();
 				p.setPersonId(rs.getLong("person_id"));
 				p.setName(rs.getString("name"));
 				p.setGroupId(rs.getLong("group_id"));
