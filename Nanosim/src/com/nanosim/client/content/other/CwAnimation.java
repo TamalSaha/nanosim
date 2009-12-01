@@ -29,254 +29,246 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.nanosim.client.ContentWidget;
 import com.nanosim.client.Nanosim;
-import com.nanosim.client.NanosimAnnotations.NanosimData;
-import com.nanosim.client.NanosimAnnotations.NanosimSource;
 
 /**
  * Example file.
  */
 public class CwAnimation extends ContentWidget {
-  /**
-   * A custom animation that moves a small image around a circle in an
-   * {@link AbsolutePanel}.
-   */
-  @NanosimSource
-  public class CustomAnimation extends Animation {
-    /**
-     * The x-coordinate of the center of the circle.
-     */
-    private int centerX = 120;
+	/**
+	 * A custom animation that moves a small image around a circle in an
+	 * {@link AbsolutePanel}.
+	 */
 
-    /**
-     * The y-coordinate of the center of the circle.
-     */
-    private int centerY = 120;
+	public class CustomAnimation extends Animation {
+		/**
+		 * The x-coordinate of the center of the circle.
+		 */
+		private int centerX = 120;
 
-    /**
-     * The radius of the circle.
-     */
-    private int radius = 100;
+		/**
+		 * The y-coordinate of the center of the circle.
+		 */
+		private int centerY = 120;
 
-    @Override
-    protected void onComplete() {
-      super.onComplete();
-      startButton.setEnabled(true);
-      cancelButton.setEnabled(false);
-    }
+		/**
+		 * The radius of the circle.
+		 */
+		private int radius = 100;
 
-    @Override
-    protected void onStart() {
-      super.onStart();
-      startButton.setEnabled(false);
-      cancelButton.setEnabled(true);
-    }
+		@Override
+		protected void onComplete() {
+			super.onComplete();
+			startButton.setEnabled(true);
+			cancelButton.setEnabled(false);
+		}
 
-    @Override
-    protected void onUpdate(double progress) {
-      double radian = 2 * Math.PI * progress;
-      updatePosition(animateeLeft, radian, 0);
-      updatePosition(animateeBottom, radian, 0.5 * Math.PI);
-      updatePosition(animateeRight, radian, Math.PI);
-      updatePosition(animateeTop, radian, 1.5 * Math.PI);
-    }
+		@Override
+		protected void onStart() {
+			super.onStart();
+			startButton.setEnabled(false);
+			cancelButton.setEnabled(true);
+		}
 
-    /**
-     * Update the position of the widget, adding a rotational offset.
-     * 
-     * @param w the widget to move
-     * @param radian the progress in radian
-     * @param offset the offset in radian
-     */
-    private void updatePosition(Widget w, double radian, double offset) {
-      radian += offset;
-      double x = radius * Math.cos(radian) + centerX;
-      double y = radius * Math.sin(radian) + centerY;
-      absolutePanel.setWidgetPosition(w, (int) x, (int) y);
-    }
-  }
+		@Override
+		protected void onUpdate(double progress) {
+			double radian = 2 * Math.PI * progress;
+			updatePosition(animateeLeft, radian, 0);
+			updatePosition(animateeBottom, radian, 0.5 * Math.PI);
+			updatePosition(animateeRight, radian, Math.PI);
+			updatePosition(animateeTop, radian, 1.5 * Math.PI);
+		}
 
-  /**
-   * The constants used in this Content Widget.
-   */
-  @NanosimSource
-  public static interface CwConstants extends Constants,
-      ContentWidget.CwConstants {
-    @DefaultStringValue("Cancel")
-    String cwAnimationCancel();
+		/**
+		 * Update the position of the widget, adding a rotational offset.
+		 * 
+		 * @param w
+		 *            the widget to move
+		 * @param radian
+		 *            the progress in radian
+		 * @param offset
+		 *            the offset in radian
+		 */
+		private void updatePosition(Widget w, double radian, double offset) {
+			radian += offset;
+			double x = radius * Math.cos(radian) + centerX;
+			double y = radius * Math.sin(radian) + centerY;
+			absolutePanel.setWidgetPosition(w, (int) x, (int) y);
+		}
+	}
 
-    String cwAnimationDescription();
+	/**
+	 * The constants used in this Content Widget.
+	 */
+	public static interface CwConstants extends Constants,
+			ContentWidget.CwConstants {
+		@DefaultStringValue("Cancel")
+		String cwAnimationCancel();
 
-    String cwAnimationName();
+		String cwAnimationDescription();
 
-    @DefaultStringValue("Animation Options")
-    String cwAnimationOptions();
+		String cwAnimationName();
 
-    @DefaultStringValue("Start")
-    String cwAnimationStart();
-  }
+		@DefaultStringValue("Animation Options")
+		String cwAnimationOptions();
 
-  /**
-   * The absolute panel used in the example.
-   */
-  @NanosimData
-  private AbsolutePanel absolutePanel = null;
+		@DefaultStringValue("Start")
+		String cwAnimationStart();
+	}
 
-  /**
-   * The widget that is being animated.
-   */
-  @NanosimData
-  private Widget animateeBottom = null;
+	/**
+	 * The absolute panel used in the example.
+	 */
 
-  /**
-   * The widget that is being animated.
-   */
-  @NanosimData
-  private Widget animateeLeft = null;
+	private AbsolutePanel absolutePanel = null;
 
-  /**
-   * The widget that is being animated.
-   */
-  @NanosimData
-  private Widget animateeRight = null;
+	/**
+	 * The widget that is being animated.
+	 */
+	private Widget animateeBottom = null;
 
-  /**
-   * The widget that is being animated.
-   */
-  @NanosimData
-  private Widget animateeTop = null;
+	/**
+	 * The widget that is being animated.
+	 */
+	private Widget animateeLeft = null;
 
-  /**
-   * The instance of an animation.
-   */
-  @NanosimData
-  private CustomAnimation animation = null;
+	/**
+	 * The widget that is being animated.
+	 */
+	private Widget animateeRight = null;
 
-  /**
-   * The {@link Button} used to cancel the {@link Animation}.
-   */
-  @NanosimData
-  private Button cancelButton = null;
+	/**
+	 * The widget that is being animated.
+	 */
+	private Widget animateeTop = null;
 
-  /**
-   * An instance of the constants.
-   */
-  @NanosimData
-  private CwConstants constants;
+	/**
+	 * The instance of an animation.
+	 */
+	private CustomAnimation animation = null;
 
-  /**
-   * The {@link Button} used to start the {@link Animation}.
-   */
-  @NanosimData
-  private Button startButton = null;
+	/**
+	 * The {@link Button} used to cancel the {@link Animation}.
+	 */
+	private Button cancelButton = null;
 
-  /**
-   * Constructor.
-   * 
-   * @param constants the constants
-   */
-  public CwAnimation(CwConstants constants) {
-    super(constants);
-    this.constants = constants;
-  }
+	/**
+	 * An instance of the constants.
+	 */
+	private CwConstants constants;
 
-  @Override
-  public String getDescription() {
-    return constants.cwAnimationDescription();
-  }
+	/**
+	 * The {@link Button} used to start the {@link Animation}.
+	 */
+	private Button startButton = null;
 
-  @Override
-  public String getName() {
-    return constants.cwAnimationName();
-  }
+	/**
+	 * Constructor.
+	 * 
+	 * @param constants
+	 *            the constants
+	 */
+	public CwAnimation(CwConstants constants) {
+		super(constants);
+		this.constants = constants;
+	}
 
-  @Override
-  public boolean hasStyle() {
-    return false;
-  }
+	@Override
+	public String getDescription() {
+		return constants.cwAnimationDescription();
+	}
 
-  /**
-   * Initialize this example.
-   */
-  @NanosimSource
-  @Override
-  public Widget onInitialize() {
-    // Create a new panel
-    absolutePanel = new AbsolutePanel();
-    absolutePanel.setSize("250px", "250px");
-    absolutePanel.ensureDebugId("cwAbsolutePanel");
+	@Override
+	public String getName() {
+		return constants.cwAnimationName();
+	}
 
-    // Add a widget that we will animate
-    animateeTop = Nanosim.images.logo().createImage();
-    animateeBottom = Nanosim.images.logo().createImage();
-    animateeLeft = Nanosim.images.logo().createImage();
-    animateeRight = Nanosim.images.logo().createImage();
-    absolutePanel.add(animateeTop);
-    absolutePanel.add(animateeBottom);
-    absolutePanel.add(animateeLeft);
-    absolutePanel.add(animateeRight);
+	@Override
+	public boolean hasStyle() {
+		return false;
+	}
 
-    // Wrap the absolute panel in a DecoratorPanel
-    DecoratorPanel absolutePanelWrapper = new DecoratorPanel();
-    absolutePanelWrapper.setWidget(absolutePanel);
+	/**
+	 * Initialize this example.
+	 */
+	@Override
+	public Widget onInitialize() {
+		// Create a new panel
+		absolutePanel = new AbsolutePanel();
+		absolutePanel.setSize("250px", "250px");
+		absolutePanel.ensureDebugId("cwAbsolutePanel");
 
-    // Create the options bar
-    DecoratorPanel optionsWrapper = new DecoratorPanel();
-    optionsWrapper.setWidget(createOptionsBar());
+		// Add a widget that we will animate
+		animateeTop = Nanosim.images.logo().createImage();
+		animateeBottom = Nanosim.images.logo().createImage();
+		animateeLeft = Nanosim.images.logo().createImage();
+		animateeRight = Nanosim.images.logo().createImage();
+		absolutePanel.add(animateeTop);
+		absolutePanel.add(animateeBottom);
+		absolutePanel.add(animateeLeft);
+		absolutePanel.add(animateeRight);
 
-    // Add the components to a panel and return it
-    HorizontalPanel mainLayout = new HorizontalPanel();
-    mainLayout.setSpacing(10);
-    mainLayout.add(optionsWrapper);
-    mainLayout.add(absolutePanelWrapper);
+		// Wrap the absolute panel in a DecoratorPanel
+		DecoratorPanel absolutePanelWrapper = new DecoratorPanel();
+		absolutePanelWrapper.setWidget(absolutePanel);
 
-    // Create the custom animation
-    animation = new CustomAnimation();
+		// Create the options bar
+		DecoratorPanel optionsWrapper = new DecoratorPanel();
+		optionsWrapper.setWidget(createOptionsBar());
 
-    // Set the start position of the widgets
-    animation.onComplete();
+		// Add the components to a panel and return it
+		HorizontalPanel mainLayout = new HorizontalPanel();
+		mainLayout.setSpacing(10);
+		mainLayout.add(optionsWrapper);
+		mainLayout.add(absolutePanelWrapper);
 
-    // Return the layout
-    return mainLayout;
-  }
+		// Create the custom animation
+		animation = new CustomAnimation();
 
-  /**
-   * Create an options panel that allows users to select a widget and reposition
-   * it.
-   * 
-   * @return the new options panel
-   */
-  @NanosimSource
-  private Widget createOptionsBar() {
-    // Create a panel to move components around
-    VerticalPanel optionsBar = new VerticalPanel();
-    optionsBar.setSpacing(5);
-    optionsBar.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+		// Set the start position of the widgets
+		animation.onComplete();
 
-    // Add a title
-    optionsBar.add(new HTML("<b>" + constants.cwAnimationOptions() + "</b>"));
+		// Return the layout
+		return mainLayout;
+	}
 
-    // Add start button
-    startButton = new Button(constants.cwAnimationStart());
-    startButton.addStyleName("sc-FixedWidthButton");
-    startButton.addClickHandler(new ClickHandler() {
-      public void onClick(ClickEvent event) {
-        animation.run(2000);
-      }
-    });
-    optionsBar.add(startButton);
+	/**
+	 * Create an options panel that allows users to select a widget and
+	 * reposition it.
+	 * 
+	 * @return the new options panel
+	 */
+	private Widget createOptionsBar() {
+		// Create a panel to move components around
+		VerticalPanel optionsBar = new VerticalPanel();
+		optionsBar.setSpacing(5);
+		optionsBar.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 
-    // Add cancel button
-    cancelButton = new Button(constants.cwAnimationCancel());
-    cancelButton.addStyleName("sc-FixedWidthButton");
-    cancelButton.addClickHandler(new ClickHandler() {
-      public void onClick(ClickEvent event) {
-        animation.cancel();
-      }
-    });
-    optionsBar.add(cancelButton);
+		// Add a title
+		optionsBar
+				.add(new HTML("<b>" + constants.cwAnimationOptions() + "</b>"));
 
-    // Return the options bar
-    return optionsBar;
-  }
+		// Add start button
+		startButton = new Button(constants.cwAnimationStart());
+		startButton.addStyleName("sc-FixedWidthButton");
+		startButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				animation.run(2000);
+			}
+		});
+		optionsBar.add(startButton);
+
+		// Add cancel button
+		cancelButton = new Button(constants.cwAnimationCancel());
+		cancelButton.addStyleName("sc-FixedWidthButton");
+		cancelButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				animation.cancel();
+			}
+		});
+		optionsBar.add(cancelButton);
+
+		// Return the options bar
+		return optionsBar;
+	}
 
 }

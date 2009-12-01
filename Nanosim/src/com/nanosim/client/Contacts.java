@@ -2,29 +2,21 @@ package com.nanosim.client;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.ImageBundle;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.nanosim.client.icons.NanosimImages;
 
 /**
  * A component that displays a list of contacts.
  */
 public class Contacts extends Composite {
-
-	/**
-	 * An image bundle for this widget and an example of the use of @Resource.
-	 */
-	public interface Images extends ImageBundle {
-		AbstractImagePrototype defaultPhoto();
-	}
 
 	/**
 	 * Simple data structure representing a contact.
@@ -81,14 +73,14 @@ public class Contacts extends Composite {
 			new Contact("Nanopost", "nanopost@nanosim.com") };
 
 	private VerticalPanel panel = new VerticalPanel();
-	private final Images images;
+	private final NanosimImages images;
 	private Tree tree = new Tree();
 
-	public Contacts(Images images) {
+	public Contacts() {
 		SimplePanel outer = new SimplePanel();
 		outer.setWidget(panel);
 
-		this.images = images;
+		this.images = Nanosim.images;
 
 		// Add all the contacts to the list.
 		for (int i = 0; i < contacts.length; ++i) {

@@ -7,6 +7,7 @@ import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DecoratedStackPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.nanosim.client.icons.NanosimImages;
 import com.nanosim.model.GroupType;
 
 /**
@@ -17,26 +18,6 @@ import com.nanosim.model.GroupType;
  * {@link com.google.gwt.user.client.ui.Tree}, and other custom widgets.
  */
 public class LeftPanel extends Composite {
-
-	/**
-	 * An image bundle specifying the images for this Widget and aggragating
-	 * images needed in child widgets.
-	 */
-
-	public interface Images extends Contacts.Images, Mailboxes.Images, SendFund.Images {
-		AbstractImagePrototype mail();
-
-		AbstractImagePrototype group();
-
-		AbstractImagePrototype proposal();
-
-		AbstractImagePrototype research();
-
-		AbstractImagePrototype patent();
-
-		AbstractImagePrototype transfer();
-	}
-
 	private int nextHeaderIndex = 0;
 	private static DecoratedStackPanel stackPanel = new DecoratedStackPanel();
 	private SendFund sendFund;
@@ -48,20 +29,21 @@ public class LeftPanel extends Composite {
 	 * @param images
 	 *            a bundle that provides the images for this widget
 	 */
-	public LeftPanel(GroupType groupType, Images images) {
+	public LeftPanel(GroupType groupType) {
 		// Create the groups within the stack panel.
-		mailboxes = new Mailboxes(images);
+		NanosimImages images = Nanosim.images;
+		mailboxes = new Mailboxes();
 		add(mailboxes, images.mail(), "Mail");
-		add(new Contacts(images), images.group(), "Group Contacts");
+		add(new Contacts(), images.group(), "Group Contacts");
 		add(new Proposals(), images.proposal(), "Proposals");
 		add(new Research(), images.research(), "Research");
 		if (groupType.getHasPatents())
 			add(new Patents(), images.patent(), "Patents");
-		sendFund = new SendFund(images);
+		sendFund = new SendFund();
 		add(sendFund, images.transfer(), "Transfers");
 
 		initWidget(stackPanel);
-		//stackPanel.
+		// stackPanel.
 	}
 
 	@Override
@@ -70,43 +52,45 @@ public class LeftPanel extends Composite {
 		stackPanel.showStack(0);
 		mailboxes.loadRightPanel();
 	}
+
 	@Override
-	  public void onBrowserEvent(Event event) {
+	public void onBrowserEvent(Event event) {
 		if (DOM.eventGetType(event) == Event.ONCLICK) {
-		      Element target = DOM.eventGetTarget(event);
-		      int index = findDividerIndex(target);
-		      if (index != -1) {
-		        stackPanel.showStack(index);
-			    	
-		      }
-		    }
-		    super.onBrowserEvent(event);
-		    if(stackPanel.getSelectedIndex()== 5)
-		    	sendFund.loadRightPanel();
-		    else if(stackPanel.getSelectedIndex() == 0)
-		    	mailboxes.loadRightPanel();
-		      
+			Element target = DOM.eventGetTarget(event);
+			int index = findDividerIndex(target);
+			if (index != -1) {
+				stackPanel.showStack(index);
+
+			}
+		}
+		super.onBrowserEvent(event);
+		if (stackPanel.getSelectedIndex() == 5)
+			sendFund.loadRightPanel();
+		else if (stackPanel.getSelectedIndex() == 0)
+			mailboxes.loadRightPanel();
+
 	}
-	
-		private int findDividerIndex(Element elem) {
-		    while (elem != getElement()) {
-		      String expando = DOM.getElementProperty(elem, "__index");
-		      if (expando != null) {
-		        // Make sure it belongs to me!
-		        int ownerHash = DOM.getElementPropertyInt(elem, "__owner");
-		        if (ownerHash == hashCode()) {
-		          // Yes, it's mine.
-		          return Integer.parseInt(expando);
-		        } else {
-		          // It must belong to some nested StackPanel.
-		          return -1;
-		        }
-		      }
-		      elem = DOM.getParent(elem);
-		    }
-		    return -1;
-		  }
-	public static int whichItemChosen(){
+
+	private int findDividerIndex(Element elem) {
+		while (elem != getElement()) {
+			String expando = DOM.getElementProperty(elem, "__index");
+			if (expando != null) {
+				// Make sure it belongs to me!
+				int ownerHash = DOM.getElementPropertyInt(elem, "__owner");
+				if (ownerHash == hashCode()) {
+					// Yes, it's mine.
+					return Integer.parseInt(expando);
+				} else {
+					// It must belong to some nested StackPanel.
+					return -1;
+				}
+			}
+			elem = DOM.getParent(elem);
+		}
+		return -1;
+	}
+
+	public static int whichItemChosen() {
 		return stackPanel.getSelectedIndex();
 	}
 

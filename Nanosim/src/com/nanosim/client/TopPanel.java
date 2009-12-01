@@ -2,29 +2,20 @@ package com.nanosim.client;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.ImageBundle;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.nanosim.model.Group;
 import com.nanosim.model.Person;
 
 public class TopPanel extends Composite implements ClickHandler {
 
-	/**
-	 * An image bundle for this widgets images.
-	 */
-	public interface Images extends ImageBundle {
-		AbstractImagePrototype logo();
-	}
-
 	private HTML signOutLink = new HTML("<a href='javascript:;'>Sign Out</a>");
 	private HTML aboutLink = new HTML("<a href='javascript:;'>About</a>");
 
-	public TopPanel(Person person, Group group, Images images) {
+	public TopPanel(Person person, Group group) {
 		HorizontalPanel outer = new HorizontalPanel();
 		VerticalPanel inner = new VerticalPanel();
 
@@ -39,7 +30,7 @@ public class TopPanel extends Composite implements ClickHandler {
 		links.add(signOutLink);
 		links.add(aboutLink);
 
-		final Image logo = images.logo().createImage();
+		final Image logo = Nanosim.images.logo().createImage();
 		outer.add(logo);
 		outer.setCellHorizontalAlignment(logo, HorizontalPanel.ALIGN_LEFT);
 		outer.setCellHeight(logo, "60");

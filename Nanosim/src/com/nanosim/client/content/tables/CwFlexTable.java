@@ -27,130 +27,128 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.nanosim.client.ContentWidget;
 import com.nanosim.client.Nanosim;
-import com.nanosim.client.NanosimAnnotations.NanosimData;
-import com.nanosim.client.NanosimAnnotations.NanosimSource;
-import com.nanosim.client.NanosimAnnotations.NanosimStyle;
 
 /**
  * Example file.
  */
-@NanosimStyle(".cw-FlexTable")
 public class CwFlexTable extends ContentWidget {
-  /**
-   * The constants used in this Content Widget.
-   */
-  @NanosimSource
-  public static interface CwConstants extends Constants,
-      ContentWidget.CwConstants {
-    String cwFlexTableAddRow();
+	/**
+	 * The constants used in this Content Widget.
+	 */
 
-    String cwFlexTableDescription();
+	public static interface CwConstants extends Constants,
+			ContentWidget.CwConstants {
+		String cwFlexTableAddRow();
 
-    String cwFlexTableDetails();
+		String cwFlexTableDescription();
 
-    String cwFlexTableName();
+		String cwFlexTableDetails();
 
-    String cwFlexTableRemoveRow();
-  }
+		String cwFlexTableName();
 
-  /**
-   * An instance of the constants.
-   */
-  @NanosimData
-  private CwConstants constants;
+		String cwFlexTableRemoveRow();
+	}
 
-  /**
-   * Constructor.
-   * 
-   * @param constants the constants
-   */
-  public CwFlexTable(CwConstants constants) {
-    super(constants);
-    this.constants = constants;
-  }
+	/**
+	 * An instance of the constants.
+	 */
 
-  @Override
-  public String getDescription() {
-    return constants.cwFlexTableDescription();
-  }
+	private CwConstants constants;
 
-  @Override
-  public String getName() {
-    return constants.cwFlexTableName();
-  }
+	/**
+	 * Constructor.
+	 * 
+	 * @param constants
+	 *            the constants
+	 */
+	public CwFlexTable(CwConstants constants) {
+		super(constants);
+		this.constants = constants;
+	}
 
-  /**
-   * Initialize this example.
-   */
-  @NanosimSource
-  @Override
-  public Widget onInitialize() {
-    // Create a Flex Table
-    final FlexTable flexTable = new FlexTable();
-    FlexCellFormatter cellFormatter = flexTable.getFlexCellFormatter();
-    flexTable.addStyleName("cw-FlexTable");
-    flexTable.setWidth("32em");
-    flexTable.setCellSpacing(5);
-    flexTable.setCellPadding(3);
+	@Override
+	public String getDescription() {
+		return constants.cwFlexTableDescription();
+	}
 
-    // Add some text
-    cellFormatter.setHorizontalAlignment(0, 1,
-        HasHorizontalAlignment.ALIGN_LEFT);
-    flexTable.setHTML(0, 0, constants.cwFlexTableDetails());
-    cellFormatter.setColSpan(0, 0, 2);
+	@Override
+	public String getName() {
+		return constants.cwFlexTableName();
+	}
 
-    // Add a button that will add more rows to the table
-    Button addRowButton = new Button(constants.cwFlexTableAddRow(),
-        new ClickHandler() {
-          public void onClick(ClickEvent event) {
-            addRow(flexTable);
-          }
-        });
-    addRowButton.addStyleName("sc-FixedWidthButton");
+	/**
+	 * Initialize this example.
+	 */
 
-    Button removeRowButton = new Button(constants.cwFlexTableRemoveRow(),
-        new ClickHandler() {
-          public void onClick(ClickEvent event) {
-            removeRow(flexTable);
-          }
-        });
-    removeRowButton.addStyleName("sc-FixedWidthButton");
-    VerticalPanel buttonPanel = new VerticalPanel();
-    buttonPanel.setStyleName("cw-FlexTable-buttonPanel");
-    buttonPanel.add(addRowButton);
-    buttonPanel.add(removeRowButton);
-    flexTable.setWidget(0, 1, buttonPanel);
-    cellFormatter.setVerticalAlignment(0, 1, HasVerticalAlignment.ALIGN_TOP);
+	@Override
+	public Widget onInitialize() {
+		// Create a Flex Table
+		final FlexTable flexTable = new FlexTable();
+		FlexCellFormatter cellFormatter = flexTable.getFlexCellFormatter();
+		flexTable.addStyleName("cw-FlexTable");
+		flexTable.setWidth("32em");
+		flexTable.setCellSpacing(5);
+		flexTable.setCellPadding(3);
 
-    // Add two rows to start
-    addRow(flexTable);
-    addRow(flexTable);
+		// Add some text
+		cellFormatter.setHorizontalAlignment(0, 1,
+				HasHorizontalAlignment.ALIGN_LEFT);
+		flexTable.setHTML(0, 0, constants.cwFlexTableDetails());
+		cellFormatter.setColSpan(0, 0, 2);
 
-    // Return the panel
-    flexTable.ensureDebugId("cwFlexTable");
-    return flexTable;
-  }
+		// Add a button that will add more rows to the table
+		Button addRowButton = new Button(constants.cwFlexTableAddRow(),
+				new ClickHandler() {
+					public void onClick(ClickEvent event) {
+						addRow(flexTable);
+					}
+				});
+		addRowButton.addStyleName("sc-FixedWidthButton");
 
-  /**
-   * Add a row to the flex table.
-   */
-  @NanosimSource
-  private void addRow(FlexTable flexTable) {
-    int numRows = flexTable.getRowCount();
-    flexTable.setWidget(numRows, 0, Nanosim.images.logo().createImage());
-    flexTable.setWidget(numRows, 1, Nanosim.images.logo().createImage());
-    flexTable.getFlexCellFormatter().setRowSpan(0, 1, numRows + 1);
-  }
+		Button removeRowButton = new Button(constants.cwFlexTableRemoveRow(),
+				new ClickHandler() {
+					public void onClick(ClickEvent event) {
+						removeRow(flexTable);
+					}
+				});
+		removeRowButton.addStyleName("sc-FixedWidthButton");
+		VerticalPanel buttonPanel = new VerticalPanel();
+		buttonPanel.setStyleName("cw-FlexTable-buttonPanel");
+		buttonPanel.add(addRowButton);
+		buttonPanel.add(removeRowButton);
+		flexTable.setWidget(0, 1, buttonPanel);
+		cellFormatter
+				.setVerticalAlignment(0, 1, HasVerticalAlignment.ALIGN_TOP);
 
-  /**
-   * Remove a row from the flex table.
-   */
-  @NanosimSource
-  private void removeRow(FlexTable flexTable) {
-    int numRows = flexTable.getRowCount();
-    if (numRows > 1) {
-      flexTable.removeRow(numRows - 1);
-      flexTable.getFlexCellFormatter().setRowSpan(0, 1, numRows - 1);
-    }
-  }
+		// Add two rows to start
+		addRow(flexTable);
+		addRow(flexTable);
+
+		// Return the panel
+		flexTable.ensureDebugId("cwFlexTable");
+		return flexTable;
+	}
+
+	/**
+	 * Add a row to the flex table.
+	 */
+
+	private void addRow(FlexTable flexTable) {
+		int numRows = flexTable.getRowCount();
+		flexTable.setWidget(numRows, 0, Nanosim.images.logo().createImage());
+		flexTable.setWidget(numRows, 1, Nanosim.images.logo().createImage());
+		flexTable.getFlexCellFormatter().setRowSpan(0, 1, numRows + 1);
+	}
+
+	/**
+	 * Remove a row from the flex table.
+	 */
+
+	private void removeRow(FlexTable flexTable) {
+		int numRows = flexTable.getRowCount();
+		if (numRows > 1) {
+			flexTable.removeRow(numRows - 1);
+			flexTable.getFlexCellFormatter().setRowSpan(0, 1, numRows - 1);
+		}
+	}
 }

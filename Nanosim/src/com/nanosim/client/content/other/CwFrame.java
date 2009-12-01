@@ -29,8 +29,6 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.nanosim.client.ContentWidget;
-import com.nanosim.client.NanosimAnnotations.NanosimData;
-import com.nanosim.client.NanosimAnnotations.NanosimSource;
 
 /**
  * Example file.
@@ -39,7 +37,6 @@ public class CwFrame extends ContentWidget {
   /**
    * The constants used in this Content Widget.
    */
-  @NanosimSource
   public static interface CwConstants extends Constants,
       ContentWidget.CwConstants {
     String cwFrameDescription();
@@ -52,7 +49,7 @@ public class CwFrame extends ContentWidget {
   /**
    * An instance of the constants.
    */
-  @NanosimData
+
   private CwConstants constants;
 
   /**
@@ -83,7 +80,7 @@ public class CwFrame extends ContentWidget {
   /**
    * Initialize this example.
    */
-  @NanosimSource
+
   @Override
   public Widget onInitialize() {
     // Create a new frame
