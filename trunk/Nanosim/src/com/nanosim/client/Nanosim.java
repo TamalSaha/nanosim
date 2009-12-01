@@ -9,7 +9,6 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.nanosim.client.event.ILoginHandler;
 import com.nanosim.model.Person;
 
-
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
@@ -17,14 +16,15 @@ public class Nanosim implements EntryPoint, ResizeHandler {
 	/**
 	 * The static images used throughout Nanosim.
 	 */
-	public static final NanosimImages images = (NanosimImages) GWT.create(NanosimImages.class);
+	public static final NanosimImages images = (NanosimImages) GWT
+			.create(NanosimImages.class);
 
 	/**
 	 * The static constants used throughout Nanosim.
 	 */
-	NanosimConstants constants = (NanosimConstants) GWT.create(NanosimConstants.class);
+	NanosimConstants constants = (NanosimConstants) GWT
+			.create(NanosimConstants.class);
 
-	
 	private CookieHelper cookieHelper = CookieHelper.Util.getInstance();
 
 	private static Nanosim instance;
@@ -41,7 +41,7 @@ public class Nanosim implements EntryPoint, ResizeHandler {
 	/**
 	 * This is the entry point method.
 	 */
-	//TODO
+	// TODO
 	public void onModuleLoad() {
 		instance = this;
 		if (!cookieHelper.getIsLoggedIn()) {
@@ -88,46 +88,47 @@ public class Nanosim implements EntryPoint, ResizeHandler {
 		// Call the window resized handler to get the initial sizes setup.
 		// Doing this in a deferred command causes it to occur after all
 		// widgets' sizes have been computed by the browser.
-//		DeferredCommand.addCommand(new Command() {
-//			public void execute() {
-//				onWindowResized(homeScreen, Window.getClientWidth(), Window
-//						.getClientHeight());
-//			}
-//		});
-//
-//		onWindowResized(homeScreen, Window.getClientWidth(), Window
-//				.getClientHeight());
+		// DeferredCommand.addCommand(new Command() {
+		// public void execute() {
+		// onWindowResized(homeScreen, Window.getClientWidth(), Window
+		// .getClientHeight());
+		// }
+		// });
+		//
+		// onWindowResized(homeScreen, Window.getClientWidth(), Window
+		// .getClientHeight());
 	}
 
-//	@Override
-//	public void onResize(ResizeEvent event) {
-//		onWindowResized(homeScreen, event.getWidth(), event.getHeight());
-//	}
+	// @Override
+	// public void onResize(ResizeEvent event) {
+	// onWindowResized(homeScreen, event.getWidth(), event.getHeight());
+	// }
 
-//	public void onWindowResized(HomeScreen homeScreen, int width, int height) {
-//		if (homeScreen != null && homeScreen.leftPanel != null) {
-//			// Adjust the shortcut panel and detail area to take up the
-//			// available room in the window.
-//			int shortcutHeight = height - homeScreen.leftPanel.getAbsoluteTop()
-//					- 8;
-//			if (shortcutHeight < 1) {
-//				shortcutHeight = 1;
-//			}
-//			homeScreen.leftPanel.setHeight(shortcutHeight + "px");
-//
-//			// Give the right panel widget a chance to resize itself as well.
-//			homeScreen.rightPanel.setPixelSize(width, height);
-//		}
-//	}
+	// public void onWindowResized(HomeScreen homeScreen, int width, int height)
+	// {
+	// if (homeScreen != null && homeScreen.leftPanel != null) {
+	// // Adjust the shortcut panel and detail area to take up the
+	// // available room in the window.
+	// int shortcutHeight = height - homeScreen.leftPanel.getAbsoluteTop()
+	// - 8;
+	// if (shortcutHeight < 1) {
+	// shortcutHeight = 1;
+	// }
+	// homeScreen.leftPanel.setHeight(shortcutHeight + "px");
+	//
+	// // Give the right panel widget a chance to resize itself as well.
+	// homeScreen.rightPanel.setPixelSize(width, height);
+	// }
+	// }
 
 	public void Logout() {
 		cookieHelper.setIsLoggedIn(false);
 		setSigninScreen();
 	}
 
-@Override
-public void onResize(ResizeEvent event) {
-	// TODO Auto-generated method stub
-	
-}
+	@Override
+	public void onResize(ResizeEvent event) {
+		// TODO Auto-generated method stub
+
+	}
 }
