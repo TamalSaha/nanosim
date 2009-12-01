@@ -59,7 +59,7 @@ public class SigninScreen extends Composite {
 		txtUsername.setWidth("150px");
 		layout.setWidget(1, 1, txtUsername);
 
-		layout.setHTML(2, 0, "Passowrd:");
+		layout.setHTML(2, 0, "Password:");
 		cellFormatter.setHorizontalAlignment(2, 0,
 				HasHorizontalAlignment.ALIGN_CENTER);
 		final PasswordTextBox txtPassowrd = new PasswordTextBox();
