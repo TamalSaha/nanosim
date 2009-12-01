@@ -31,6 +31,7 @@ import com.google.gwt.user.client.ui.LazyPanel;
 import com.google.gwt.user.client.ui.TabBar;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.nanosim.client.internal.NanosimConstants;
 
 import java.util.HashMap;
 import java.util.Map;

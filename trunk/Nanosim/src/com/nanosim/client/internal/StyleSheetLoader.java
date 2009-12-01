@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.nanosim.client;
+package com.nanosim.client.internal;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.HeadElement;

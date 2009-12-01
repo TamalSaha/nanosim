@@ -1,6 +1,5 @@
 package com.nanosim.client;
 
-
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -23,7 +22,7 @@ public class SendFundScreen extends Composite {
 	private EventHandlerCollection<ISendBudgetHandler> sendBudgetHandlerColl = new EventHandlerCollection<ISendBudgetHandler>();
 
 	private final TransferServiceAsync transferService = TransferService.Util
-	.getInstance();
+			.getInstance();
 
 	public SendFundScreen() {
 		DockPanel dock = new DockPanel();
@@ -77,48 +76,50 @@ public class SendFundScreen extends Composite {
 					boolean valid = true;
 					char[] credit = creditString.toCharArray();
 					for (int i = 0; i < credit.length; i++) {
-						if(Character.isDigit(credit[i]) || credit[i] == '.')
+						if (Character.isDigit(credit[i]) || credit[i] == '.')
 							continue;
-						else{
-							flexTable.setHTML(0, 0, "Invalid credit. Please inter a number.");
+						else {
+							flexTable.setHTML(0, 0,
+									"Invalid credit. Please inter a number.");
 							valid = false;
 						}
 					}
-					
+
 					char[] id = groupIDString.toCharArray();
 					for (int i = 0; i < id.length; i++) {
-						if(Character.isDigit(id[i]) )
+						if (Character.isDigit(id[i]))
 							continue;
-						else{
-							flexTable.setHTML(0, 0, "Invalid group ID. Please inter a number.");
+						else {
+							flexTable.setHTML(0, 0,
+									"Invalid group ID. Please inter a number.");
 							valid = false;
 						}
 					}
-					if(valid){
-						
-					transferService.insertBudget(creditString, groupIDString,
-							new AsyncCallback<Integer>() {
+					if (valid) {
 
-								@Override
-								public void onFailure(Throwable caught) {
-									flexTable.setHTML(0, 0,
-											"Transaction failed !!!");
-								}
+						transferService.insertBudget(creditString,
+								groupIDString, new AsyncCallback<Integer>() {
 
-								@Override
-								public void onSuccess(Integer result) {
-									if (result == -1) {
+									@Override
+									public void onFailure(Throwable caught) {
 										flexTable.setHTML(0, 0,
 												"Transaction failed !!!");
-									} else {
-										flexTable.setHTML(0, 0, "");
-										for (ISendBudgetHandler handler : sendBudgetHandlerColl
-												.getList()) {
-											handler.OnSuccess(result);
+									}
+
+									@Override
+									public void onSuccess(Integer result) {
+										if (result == -1) {
+											flexTable.setHTML(0, 0,
+													"Transaction failed !!!");
+										} else {
+											flexTable.setHTML(0, 0, "");
+											for (ISendBudgetHandler handler : sendBudgetHandlerColl
+													.getList()) {
+												handler.OnSuccess(result);
+											}
 										}
 									}
-								}
-							});
+								});
 					}
 				}
 			}

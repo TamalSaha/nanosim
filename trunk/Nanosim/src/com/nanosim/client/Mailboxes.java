@@ -2,26 +2,25 @@ package com.nanosim.client;
 
 import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.ImageBundle;
 import com.google.gwt.user.client.ui.Tree;
-import com.google.gwt.user.client.ui.TreeImages;
 import com.google.gwt.user.client.ui.TreeItem;
+import com.nanosim.client.icons.NanosimImages;
 
 /**
  * A tree displaying a set of email folders.
  */
 public class Mailboxes extends Composite {
-	
+
 	private static Mailboxes singleton;
 
-	private MailList   mailList;
+	private MailList mailList;
 	private MailDetail mailDetail = new MailDetail();
 	String width = new String("70%");
-	
+
 	public static Mailboxes get() {
 		return singleton;
 	}
-	
+
 	/**
 	 * Displays the specified item.
 	 * 
@@ -30,33 +29,18 @@ public class Mailboxes extends Composite {
 	public void displayItem(MailItem item) {
 		mailDetail.setItem(item);
 	}
-	
-	/**
-	 * Specifies the images that will be bundled for this Composite and specify
-	 * that tree's images should also be included in the same bundle.
-	 */
-	public interface Images extends ImageBundle, TreeImages {
-		AbstractImagePrototype drafts();
-
-		AbstractImagePrototype home();
-
-		AbstractImagePrototype inbox();
-
-		AbstractImagePrototype sent();
-
-		@Resource("noimage.png")
-		AbstractImagePrototype treeLeaf();
-	}
 
 	private Tree tree;
 
 	/**
 	 * Constructs a new mailboxes widget with a bundle of images.
 	 * 
-	 * @param images a bundle that provides the images for this widget
+	 * @param images
+	 *            a bundle that provides the images for this widget
 	 */
-	public Mailboxes(Images images) {
+	public Mailboxes() {
 		singleton = this;
+		NanosimImages images = Nanosim.images;
 		tree = new Tree(images);
 		TreeItem root = new TreeItem(imageItemHTML(images.home(),
 				"user@nanosim.com"));
@@ -68,19 +52,18 @@ public class Mailboxes extends Composite {
 
 		// MailList uses Mail.get() in its constructor, so initialize it after
 		// 'singleton'.
-		/*mailList = new MailList();
-		//
-		// // Create the right panel, containing the email list & details.
-		RightPanel.add(mailList);
-		RightPanel.add(mailDetail);
-		mailList.setWidth(width);
-		mailDetail.setWidth(width);*/
-		
+		/*
+		 * mailList = new MailList(); // // // Create the right panel,
+		 * containing the email list & details. RightPanel.add(mailList);
+		 * RightPanel.add(mailDetail); mailList.setWidth(width);
+		 * mailDetail.setWidth(width);
+		 */
+
 		root.setState(true);
 		initWidget(tree);
 	}
-	
-	public void loadRightPanel(){
+
+	public void loadRightPanel() {
 		RightPanel.clear();
 		mailList = new MailList();
 		//
@@ -95,8 +78,10 @@ public class Mailboxes extends Composite {
 	 * A helper method to simplify adding tree items that have attached images.
 	 * {@link #addImageItem(TreeItem, String, AbstractImagePrototype) code}
 	 * 
-	 * @param root the tree item to which the new item will be added.
-	 * @param title the text associated with this item.
+	 * @param root
+	 *            the tree item to which the new item will be added.
+	 * @param title
+	 *            the text associated with this item.
 	 */
 	private TreeItem addImageItem(TreeItem root, String title,
 			AbstractImagePrototype imageProto) {
@@ -108,8 +93,10 @@ public class Mailboxes extends Composite {
 	/**
 	 * Generates HTML for a tree item with an attached icon.
 	 * 
-	 * @param imageProto the image prototype to use
-	 * @param title the title of the item
+	 * @param imageProto
+	 *            the image prototype to use
+	 * @param title
+	 *            the title of the item
 	 * @return the resultant HTML
 	 */
 	private String imageItemHTML(AbstractImagePrototype imageProto, String title) {

@@ -3,7 +3,6 @@ package com.nanosim.client;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DecoratorPanel;
@@ -12,7 +11,6 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.ImageBundle;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
@@ -29,15 +27,8 @@ public class SigninScreen extends Composite {
 	private final SigninServiceAsync signinService = SigninService.Util
 			.getInstance();
 
-	/**
-	 * An image bundle for this widgets images.
-	 */
-	public interface Images extends ImageBundle {
-		AbstractImagePrototype logo();
-	}
-
-	public SigninScreen(NanosimImages images) {
-		final Image logo = images.logo().createImage();
+	public SigninScreen() {
+		final Image logo = Nanosim.images.logo().createImage();
 		logo.setHeight("150px");
 
 		DockPanel dock = new DockPanel();

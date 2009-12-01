@@ -3,7 +3,7 @@
 <module rename-to='nanosim'>
 	<!-- Inherit the core Web Toolkit stuff.                        -->
 	<inherits name='com.google.gwt.user.User' />
-	<!-- <inherits name="com.nanosim.Nanosim"/> -->
+	<inherits name="com.nanosim.Nanosim" />
 
 	<!-- Inherit the default GWT style sheet.  You can change       -->
 	<!-- the theme of your GWT application by uncommenting          -->
@@ -14,8 +14,12 @@
 
 	<!-- Other module inherits                                      -->
 	<source path='client' />
-	<source path='client/data' />
-	<source path='event' />
+	<source path='client/icons' />
+	<source path='client/internal' />
+	<source path='client/event' />
+	<source path='client/content/mail' />
+	<source path='client/content/other' />
+	<source path='client/content/tables' />
 	<source path='model' />
 
 	<!-- Specify the app entry point class.                         -->

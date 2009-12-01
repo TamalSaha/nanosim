@@ -30,9 +30,6 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.nanosim.client.ContentWidget;
-import com.nanosim.client.NanosimAnnotations.NanosimData;
-import com.nanosim.client.NanosimAnnotations.NanosimSource;
-
 import java.util.Collection;
 import java.util.Date;
 
@@ -40,212 +37,218 @@ import java.util.Date;
  * Example file.
  */
 public class CwCookies extends ContentWidget {
-  /**
-   * The constants used in this Content Widget.
-   */
-  @NanosimSource
-  public static interface CwConstants extends Constants,
-      ContentWidget.CwConstants {
-    String cwCookiesDeleteCookie();
+	/**
+	 * The constants used in this Content Widget.
+	 */
 
-    String cwCookiesDescription();
+	public static interface CwConstants extends Constants,
+			ContentWidget.CwConstants {
+		String cwCookiesDeleteCookie();
 
-    String cwCookiesExistingLabel();
+		String cwCookiesDescription();
 
-    String cwCookiesInvalidCookie();
+		String cwCookiesExistingLabel();
 
-    String cwCookiesName();
+		String cwCookiesInvalidCookie();
 
-    String cwCookiesNameLabel();
+		String cwCookiesName();
 
-    String cwCookiesSetCookie();
+		String cwCookiesNameLabel();
 
-    String cwCookiesValueLabel();
-  }
+		String cwCookiesSetCookie();
 
-  /**
-   * The timeout before a cookie expires, in milliseconds. Current one day.
-   */
-  @NanosimData
-  private static final int COOKIE_TIMEOUT = 1000 * 60 * 60 * 24;
+		String cwCookiesValueLabel();
+	}
 
-  /**
-   * An instance of the constants.
-   */
-  @NanosimData
-  private CwConstants constants;
+	/**
+	 * The timeout before a cookie expires, in milliseconds. Current one day.
+	 */
 
-  /**
-   * A {@link TextBox} that holds the name of the cookie.
-   */
-  @NanosimData
-  private TextBox cookieNameBox = null;
+	private static final int COOKIE_TIMEOUT = 1000 * 60 * 60 * 24;
 
-  /**
-   * A {@link TextBox} that holds the value of the cookie.
-   */
-  @NanosimData
-  private TextBox cookieValueBox = null;
+	/**
+	 * An instance of the constants.
+	 */
 
-  /**
-   * The {@link ListBox} containing existing cookies.
-   */
-  @NanosimData
-  private ListBox existingCookiesBox = null;
+	private CwConstants constants;
 
-  /**
-   * Constructor.
-   * 
-   * @param constants the constants
-   */
-  public CwCookies(CwConstants constants) {
-    super(constants);
-    this.constants = constants;
-  }
+	/**
+	 * A {@link TextBox} that holds the name of the cookie.
+	 */
 
-  @Override
-  public String getDescription() {
-    return constants.cwCookiesDescription();
-  }
+	private TextBox cookieNameBox = null;
 
-  @Override
-  public String getName() {
-    return constants.cwCookiesName();
-  }
+	/**
+	 * A {@link TextBox} that holds the value of the cookie.
+	 */
 
-  @Override
-  public boolean hasStyle() {
-    return false;
-  }
+	private TextBox cookieValueBox = null;
 
-  /**
-   * Initialize this example.
-   */
-  @NanosimSource
-  @Override
-  public Widget onInitialize() {
-    // Create the panel used to layout the content
-    Grid mainLayout = new Grid(3, 3);
+	/**
+	 * The {@link ListBox} containing existing cookies.
+	 */
 
-    // Display the existing cookies
-    existingCookiesBox = new ListBox();
-    Button deleteCookieButton = new Button(constants.cwCookiesDeleteCookie());
-    deleteCookieButton.addStyleName("sc-FixedWidthButton");
-    mainLayout.setHTML(0, 0, "<b>" + constants.cwCookiesExistingLabel()
-        + "</b>");
-    mainLayout.setWidget(0, 1, existingCookiesBox);
-    mainLayout.setWidget(0, 2, deleteCookieButton);
+	private ListBox existingCookiesBox = null;
 
-    // Display the name of the cookie
-    cookieNameBox = new TextBox();
-    mainLayout.setHTML(1, 0, "<b>" + constants.cwCookiesNameLabel() + "</b>");
-    mainLayout.setWidget(1, 1, cookieNameBox);
+	/**
+	 * Constructor.
+	 * 
+	 * @param constants
+	 *            the constants
+	 */
+	public CwCookies(CwConstants constants) {
+		super(constants);
+		this.constants = constants;
+	}
 
-    // Display the name of the cookie
-    cookieValueBox = new TextBox();
-    Button setCookieButton = new Button(constants.cwCookiesSetCookie());
-    setCookieButton.addStyleName("sc-FixedWidthButton");
-    mainLayout.setHTML(2, 0, "<b>" + constants.cwCookiesValueLabel() + "</b>");
-    mainLayout.setWidget(2, 1, cookieValueBox);
-    mainLayout.setWidget(2, 2, setCookieButton);
+	@Override
+	public String getDescription() {
+		return constants.cwCookiesDescription();
+	}
 
-    // Add a handler to set the cookie value
-    setCookieButton.addClickHandler(new ClickHandler() {
-      public void onClick(ClickEvent event) {
-        String name = cookieNameBox.getText();
-        String value = cookieValueBox.getText();
-        Date expires = new Date((new Date()).getTime() + COOKIE_TIMEOUT);
+	@Override
+	public String getName() {
+		return constants.cwCookiesName();
+	}
 
-        // Verify the name is valid
-        if (name.length() < 1) {
-          Window.alert(constants.cwCookiesInvalidCookie());
-          return;
-        }
+	@Override
+	public boolean hasStyle() {
+		return false;
+	}
 
-        // Set the cookie value
-        Cookies.setCookie(name, value, expires);
-        refreshExistingCookies(name);
-      }
-    });
+	/**
+	 * Initialize this example.
+	 */
 
-    // Add a handler to select an existing cookie
-    existingCookiesBox.addChangeHandler(new ChangeHandler() {
-      public void onChange(ChangeEvent event) {
-        updateExstingCookie();
-      }
-    });
+	@Override
+	public Widget onInitialize() {
+		// Create the panel used to layout the content
+		Grid mainLayout = new Grid(3, 3);
 
-    // Add a handler to delete an existing cookie
-    deleteCookieButton.addClickHandler(new ClickHandler() {
-      public void onClick(ClickEvent event) {
-        int selectedIndex = existingCookiesBox.getSelectedIndex();
-        if (selectedIndex > -1
-            && selectedIndex < existingCookiesBox.getItemCount()) {
-          String cookieName = existingCookiesBox.getValue(selectedIndex);
-          Cookies.removeCookie(cookieName);
-          existingCookiesBox.removeItem(selectedIndex);
-          updateExstingCookie();
-        }
-      }
-    });
+		// Display the existing cookies
+		existingCookiesBox = new ListBox();
+		Button deleteCookieButton = new Button(constants
+				.cwCookiesDeleteCookie());
+		deleteCookieButton.addStyleName("sc-FixedWidthButton");
+		mainLayout.setHTML(0, 0, "<b>" + constants.cwCookiesExistingLabel()
+				+ "</b>");
+		mainLayout.setWidget(0, 1, existingCookiesBox);
+		mainLayout.setWidget(0, 2, deleteCookieButton);
 
-    // Return the main layout
-    refreshExistingCookies(null);
-    return mainLayout;
-  }
+		// Display the name of the cookie
+		cookieNameBox = new TextBox();
+		mainLayout.setHTML(1, 0, "<b>" + constants.cwCookiesNameLabel()
+				+ "</b>");
+		mainLayout.setWidget(1, 1, cookieNameBox);
 
-  /**
-   * Refresh the list of existing cookies.
-   * 
-   * @param selectedCookie the cookie to select by default
-   */
-  @NanosimSource
-  private void refreshExistingCookies(String selectedCookie) {
-    // Clear the existing cookies
-    existingCookiesBox.clear();
+		// Display the name of the cookie
+		cookieValueBox = new TextBox();
+		Button setCookieButton = new Button(constants.cwCookiesSetCookie());
+		setCookieButton.addStyleName("sc-FixedWidthButton");
+		mainLayout.setHTML(2, 0, "<b>" + constants.cwCookiesValueLabel()
+				+ "</b>");
+		mainLayout.setWidget(2, 1, cookieValueBox);
+		mainLayout.setWidget(2, 2, setCookieButton);
 
-    // Add the cookies
-    int selectedIndex = 0;
-    Collection<String> cookies = Cookies.getCookieNames();
-    for (String cookie : cookies) {
-      existingCookiesBox.addItem(cookie);
-      if (cookie.equals(selectedCookie)) {
-        selectedIndex = existingCookiesBox.getItemCount() - 1;
-      }
-    }
+		// Add a handler to set the cookie value
+		setCookieButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				String name = cookieNameBox.getText();
+				String value = cookieValueBox.getText();
+				Date expires = new Date((new Date()).getTime() + COOKIE_TIMEOUT);
 
-    // Select the index of the selectedCookie. Use a DeferredCommand to give
-    // the options time to register in Opera.
-    final int selectedIndexFinal = selectedIndex;
-    DeferredCommand.addCommand(new Command() {
-      public void execute() {
-        // Select the default cookie
-        if (selectedIndexFinal < existingCookiesBox.getItemCount()) {
-          existingCookiesBox.setSelectedIndex(selectedIndexFinal);
-        }
+				// Verify the name is valid
+				if (name.length() < 1) {
+					Window.alert(constants.cwCookiesInvalidCookie());
+					return;
+				}
 
-        // Display the selected cookie value
-        updateExstingCookie();
-      }
-    });
-  }
+				// Set the cookie value
+				Cookies.setCookie(name, value, expires);
+				refreshExistingCookies(name);
+			}
+		});
 
-  /**
-   * Retrieve the value of the existing cookie and put it into to value label.
-   */
-  @NanosimSource
-  private void updateExstingCookie() {
-    // Cannot update if there are no items
-    if (existingCookiesBox.getItemCount() < 1) {
-      cookieNameBox.setText("");
-      cookieValueBox.setText("");
-      return;
-    }
+		// Add a handler to select an existing cookie
+		existingCookiesBox.addChangeHandler(new ChangeHandler() {
+			public void onChange(ChangeEvent event) {
+				updateExstingCookie();
+			}
+		});
 
-    int selectedIndex = existingCookiesBox.getSelectedIndex();
-    String cookieName = existingCookiesBox.getValue(selectedIndex);
-    String cookieValue = Cookies.getCookie(cookieName);
-    cookieNameBox.setText(cookieName);
-    cookieValueBox.setText(cookieValue);
-  }
+		// Add a handler to delete an existing cookie
+		deleteCookieButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				int selectedIndex = existingCookiesBox.getSelectedIndex();
+				if (selectedIndex > -1
+						&& selectedIndex < existingCookiesBox.getItemCount()) {
+					String cookieName = existingCookiesBox
+							.getValue(selectedIndex);
+					Cookies.removeCookie(cookieName);
+					existingCookiesBox.removeItem(selectedIndex);
+					updateExstingCookie();
+				}
+			}
+		});
+
+		// Return the main layout
+		refreshExistingCookies(null);
+		return mainLayout;
+	}
+
+	/**
+	 * Refresh the list of existing cookies.
+	 * 
+	 * @param selectedCookie
+	 *            the cookie to select by default
+	 */
+
+	private void refreshExistingCookies(String selectedCookie) {
+		// Clear the existing cookies
+		existingCookiesBox.clear();
+
+		// Add the cookies
+		int selectedIndex = 0;
+		Collection<String> cookies = Cookies.getCookieNames();
+		for (String cookie : cookies) {
+			existingCookiesBox.addItem(cookie);
+			if (cookie.equals(selectedCookie)) {
+				selectedIndex = existingCookiesBox.getItemCount() - 1;
+			}
+		}
+
+		// Select the index of the selectedCookie. Use a DeferredCommand to give
+		// the options time to register in Opera.
+		final int selectedIndexFinal = selectedIndex;
+		DeferredCommand.addCommand(new Command() {
+			public void execute() {
+				// Select the default cookie
+				if (selectedIndexFinal < existingCookiesBox.getItemCount()) {
+					existingCookiesBox.setSelectedIndex(selectedIndexFinal);
+				}
+
+				// Display the selected cookie value
+				updateExstingCookie();
+			}
+		});
+	}
+
+	/**
+	 * Retrieve the value of the existing cookie and put it into to value label.
+	 */
+
+	private void updateExstingCookie() {
+		// Cannot update if there are no items
+		if (existingCookiesBox.getItemCount() < 1) {
+			cookieNameBox.setText("");
+			cookieValueBox.setText("");
+			return;
+		}
+
+		int selectedIndex = existingCookiesBox.getSelectedIndex();
+		String cookieName = existingCookiesBox.getValue(selectedIndex);
+		String cookieValue = Cookies.getCookie(cookieName);
+		cookieNameBox.setText(cookieName);
+		cookieValueBox.setText(cookieValue);
+	}
 }
