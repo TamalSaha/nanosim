@@ -15,8 +15,9 @@ public class GroupDAO {
 		try {
 			rs = sqlHelper.executeQuery(String.format(
 					"select * from groups where group_id = %s", groupId));
-			Group g = new Group();
+			Group g = null;
 			if (rs.next()) {
+				g = new Group();
 				g.setGroupId(groupId);
 				g.setName(rs.getString("name"));
 				g.setGroupTypeId(rs.getLong("group_type_id"));
@@ -38,8 +39,9 @@ public class GroupDAO {
 			rs = sqlHelper.executeQuery(String.format(
 					"select * from group_types where group_type_id = %s",
 					groupTypeId));
-			GroupType g = new GroupType();
+			GroupType g = null;
 			if (rs.next()) {
+				g = new GroupType();
 				g.setGroupTypeId(groupTypeId);
 				g.setName(rs.getString("name"));
 				g.setHasBusiness(rs.getString("has_business").equals("y"));

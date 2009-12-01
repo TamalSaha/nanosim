@@ -41,7 +41,6 @@ public class Nanosim implements EntryPoint, ResizeHandler {
 	/**
 	 * This is the entry point method.
 	 */
-	// TODO
 	public void onModuleLoad() {
 		instance = this;
 		if (!cookieHelper.getIsLoggedIn()) {
