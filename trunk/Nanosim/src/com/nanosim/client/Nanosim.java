@@ -7,10 +7,13 @@ import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.nanosim.client.event.ISigninHandler;
 import com.nanosim.client.icons.NanosimImages;
 import com.nanosim.client.internal.NanosimConstants;
+import com.nanosim.client.rpc.SigninService;
+import com.nanosim.client.rpc.SigninServiceAsync;
 import com.nanosim.model.Person;
 
 /**
@@ -28,6 +31,9 @@ public class Nanosim implements EntryPoint, ResizeHandler {
 	 */
 	public static final NanosimConstants constants = (NanosimConstants) GWT
 			.create(NanosimConstants.class);
+
+	private final SigninServiceAsync signinService = SigninService.Util
+			.getInstance();
 
 	private CookieHelper cookieHelper = CookieHelper.Util.getInstance();
 
@@ -47,10 +53,28 @@ public class Nanosim implements EntryPoint, ResizeHandler {
 	 */
 	public void onModuleLoad() {
 		instance = this;
-		if (!cookieHelper.getIsLoggedIn()) {
-			setSigninScreen();
-		} else
-			setHomeScreen();
+
+		// for test
+		signinService.signin("ibm", "demo", new AsyncCallback<Person>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+			}
+
+			@Override
+			public void onSuccess(Person result) {
+				person = result;
+				cookieHelper.setIsLoggedIn(true);
+				setHomeScreen();
+			}
+		});
+		RootPanel rootPanel = RootPanel.get();
+		rootPanel.clear();
+
+//		if (!cookieHelper.getIsLoggedIn()) {
+//			setSigninScreen();
+//		} else
+//			setHomeScreen();
 	}
 
 	private void setSigninScreen() {
