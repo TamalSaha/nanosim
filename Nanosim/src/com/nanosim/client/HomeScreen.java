@@ -1,8 +1,5 @@
 package com.nanosim.client;
 
-import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DockPanel;
@@ -32,9 +29,6 @@ public class HomeScreen extends Composite {
 		this.person = person;
 		// final String initToken = History.getToken();
 
-		// Create a dock panel that will contain the menu bar at the top,
-		// the shortcuts to the left, and the mail list & details taking the
-		// rest.
 		final DockPanel outer = new DockPanel();
 		outer.setWidth("100%");
 		outer.setSpacing(4);
@@ -68,15 +62,15 @@ public class HomeScreen extends Composite {
 	}
 
 	private void initChildWidgets(DockPanel outer) {
-		rightPanel = new RightPanel();
 		topPanel = new TopPanel(person, group);
-		leftPanel = new LeftPanel(groupType);
-
-		topPanel.setWidth("70%");
-
 		outer.add(topPanel, DockPanel.NORTH);
+
+		leftPanel = new LeftPanel(groupType);
 		outer.add(leftPanel, DockPanel.WEST);
-		outer.add(rightPanel, DockPanel.CENTER);
-		outer.setCellWidth(rightPanel, "100%");
+
+		// rightPanel = new RightPanel();
+
+		// outer.add(rightPanel, DockPanel.CENTER);
+		// outer.setCellWidth(rightPanel, "100%");
 	}
 }
