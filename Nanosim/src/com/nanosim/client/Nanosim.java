@@ -71,10 +71,10 @@ public class Nanosim implements EntryPoint, ResizeHandler {
 		RootPanel rootPanel = RootPanel.get();
 		rootPanel.clear();
 
-//		if (!cookieHelper.getIsLoggedIn()) {
-//			setSigninScreen();
-//		} else
-//			setHomeScreen();
+		// if (!cookieHelper.getIsLoggedIn()) {
+		// setSigninScreen();
+		// } else
+		// setHomeScreen();
 	}
 
 	private void setSigninScreen() {
@@ -124,19 +124,21 @@ public class Nanosim implements EntryPoint, ResizeHandler {
 	}
 
 	public void onWindowResized(HomeScreen homeScreen, int width, int height) {
-		// if (homeScreen != null && homeScreen.leftPanel != null) {
-		// // Adjust the shortcut panel and detail area to take up the
-		// // available room in the window.
-		// int shortcutHeight = height - homeScreen.leftPanel.getAbsoluteTop()
-		// - 8;
-		// if (shortcutHeight < 1) {
-		// shortcutHeight = 1;
-		// }
-		// homeScreen.leftPanel.setHeight(shortcutHeight + "px");
-		//
-		// // Give the right panel widget a chance to resize itself as well.
-		// homeScreen.rightPanel.setPixelSize(width, height);
-		// }
+		if (homeScreen != null && homeScreen.leftPanel != null) {
+			// Adjust the shortcut panel and detail area to take up the
+			// available room in the window.
+			// int shortcutHeight = height -
+			// homeScreen.leftPanel.getAbsoluteTop()
+			// - 5;
+			// if (shortcutHeight < 1) {
+			// shortcutHeight = 1;
+			// }
+			int shortcutHeight = height - 76;
+			homeScreen.leftPanel.setHeight(shortcutHeight + "px");
+
+			// Give the right panel widget a chance to resize itself as well.
+			// homeScreen.rightPanel.setPixelSize(width, height);
+		}
 	}
 
 	public void Logout() {

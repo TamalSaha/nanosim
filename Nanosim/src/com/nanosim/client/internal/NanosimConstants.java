@@ -1,16 +1,6 @@
 package com.nanosim.client.internal;
 
-import com.google.gwt.i18n.client.Constants;
-import com.nanosim.client.ContentWidget;
-import com.nanosim.client.content.other.CwAnimation;
-import com.nanosim.client.content.other.CwCookies;
-import com.nanosim.client.content.other.CwFrame;
-import com.nanosim.client.content.tables.CwFlexTable;
-import com.nanosim.client.content.tables.CwGrid;
-
-public interface NanosimConstants extends Constants, ContentWidget.CwConstants,
-		CwGrid.CwConstants, CwFlexTable.CwConstants, CwFrame.CwConstants,
-		CwCookies.CwConstants, CwAnimation.CwConstants {
+public interface NanosimConstants {
 
 	/**
 	 * The path to source code for examples, raw files, and style definitions.
@@ -77,5 +67,4 @@ public interface NanosimConstants extends Constants, ContentWidget.CwConstants,
 	 * @return the message of the about box
 	 */
 	String cwAboutBoxMessage();
-
 }

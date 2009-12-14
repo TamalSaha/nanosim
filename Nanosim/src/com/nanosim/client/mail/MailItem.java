@@ -1,4 +1,4 @@
-package com.nanosim.client;
+package com.nanosim.client.mail;
 
 /**
  * A simple structure containing the basic components of an email.

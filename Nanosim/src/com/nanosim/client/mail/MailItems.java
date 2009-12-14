@@ -1,4 +1,4 @@
-package com.nanosim.client;
+package com.nanosim.client.mail;
 
 import java.util.ArrayList;
 

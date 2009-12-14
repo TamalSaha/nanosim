@@ -1,4 +1,4 @@
-package com.nanosim.client;
+package com.nanosim.client.mail;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;

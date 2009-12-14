@@ -1,9 +1,11 @@
-package com.nanosim.client;
+package com.nanosim.client.mail;
 
 import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
+import com.nanosim.client.Nanosim;
+import com.nanosim.client.RightPanel;
 import com.nanosim.client.icons.NanosimImages;
 
 /**
