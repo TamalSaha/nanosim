@@ -1,4 +1,4 @@
-package com.nanosim.client;
+package com.nanosim.client.mail;
 
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DockPanel;

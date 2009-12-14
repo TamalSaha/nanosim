@@ -1,4 +1,4 @@
-package com.nanosim.client;
+package com.nanosim.client.profile;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -11,6 +11,7 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.nanosim.client.Nanosim;
 import com.nanosim.client.icons.NanosimImages;
 
 /**

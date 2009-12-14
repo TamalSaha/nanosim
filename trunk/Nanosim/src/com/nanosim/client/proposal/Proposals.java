@@ -1,4 +1,4 @@
-package com.nanosim.client;
+package com.nanosim.client.proposal;
 
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;

@@ -5,9 +5,14 @@ import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.DecoratedStackPanel;
+import com.google.gwt.user.client.ui.StackPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.nanosim.client.icons.NanosimImages;
+import com.nanosim.client.mail.Mailboxes;
+import com.nanosim.client.profile.Contacts;
+import com.nanosim.client.proposal.Proposals;
+import com.nanosim.client.research.Research;
+import com.nanosim.client.transfer.SendFund;
 import com.nanosim.model.GroupType;
 
 /**
@@ -18,18 +23,16 @@ import com.nanosim.model.GroupType;
  * {@link com.google.gwt.user.client.ui.Tree}, and other custom widgets.
  */
 public class LeftPanel extends Composite {
-	private int nextHeaderIndex = 0;
-	private static DecoratedStackPanel stackPanel = new DecoratedStackPanel();
+	private static StackPanel stackPanel = new StackPanel();
 	private SendFund sendFund;
 	private Mailboxes mailboxes;
 
-	/**
-	 * Constructs a new shortcuts widget using the specified images.
-	 * 
-	 * @param images
-	 *            a bundle that provides the images for this widget
-	 */
-	public LeftPanel(GroupType groupType) {
+	public LeftPanel() {
+		stackPanel.setWidth("225px");
+		initWidget(stackPanel);
+	}
+
+	public void loadShortcuts(GroupType groupType) {
 		// Create the groups within the stack panel.
 		NanosimImages images = Nanosim.images;
 		mailboxes = new Mailboxes();
@@ -37,21 +40,18 @@ public class LeftPanel extends Composite {
 		add(new Contacts(), images.group(), "Group Contacts");
 		add(new Proposals(), images.proposal(), "Proposals");
 		add(new Research(), images.research(), "Research");
-		if (groupType.getHasPatents())
-			add(new Patents(), images.patent(), "Patents");
+		// if (groupType.getHasPatents())
+		// add(new Patents(), images.patent(), "Patents");
 		sendFund = new SendFund();
 		add(sendFund, images.transfer(), "Transfers");
 
-		initWidget(stackPanel);
-		// stackPanel.
-	}
-
-	@Override
-	protected void onLoad() {
-		// Show the mailboxes group by default.
 		stackPanel.showStack(0);
 		mailboxes.loadRightPanel();
 	}
+
+	// @Override
+	// protected void onLoad() {
+	// }
 
 	@Override
 	public void onBrowserEvent(Event event) {
@@ -100,20 +100,8 @@ public class LeftPanel extends Composite {
 		stackPanel.add(widget, createHeaderHTML(imageProto, caption), true);
 	}
 
-	/**
-	 * Creates an HTML fragment that places an image & caption together, for use
-	 * in a group header.
-	 * 
-	 * @param imageProto
-	 *            an image prototype for an image
-	 * @param caption
-	 *            the group caption
-	 * @return the header HTML fragment
-	 */
 	private String createHeaderHTML(AbstractImagePrototype imageProto,
 			String caption) {
-		nextHeaderIndex++;
-
 		String captionHTML = "<table class='caption' cellpadding='0' cellspacing='0'>"
 				+ "<tr><td class='lcaption'>"
 				+ imageProto.getHTML()

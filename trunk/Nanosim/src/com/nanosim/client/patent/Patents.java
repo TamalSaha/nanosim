@@ -1,4 +1,4 @@
-package com.nanosim.client;
+package com.nanosim.client.patent;
 
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
@@ -8,14 +8,13 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 /**
  * Composite that represents a collection of <code>Task</code> items.
  */
-public class Research extends Composite {
+public class Patents extends Composite {
 
-	public Research() {
+	public Patents() {
 		SimplePanel panel = new SimplePanel();
 		VerticalPanel list = new VerticalPanel();
 		panel.setWidget(list);
-		list.add(new CheckBox("Get groceries"));
-		list.add(new CheckBox("Walk the dog"));
+		list.add(new CheckBox("TODO toolbox"));
 		initWidget(panel);
 		setStyleName("NanoSim-Research");
 	}

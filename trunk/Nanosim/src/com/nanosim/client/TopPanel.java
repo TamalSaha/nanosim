@@ -4,13 +4,9 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.Hyperlink;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.nanosim.model.Group;
 import com.nanosim.model.Person;
@@ -20,20 +16,18 @@ import com.nanosim.client.internal.EventHandlerCollection;
 public class TopPanel extends Composite {
 
 	private EventHandlerCollection<ISignoutHandler> signoutHandlerColl = new EventHandlerCollection<ISignoutHandler>();
+	private final FlexTable layout;
 
-	public TopPanel(Person person, Group group) {
-		// Create a table to layout the form options
-		final FlexTable layout = new FlexTable();
+	public TopPanel() {
+		layout = new FlexTable();
 		layout.setWidth("100%");
-		//layout.setCellSpacing(6);
 		FlexCellFormatter cellFormatter = layout.getFlexCellFormatter();
 
 		layout.setWidget(0, 0, Nanosim.images.logo().createImage());
 		cellFormatter.setRowSpan(0, 0, 2);
 		cellFormatter.setHorizontalAlignment(0, 0,
 				HasHorizontalAlignment.ALIGN_LEFT);
-		layout.setHTML(0, 1, "<b>Welcome back, <i>" + person.getName()
-				+ "</b></i>");
+		layout.setHTML(0, 1, "<b>Welcome back</b></i>");
 		cellFormatter.setColSpan(0, 1, 3);
 		cellFormatter.setHorizontalAlignment(0, 1,
 				HasHorizontalAlignment.ALIGN_RIGHT);
@@ -74,6 +68,11 @@ public class TopPanel extends Composite {
 		cellFormatter.setWidth(1, 2, "50px");
 
 		initWidget(layout);
+	}
+
+	public void setHeader(Person person, Group group) {
+		layout.setHTML(0, 1, "<b>Welcome back, <i>" + person.getName() + " ("
+				+ group.getName() + ")" + "</b></i>");
 	}
 
 	public void addLoginHandler(ISignoutHandler handler) {

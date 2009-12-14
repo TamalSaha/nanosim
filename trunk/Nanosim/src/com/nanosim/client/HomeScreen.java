@@ -33,6 +33,16 @@ public class HomeScreen extends Composite {
 		outer.setWidth("100%");
 		outer.setSpacing(4);
 
+		topPanel = new TopPanel();
+		outer.add(topPanel, DockPanel.NORTH);
+
+		leftPanel = new LeftPanel();
+		outer.add(leftPanel, DockPanel.WEST);
+
+		// rightPanel = new RightPanel();
+		// outer.add(rightPanel, DockPanel.CENTER);
+		// outer.setCellWidth(rightPanel, "100%");
+
 		groupService.getGroup(person.getGroupId(), new AsyncCallback<Group>() {
 
 			@Override
@@ -62,15 +72,7 @@ public class HomeScreen extends Composite {
 	}
 
 	private void initChildWidgets(DockPanel outer) {
-		topPanel = new TopPanel(person, group);
-		outer.add(topPanel, DockPanel.NORTH);
-
-		leftPanel = new LeftPanel(groupType);
-		outer.add(leftPanel, DockPanel.WEST);
-
-		// rightPanel = new RightPanel();
-
-		// outer.add(rightPanel, DockPanel.CENTER);
-		// outer.setCellWidth(rightPanel, "100%");
+		topPanel.setHeader(person, group);
+		leftPanel.loadShortcuts(groupType);
 	}
 }
