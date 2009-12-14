@@ -1,4 +1,4 @@
-package com.nanosim.client.patent;
+package com.nanosim.client.profile;
 
 import com.google.gwt.user.client.ui.TreeItem;
 import com.nanosim.client.Nanosim;
@@ -7,9 +7,11 @@ import com.nanosim.client.StackContentBase;
 import com.nanosim.client.icons.NanosimImages;
 import com.nanosim.model.GroupType;
 
-public class Patents extends StackContentBase {
+public class Profile extends StackContentBase {
 
-	public Patents() {
+	private Mission missionObjective;
+
+	public Profile() {
 		singleton = this;
 		NanosimImages images = Nanosim.images;
 
@@ -30,6 +32,7 @@ public class Patents extends StackContentBase {
 	@Override
 	public void loadRightPanel() {
 		rightPanel.clear();
+		missionObjective = new Mission();
 	}
 
 }

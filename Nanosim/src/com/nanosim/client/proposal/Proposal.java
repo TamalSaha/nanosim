@@ -1,4 +1,4 @@
-package com.nanosim.client.patent;
+package com.nanosim.client.proposal;
 
 import com.google.gwt.user.client.ui.TreeItem;
 import com.nanosim.client.Nanosim;
@@ -7,9 +7,9 @@ import com.nanosim.client.StackContentBase;
 import com.nanosim.client.icons.NanosimImages;
 import com.nanosim.model.GroupType;
 
-public class Patents extends StackContentBase {
+public class Proposal extends StackContentBase {
 
-	public Patents() {
+	public Proposal() {
 		singleton = this;
 		NanosimImages images = Nanosim.images;
 

@@ -1,23 +1,35 @@
 package com.nanosim.client.research;
 
-import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.TreeItem;
+import com.nanosim.client.Nanosim;
+import com.nanosim.client.RightPanel;
+import com.nanosim.client.StackContentBase;
+import com.nanosim.client.icons.NanosimImages;
+import com.nanosim.model.GroupType;
 
-/**
- * Composite that represents a collection of <code>Task</code> items.
- */
-public class Research extends Composite {
+public class Research extends StackContentBase {
 
 	public Research() {
-		SimplePanel panel = new SimplePanel();
-		VerticalPanel list = new VerticalPanel();
-		panel.setWidget(list);
-		list.add(new CheckBox("Get groceries"));
-		list.add(new CheckBox("Walk the dog"));
-		initWidget(panel);
-		setStyleName("NanoSim-Research");
+		singleton = this;
+		NanosimImages images = Nanosim.images;
+
+		// TreeItem root = new TreeItem(uiHelper.imageItemHTML(images.home(),
+		// "user@nanosim.com"));
+		// tree.addItem(root);
+		// uiHelper.addImageItem(root, "Mission", images.inbox());
+		// root.setState(true);
+	}
+
+	@Override
+	public void loadShortcuts(RightPanel rightPanel, GroupType groupType) {
+		this.rightPanel = rightPanel;
+		// rightPanel.add(null);
+		// rightPanel.add(null);
+	}
+
+	@Override
+	public void loadRightPanel() {
+		rightPanel.clear();
 	}
 
 }
