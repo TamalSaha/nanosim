@@ -6,6 +6,7 @@ import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.nanosim.client.Nanosim;
 import com.nanosim.client.RightPanel;
+import com.nanosim.client.UIHelper;
 import com.nanosim.client.icons.NanosimImages;
 
 /**
@@ -17,7 +18,8 @@ public class Mailboxes extends Composite {
 
 	private MailList mailList;
 	private MailDetail mailDetail = new MailDetail();
-	String width = new String("100%");
+	private String width = new String("100%");
+	private UIHelper uiHelper = new UIHelper();
 
 	public static Mailboxes get() {
 		return singleton;
@@ -44,13 +46,13 @@ public class Mailboxes extends Composite {
 		singleton = this;
 		NanosimImages images = Nanosim.images;
 		tree = new Tree(images);
-		TreeItem root = new TreeItem(imageItemHTML(images.home(),
+		TreeItem root = new TreeItem(uiHelper.imageItemHTML(images.home(),
 				"user@nanosim.com"));
 		tree.addItem(root);
 
-		addImageItem(root, "Inbox", images.inbox());
-		addImageItem(root, "Drafts", images.drafts());
-		addImageItem(root, "Sent", images.sent());
+		uiHelper.addImageItem(root, "Inbox", images.inbox());
+		uiHelper.addImageItem(root, "Drafts", images.drafts());
+		uiHelper.addImageItem(root, "Sent", images.sent());
 
 		// MailList uses Mail.get() in its constructor, so initialize it after
 		// 'singleton'.
@@ -74,34 +76,5 @@ public class Mailboxes extends Composite {
 		RightPanel.add(mailDetail);
 		mailList.setWidth(width);
 		mailDetail.setWidth(width);
-	}
-
-	/**
-	 * A helper method to simplify adding tree items that have attached images.
-	 * {@link #addImageItem(TreeItem, String, AbstractImagePrototype) code}
-	 * 
-	 * @param root
-	 *            the tree item to which the new item will be added.
-	 * @param title
-	 *            the text associated with this item.
-	 */
-	private TreeItem addImageItem(TreeItem root, String title,
-			AbstractImagePrototype imageProto) {
-		TreeItem item = new TreeItem(imageItemHTML(imageProto, title));
-		root.addItem(item);
-		return item;
-	}
-
-	/**
-	 * Generates HTML for a tree item with an attached icon.
-	 * 
-	 * @param imageProto
-	 *            the image prototype to use
-	 * @param title
-	 *            the title of the item
-	 * @return the resultant HTML
-	 */
-	private String imageItemHTML(AbstractImagePrototype imageProto, String title) {
-		return imageProto.getHTML() + " " + title;
 	}
 }
