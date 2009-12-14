@@ -14,12 +14,16 @@
 
 	<!-- Other module inherits                                      -->
 	<source path='client' />
+	<source path='client/event' />
 	<source path='client/icons' />
 	<source path='client/internal' />
-	<source path='client/event' />
-	<source path='client/content/mail' />
-	<source path='client/content/other' />
-	<source path='client/content/tables' />
+	<source path='client/mail' />
+	<source path='client/patent' />
+	<source path='client/profile' />
+	<source path='client/proposal' />
+	<source path='client/research' />
+	<source path='client/rpc' />
+	<source path='client/transfer' />
 	<source path='model' />
 
 	<!-- Specify the app entry point class.                         -->

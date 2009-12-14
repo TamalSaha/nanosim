@@ -23,7 +23,7 @@ public class RightPanel extends Composite {
 	}
 
 	public static void add(Widget widget) {
-		widget.addStyleName("mail-StackContent");
+		// widget.addStyleName("mail-StackContent");
 		rightPanel.add(widget);
 	}
 
@@ -31,5 +31,4 @@ public class RightPanel extends Composite {
 		// widget.addStyleName("mail-StackContent");
 		rightPanel.clear();
 	}
-
 }

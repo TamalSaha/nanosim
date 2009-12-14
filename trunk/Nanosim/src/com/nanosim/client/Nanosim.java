@@ -11,7 +11,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.nanosim.client.event.ISigninHandler;
 import com.nanosim.client.icons.NanosimImages;
-import com.nanosim.client.internal.NanosimConstants;
 import com.nanosim.client.rpc.SigninService;
 import com.nanosim.client.rpc.SigninServiceAsync;
 import com.nanosim.model.Person;
@@ -25,12 +24,6 @@ public class Nanosim implements EntryPoint, ResizeHandler {
 	 */
 	public static final NanosimImages images = (NanosimImages) GWT
 			.create(NanosimImages.class);
-
-	/**
-	 * The static constants used throughout Nanosim.
-	 */
-	public static final NanosimConstants constants = (NanosimConstants) GWT
-			.create(NanosimConstants.class);
 
 	private final SigninServiceAsync signinService = SigninService.Util
 			.getInstance();
@@ -127,17 +120,12 @@ public class Nanosim implements EntryPoint, ResizeHandler {
 		if (homeScreen != null && homeScreen.leftPanel != null) {
 			// Adjust the shortcut panel and detail area to take up the
 			// available room in the window.
-			// int shortcutHeight = height -
-			// homeScreen.leftPanel.getAbsoluteTop()
-			// - 5;
-			// if (shortcutHeight < 1) {
-			// shortcutHeight = 1;
-			// }
 			int shortcutHeight = height - 76;
+			if (shortcutHeight < 1) {
+				shortcutHeight = 1;
+			}
 			homeScreen.leftPanel.setHeight(shortcutHeight + "px");
-
-			// Give the right panel widget a chance to resize itself as well.
-			// homeScreen.rightPanel.setPixelSize(width, height);
+			homeScreen.rightPanel.setHeight(shortcutHeight + "px");
 		}
 	}
 
