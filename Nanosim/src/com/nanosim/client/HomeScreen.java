@@ -39,8 +39,8 @@ public class HomeScreen extends Composite {
 		leftPanel = new LeftPanel();
 		outer.add(leftPanel, DockPanel.WEST);
 
-		// rightPanel = new RightPanel();
-		// outer.add(rightPanel, DockPanel.CENTER);
+		rightPanel = new RightPanel();
+		outer.add(rightPanel, DockPanel.CENTER);
 		// outer.setCellWidth(rightPanel, "100%");
 
 		groupService.getGroup(person.getGroupId(), new AsyncCallback<Group>() {
@@ -67,7 +67,6 @@ public class HomeScreen extends Composite {
 						});
 			}
 		});
-
 		initWidget(outer);
 	}
 
