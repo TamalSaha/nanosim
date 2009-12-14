@@ -17,7 +17,7 @@ public class Mailboxes extends Composite {
 
 	private MailList mailList;
 	private MailDetail mailDetail = new MailDetail();
-	String width = new String("70%");
+	String width = new String("100%");
 
 	public static Mailboxes get() {
 		return singleton;
