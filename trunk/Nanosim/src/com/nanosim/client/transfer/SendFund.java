@@ -84,12 +84,11 @@ public class SendFund extends Composite {
 	}
 
 	public void loadRightPanel() {
-		RightPanel.clear();
-		RightPanel.add(sendFundScreen);
+		// rightPanel.clear();
+		// rightPanel.add(sendFundScreen);
 		// RightPanel.add(mailDetail);
 		sendFundScreen.setWidth(width);
 		// mailDetail.setWidth(width);
-
 	}
 
 	/**

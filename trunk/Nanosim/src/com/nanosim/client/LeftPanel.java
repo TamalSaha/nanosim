@@ -1,5 +1,7 @@
 package com.nanosim.client;
 
+import java.awt.color.ProfileDataException;
+
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;
@@ -10,7 +12,8 @@ import com.google.gwt.user.client.ui.Widget;
 import com.nanosim.client.icons.NanosimImages;
 import com.nanosim.client.mail.Mailboxes;
 import com.nanosim.client.profile.Contacts;
-import com.nanosim.client.proposal.Proposals;
+import com.nanosim.client.profile.Profile;
+import com.nanosim.client.proposal.Proposal;
 import com.nanosim.client.research.Research;
 import com.nanosim.client.transfer.SendFund;
 import com.nanosim.model.GroupType;
@@ -33,17 +36,20 @@ public class LeftPanel extends Composite {
 	}
 
 	public void loadShortcuts(GroupType groupType) {
-		// Create the groups within the stack panel.
 		NanosimImages images = Nanosim.images;
+		
 		mailboxes = new Mailboxes();
 		add(mailboxes, images.mail(), "Mail");
-		add(new Contacts(), images.group(), "Group Contacts");
-		add(new Proposals(), images.proposal(), "Proposals");
+		
+		add(new Proposal(), images.proposal(), "Proposals");
+		
 		add(new Research(), images.research(), "Research");
 		// if (groupType.getHasPatents())
 		// add(new Patents(), images.patent(), "Patents");
 		sendFund = new SendFund();
 		add(sendFund, images.transfer(), "Transfers");
+		
+		add(new Profile(), images.group(), "Profile");
 
 		stackPanel.showStack(0);
 		mailboxes.loadRightPanel();

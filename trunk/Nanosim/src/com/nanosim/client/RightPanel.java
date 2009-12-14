@@ -6,7 +6,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class RightPanel extends Composite {
 
-	private static VerticalPanel rightPanel = new VerticalPanel();
+	private VerticalPanel rightPanel = new VerticalPanel();
 
 	public RightPanel(Widget widget) {
 		add(widget);
@@ -22,12 +22,12 @@ public class RightPanel extends Composite {
 
 	}
 
-	public static void add(Widget widget) {
+	public void add(Widget widget) {
 		// widget.addStyleName("mail-StackContent");
 		rightPanel.add(widget);
 	}
 
-	public static void clear() {
+	public void clear() {
 		// widget.addStyleName("mail-StackContent");
 		rightPanel.clear();
 	}
