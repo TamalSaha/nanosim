@@ -1,9 +1,6 @@
 package com.nanosim.dao;
 
 import java.sql.ResultSet;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import com.nanosim.model.Group;
 import com.nanosim.model.GroupType;
