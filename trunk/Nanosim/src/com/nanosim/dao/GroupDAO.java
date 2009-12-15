@@ -56,6 +56,11 @@ public class GroupDAO {
 						.equals("y"));
 				g.setViewAllBudgets(rs.getString("view_all_budgets")
 						.equals("y"));
+
+				/* Profile Section */
+				g.setHasProfile(rs.getString("has_profile").equals("y"));
+				g.setHasProfileMission(rs.getString("has_profile_mission")
+						.equals("y"));
 			}
 			return g;
 		} catch (Exception e) {

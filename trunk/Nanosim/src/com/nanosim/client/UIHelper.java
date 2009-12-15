@@ -1,9 +1,18 @@
 package com.nanosim.client;
 
 import com.google.gwt.user.client.ui.AbstractImagePrototype;
+import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 
 public class UIHelper {
+
+	public TreeItem addImageItem(Tree tree, String title,
+			AbstractImagePrototype imageProto) {
+		TreeItem item = new TreeItem(imageItemHTML(imageProto, title));
+		item.setTitle(title);
+		tree.addItem(item);
+		return item;
+	}
 
 	/**
 	 * A helper method to simplify adding tree items that have attached images.
@@ -17,6 +26,7 @@ public class UIHelper {
 	public TreeItem addImageItem(TreeItem root, String title,
 			AbstractImagePrototype imageProto) {
 		TreeItem item = new TreeItem(imageItemHTML(imageProto, title));
+		item.setTitle(title);
 		root.addItem(item);
 		return item;
 	}

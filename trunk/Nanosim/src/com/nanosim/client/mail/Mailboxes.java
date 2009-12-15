@@ -1,5 +1,6 @@
 package com.nanosim.client.mail;
 
+import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.nanosim.client.Nanosim;
@@ -21,7 +22,7 @@ public class Mailboxes extends StackContentBase {
 	}
 
 	@Override
-	public void loadShortcuts(RightPanel rightPanel, GroupType groupType) {
+	public void loadShortcuts(RightPanel rightPanel) {
 		NanosimImages images = Nanosim.images;
 
 		this.rightPanel = rightPanel;
@@ -53,5 +54,11 @@ public class Mailboxes extends StackContentBase {
 	@Override
 	public void displayItem(MailItem item) {
 		mailDetail.setItem(item);
+	}
+
+	@Override
+	public void onSelection(SelectionEvent<TreeItem> event) {
+		// TODO Auto-generated method stub
+		
 	}
 }

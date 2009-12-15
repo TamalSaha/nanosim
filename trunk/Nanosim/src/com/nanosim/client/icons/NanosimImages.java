@@ -49,6 +49,6 @@ public interface NanosimImages extends ImageBundle, TreeImages {
 	AbstractImagePrototype transfer();
 
 	AbstractImagePrototype defaultPhoto();
-	
+
 	AbstractImagePrototype ajaxloader();
 }

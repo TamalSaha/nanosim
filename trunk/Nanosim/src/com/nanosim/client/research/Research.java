@@ -1,5 +1,6 @@
 package com.nanosim.client.research;
 
+import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.nanosim.client.Nanosim;
 import com.nanosim.client.RightPanel;
@@ -21,7 +22,7 @@ public class Research extends StackContentBase {
 	}
 
 	@Override
-	public void loadShortcuts(RightPanel rightPanel, GroupType groupType) {
+	public void loadShortcuts(RightPanel rightPanel) {
 		this.rightPanel = rightPanel;
 		// rightPanel.add(null);
 		// rightPanel.add(null);
@@ -30,6 +31,12 @@ public class Research extends StackContentBase {
 	@Override
 	public void loadRightPanel() {
 		rightPanel.clear();
+	}
+
+	@Override
+	public void onSelection(SelectionEvent<TreeItem> event) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

@@ -13,6 +13,8 @@ import com.nanosim.client.event.ISigninHandler;
 import com.nanosim.client.icons.NanosimImages;
 import com.nanosim.client.rpc.SigninService;
 import com.nanosim.client.rpc.SigninServiceAsync;
+import com.nanosim.model.Group;
+import com.nanosim.model.GroupType;
 import com.nanosim.model.Person;
 
 /**
@@ -39,13 +41,18 @@ public class Nanosim implements EntryPoint, ResizeHandler {
 		return instance;
 	}
 
-	private Person person;
+	public Person Person;
+	public Group Group;
+	public GroupType GroupType;
 
 	/**
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
 		instance = this;
+		Person = null;
+		Group = null;
+		GroupType = null;
 
 		// for test
 		signinService.signin("ibm", "demo", new AsyncCallback<Person>() {
@@ -56,7 +63,7 @@ public class Nanosim implements EntryPoint, ResizeHandler {
 
 			@Override
 			public void onSuccess(Person result) {
-				person = result;
+				Person = result;
 				cookieHelper.setIsLoggedIn(true);
 				setHomeScreen();
 			}
@@ -76,7 +83,7 @@ public class Nanosim implements EntryPoint, ResizeHandler {
 
 			@Override
 			public void OnSuccess(Person p) {
-				person = p;
+				Person = p;
 				cookieHelper.setIsLoggedIn(true);
 				setHomeScreen();
 			}
@@ -89,7 +96,7 @@ public class Nanosim implements EntryPoint, ResizeHandler {
 	private HomeScreen homeScreen;
 
 	private void setHomeScreen() {
-		homeScreen = new HomeScreen(person);
+		homeScreen = new HomeScreen();
 		Window.addResizeHandler(this);
 		Window.enableScrolling(true);
 		Window.setMargin("0px");

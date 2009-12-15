@@ -1,7 +1,5 @@
 package com.nanosim.client;
 
-import java.awt.color.ProfileDataException;
-
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;
@@ -27,32 +25,43 @@ import com.nanosim.model.GroupType;
  */
 public class LeftPanel extends Composite {
 	private static StackPanel stackPanel = new StackPanel();
-	private SendFund sendFund;
-	private Mailboxes mailboxes;
+
+	private Profile profile;
+
+	// private SendFund sendFund;
+	// private Mailboxes mailboxes;
 
 	public LeftPanel() {
 		stackPanel.setWidth("225px");
 		initWidget(stackPanel);
 	}
 
-	public void loadShortcuts(GroupType groupType) {
+	public void loadShortcuts(RightPanel rightPanel) {
+		Nanosim nanosim = Nanosim.getInstance();
 		NanosimImages images = Nanosim.images;
-		
-		mailboxes = new Mailboxes();
-		add(mailboxes, images.mail(), "Mail");
-		
-		add(new Proposal(), images.proposal(), "Proposals");
-		
-		add(new Research(), images.research(), "Research");
-		// if (groupType.getHasPatents())
-		// add(new Patents(), images.patent(), "Patents");
-		sendFund = new SendFund();
-		add(sendFund, images.transfer(), "Transfers");
-		
-		add(new Profile(), images.group(), "Profile");
+
+		if (nanosim.GroupType.getHasProfile()) {
+			profile = new Profile();
+			profile.loadShortcuts(rightPanel);
+			add(profile, images.group(), "Profile");
+		}
+
+		// mailboxes = new Mailboxes();
+		// add(mailboxes, images.mail(), "Mail");
+		//		
+		// add(new Proposal(), images.proposal(), "Proposals");
+		//		
+		// add(new Research(), images.research(), "Research");
+		// // if (groupType.getHasPatents())
+		// // add(new Patents(), images.patent(), "Patents");
+		// sendFund = new SendFund();
+		// add(sendFund, images.transfer(), "Transfers");
+		//		
+		// add(new Profile(), images.group(), "Profile");
 
 		stackPanel.showStack(0);
-		mailboxes.loadRightPanel();
+		// mailboxes.loadRightPanel();
+		profile.loadRightPanel();
 	}
 
 	// @Override
@@ -61,19 +70,19 @@ public class LeftPanel extends Composite {
 
 	@Override
 	public void onBrowserEvent(Event event) {
-		if (DOM.eventGetType(event) == Event.ONCLICK) {
-			Element target = DOM.eventGetTarget(event);
-			int index = findDividerIndex(target);
-			if (index != -1) {
-				stackPanel.showStack(index);
-
-			}
-		}
-		super.onBrowserEvent(event);
-		if (stackPanel.getSelectedIndex() == 5)
-			sendFund.loadRightPanel();
-		else if (stackPanel.getSelectedIndex() == 0)
-			mailboxes.loadRightPanel();
+		// if (DOM.eventGetType(event) == Event.ONCLICK) {
+		// Element target = DOM.eventGetTarget(event);
+		// int index = findDividerIndex(target);
+		// if (index != -1) {
+		// stackPanel.showStack(index);
+		//
+		// }
+		// }
+		// super.onBrowserEvent(event);
+		// if (stackPanel.getSelectedIndex() == 5)
+		// sendFund.loadRightPanel();
+		// else if (stackPanel.getSelectedIndex() == 0)
+		// mailboxes.loadRightPanel();
 
 	}
 
@@ -111,9 +120,8 @@ public class LeftPanel extends Composite {
 		String captionHTML = "<table class='caption' cellpadding='0' cellspacing='0'>"
 				+ "<tr><td class='lcaption'>"
 				+ imageProto.getHTML()
-				+ "</td><td class='rcaption'><b style='white-space:nowrap'>"
+				+ "</td><td class='rcaption'><b style='white-space:nowrap'>&nbsp;"
 				+ caption + "</b></td></tr></table>";
 		return captionHTML;
 	}
-
 }

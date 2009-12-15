@@ -7,7 +7,6 @@ import com.nanosim.client.rpc.GroupService;
 import com.nanosim.client.rpc.GroupServiceAsync;
 import com.nanosim.model.Group;
 import com.nanosim.model.GroupType;
-import com.nanosim.model.Person;
 
 public class HomeScreen extends Composite {
 
@@ -16,17 +15,14 @@ public class HomeScreen extends Composite {
 	private final GroupServiceAsync groupService = GroupService.Util
 			.getInstance();
 
-	private Person person;
-	private Group group;
-	private GroupType groupType;
-
 	public RightPanel rightPanel;
 	public TopPanel topPanel;
 	public LeftPanel leftPanel;
-	String width = new String("80%");
 
-	public HomeScreen(Person person) {
-		this.person = person;
+	private Nanosim nanosim;
+
+	public HomeScreen() {
+		this.nanosim = Nanosim.getInstance();
 		// final String initToken = History.getToken();
 
 		final DockPanel outer = new DockPanel();
@@ -41,37 +37,39 @@ public class HomeScreen extends Composite {
 
 		rightPanel = new RightPanel();
 		outer.add(rightPanel, DockPanel.CENTER);
-		// outer.setCellWidth(rightPanel, "100%");
+		outer.setCellWidth(rightPanel, "100%");
 
-		groupService.getGroup(person.getGroupId(), new AsyncCallback<Group>() {
+		groupService.getGroup(nanosim.Person.getGroupId(),
+				new AsyncCallback<Group>() {
 
-			@Override
-			public void onFailure(Throwable caught) {
-			}
+					@Override
+					public void onFailure(Throwable caught) {
+					}
 
-			@Override
-			public void onSuccess(Group result) {
-				group = result;
-				groupService.getGroupType(group.getGroupTypeId(),
-						new AsyncCallback<GroupType>() {
+					@Override
+					public void onSuccess(Group result) {
+						nanosim.Group = result;
+						groupService.getGroupType(nanosim.Group
+								.getGroupTypeId(),
+								new AsyncCallback<GroupType>() {
 
-							@Override
-							public void onFailure(Throwable caught) {
-							}
+									@Override
+									public void onFailure(Throwable caught) {
+									}
 
-							@Override
-							public void onSuccess(GroupType result) {
-								groupType = result;
-								initChildWidgets(outer);
-							}
-						});
-			}
-		});
+									@Override
+									public void onSuccess(GroupType result) {
+										nanosim.GroupType = result;
+										initChildWidgets(outer);
+									}
+								});
+					}
+				});
 		initWidget(outer);
 	}
 
 	private void initChildWidgets(DockPanel outer) {
-		topPanel.setHeader(person, group);
-		leftPanel.loadShortcuts(groupType);
+		topPanel.setHeader();
+		leftPanel.loadShortcuts(rightPanel);
 	}
 }

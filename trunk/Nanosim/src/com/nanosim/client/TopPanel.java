@@ -2,6 +2,7 @@ package com.nanosim.client;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -36,7 +37,7 @@ public class TopPanel extends Composite {
 
 		layout.setHTML(1, 0, "");
 		cellFormatter.setWidth(1, 0, "50%");
-		final Hyperlink signOutLink = new Hyperlink("Sign Out", "signout");
+		final Anchor signOutLink = new Anchor("Sign Out", "signout");
 		signOutLink.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
@@ -51,7 +52,7 @@ public class TopPanel extends Composite {
 				.setVerticalAlignment(1, 1, HasVerticalAlignment.ALIGN_TOP);
 		cellFormatter.setWidth(1, 1, "100px");
 
-		final Hyperlink aboutLink = new Hyperlink("About", "about");
+		final Anchor aboutLink = new Anchor("About", "about");
 		aboutLink.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
@@ -70,9 +71,10 @@ public class TopPanel extends Composite {
 		initWidget(layout);
 	}
 
-	public void setHeader(Person person, Group group) {
-		layout.setHTML(0, 1, "<b>Welcome back, <i>" + person.getName() + " ("
-				+ group.getName() + ")" + "</b></i>");
+	public void setHeader() {
+		Nanosim nanosim = Nanosim.getInstance();
+		layout.setHTML(0, 1, "<b>Welcome back, <i>" + nanosim.Person.getName()
+				+ " (" + nanosim.Group.getName() + ")" + "</b></i>");
 	}
 
 	public void addLoginHandler(ISignoutHandler handler) {

@@ -119,4 +119,27 @@ public class GroupType implements Serializable {
 	public void setViewAllBudgets(boolean viewAllBudgets) {
 		this.viewAllBudgets = viewAllBudgets;
 	}
+	
+	/*
+	 * Profile Section
+	 */
+
+	public void setHasProfile(boolean hasProfile) {
+		this.hasProfile = hasProfile;
+	}
+
+	public boolean getHasProfile() {
+		return hasProfile;
+	}
+
+	public void setHasProfileMission(boolean hasProfileMission) {
+		this.hasProfileMission = hasProfileMission;
+	}
+
+	public boolean getHasProfileMission() {
+		return hasProfileMission;
+	}
+
+	private boolean hasProfile;
+	private boolean hasProfileMission;
 }
