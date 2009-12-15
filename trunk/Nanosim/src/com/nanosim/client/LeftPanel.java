@@ -83,23 +83,22 @@ public class LeftPanel extends Composite {
 			int index = findDividerIndex(target);
 			if (index != -1) {
 				stackPanel.showStack(index);
-
+				switch (index) {
+				case 0:
+					mailboxes.loadRightPanel();
+					break;
+				case 1:
+					patent.loadRightPanel();
+					break;
+				case 2:
+					profile.loadRightPanel();
+					break;
+				default:
+					break;
+				}
 			}
 		}
 		super.onBrowserEvent(event);
-		switch (stackPanel.getSelectedIndex()) {
-		case 0:
-			mailboxes.loadRightPanel();
-			break;
-		case 1:
-			patent.loadRightPanel();
-			break;
-		case 2:
-			profile.loadRightPanel();
-			break;
-		default:
-			break;
-		}
 	}
 
 	private int findDividerIndex(Element elem) {

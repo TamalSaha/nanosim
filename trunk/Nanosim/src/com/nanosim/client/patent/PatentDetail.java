@@ -1,51 +1,61 @@
 package com.nanosim.client.patent;
 
-import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
-import com.google.gwt.user.client.ui.DockPanel;
-import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.nanosim.model.Patent;
 
 /**
  * A composite for displaying the details of an email message.
  */
 public class PatentDetail extends DialogBox {
-
-	private VerticalPanel panel = new VerticalPanel();
-	private VerticalPanel headerPanel = new VerticalPanel();
-	private HTML subject = new HTML();
-	private HTML sender = new HTML();
-	private HTML recipient = new HTML();
-	private HTML body = new HTML();
-	private ScrollPanel scroller = new ScrollPanel(body);
+	private ScrollPanel scroller;
 
 	public PatentDetail() {
-		body.setWordWrap(true);
+		// Create a table to layout the form options
+		final FlexTable layout = new FlexTable();
+		layout.setWidth("300px");
+		layout.setCellSpacing(6);
+		FlexCellFormatter cellFormatter = layout.getFlexCellFormatter();
 
-		headerPanel.add(subject);
-		headerPanel.add(sender);
-		headerPanel.add(recipient);
-		headerPanel.setWidth("100%");
+		// Add a title to the form
+		layout.setHTML(0, 0, "");
+		cellFormatter.setColSpan(0, 0, 2);
+		cellFormatter.setHorizontalAlignment(0, 0,
+				HasHorizontalAlignment.ALIGN_CENTER);
 
-		DockPanel innerPanel = new DockPanel();
-		innerPanel.add(headerPanel, DockPanel.NORTH);
-		innerPanel.add(scroller, DockPanel.CENTER);
+		layout.setHTML(1, 0, "Username:");
+		cellFormatter.setHorizontalAlignment(1, 0,
+				HasHorizontalAlignment.ALIGN_CENTER);
+		final TextBox txtUsername = new TextBox();
+		txtUsername.setText("ibm");
+		txtUsername.setWidth("150px");
+		layout.setWidget(1, 1, txtUsername);
 
-		innerPanel.setCellHeight(scroller, "100%");
-		panel.add(innerPanel);
-		innerPanel.setSize("100%", "100%");
-		scroller.setSize("100%", "100%");
-		// initWidget(panel);
+		layout.setHTML(2, 0, "Password:");
+		cellFormatter.setHorizontalAlignment(2, 0,
+				HasHorizontalAlignment.ALIGN_CENTER);
+		final PasswordTextBox txtPassowrd = new PasswordTextBox();
+		txtPassowrd.setText("demo");
+		txtPassowrd.setWidth("150px");
+		layout.setWidget(2, 1, txtPassowrd);
 
-		setStyleName("mail-Detail");
-		headerPanel.setStyleName("mail-DetailHeader");
-		innerPanel.setStyleName("mail-DetailInner");
-		subject.setStyleName("mail-DetailSubject");
-		sender.setStyleName("mail-DetailSender");
-		recipient.setStyleName("mail-DetailRecipient");
-		body.setStyleName("mail-DetailBody");
+		layout.setHTML(3, 0, "");
+		layout.setHTML(3, 1, "");
+
+		Button btnSignin = new Button("Sign in");
+		layout.setWidget(4, 0, btnSignin);
+		cellFormatter.setColSpan(4, 0, 2);
+		cellFormatter.setHorizontalAlignment(4, 0,
+				HasHorizontalAlignment.ALIGN_CENTER);
+
+		scroller = new ScrollPanel(layout);
+		setWidget(scroller);
 	}
 
 	/**

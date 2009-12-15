@@ -31,13 +31,13 @@ public class PatentHome extends StackContentBase {
 		this.newPatentList = new NewPatentList();
 		this.patentDetail = new PatentDetail();
 
-		if (nanosim.GroupType.getHasProfileMission()) {
+		if (nanosim.GroupType.getHasPatentsGroupPatents()) {
 			uiHelper.addImageItem(tree, "Group Patents", images.inbox());
 		}
-		if (nanosim.GroupType.getHasProfileMission()) {
+		if (nanosim.GroupType.getHasPatentsAllApproved()) {
 			uiHelper.addImageItem(tree, "All Approved", images.inbox());
 		}
-		if (nanosim.GroupType.getHasProfileMission()) {
+		if (nanosim.GroupType.getHasPatentsNewSubmission()) {
 			uiHelper.addImageItem(tree, "New Submission", images.inbox());
 		}
 	}
@@ -45,15 +45,15 @@ public class PatentHome extends StackContentBase {
 	@Override
 	public void loadRightPanel() {
 		if (tree.getItemCount() > 0) {
-			TreeItem item = tree.getItem(1);
+			TreeItem item = tree.getItem(0);
 			String title = item.getTitle();
 
 			rightPanel.clear();
-			if (title == "Group Patents") {
+			if (title.equals("Group Patents")) {
 				rightPanel.add(groupPatentList);
-			} else if (title == "All Approved") {
+			} else if (title.equals("All Approved")) {
 				rightPanel.add(approvedList);
-			} else if (title == "New Submission") {
+			} else if (title.equals("New Submission")) {
 				rightPanel.add(newPatentList);
 			}
 			item.setSelected(true);
