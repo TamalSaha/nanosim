@@ -9,11 +9,11 @@ public class Mail implements Serializable {
 	private static final long serialVersionUID = 1662363742565681819L;
 	
 	private int mailId;
+	private int toGroup;	
 	private int fromGroup;
+	private String subject;
 	private String message;
 	private Date sent;
-	private String subject;
-	private int toGroup;
 	private String unread;
 
 	public Mail() {
@@ -27,12 +27,27 @@ public class Mail implements Serializable {
 		this.mailId = mailId;
 	}
 
+	public int getToGroup() {
+		return this.toGroup;
+	}
+
+	public void setToGroup(int toGroup) {
+		this.toGroup = toGroup;
+	}
+	
 	public int getFromGroup() {
 		return this.fromGroup;
 	}
 
 	public void setFromGroup(int fromGroup) {
 		this.fromGroup = fromGroup;
+	}
+	public String getSubject() {
+		return this.subject;
+	}
+
+	public void setSubject(String subject) {
+		this.subject = subject;
 	}
 
 	public String getMessage() {
@@ -42,29 +57,13 @@ public class Mail implements Serializable {
 	public void setMessage(String message) {
 		this.message = message;
 	}
-
+		
 	public Date getSent() {
 		return this.sent;
 	}
 
 	public void setSent(Date sent) {
 		this.sent = sent;
-	}
-
-	public String getSubject() {
-		return this.subject;
-	}
-
-	public void setSubject(String subject) {
-		this.subject = subject;
-	}
-
-	public int getToGroup() {
-		return this.toGroup;
-	}
-
-	public void setToGroup(int toGroup) {
-		this.toGroup = toGroup;
 	}
 
 	public String getUnread() {
@@ -74,5 +73,4 @@ public class Mail implements Serializable {
 	public void setUnread(String unread) {
 		this.unread = unread;
 	}
-
 }
