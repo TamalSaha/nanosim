@@ -1,67 +1,109 @@
 package com.nanosim.client.patent;
 
+import java.util.List;
+
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
+import com.nanosim.client.Nanosim;
+import com.nanosim.client.rpc.PatentService;
+import com.nanosim.client.rpc.PatentServiceAsync;
+import com.nanosim.client.rpc.ResearchService;
+import com.nanosim.client.rpc.ResearchServiceAsync;
 import com.nanosim.model.Patent;
+import com.nanosim.model.Research;
 
 /**
  * A composite for displaying the details of an email message.
  */
 public class PatentDetail extends DialogBox {
 	private ScrollPanel scroller;
+	private List<Research> researchTitles;
+	private Nanosim nanosim;
+	private ListBox lstTitles;
+	private TextArea txtProposal;
+	private TextArea txtResponse;
+
+	private final PatentServiceAsync patentService = PatentService.Util
+			.getInstance();
 
 	public PatentDetail() {
-		// Create a table to layout the form options
+		nanosim = Nanosim.getInstance();
+
 		final FlexTable layout = new FlexTable();
-		layout.setWidth("300px");
+		layout.setWidth("500px");
 		layout.setCellSpacing(6);
 		FlexCellFormatter cellFormatter = layout.getFlexCellFormatter();
 
-		// Add a title to the form
-		layout.setHTML(0, 0, "");
-		cellFormatter.setColSpan(0, 0, 2);
+		layout.setHTML(0, 0, "Title:");
 		cellFormatter.setHorizontalAlignment(0, 0,
 				HasHorizontalAlignment.ALIGN_CENTER);
+		lstTitles = new ListBox(false);
+		layout.setWidget(0, 1, lstTitles);
+		cellFormatter.setColSpan(0, 1, 2);
 
-		layout.setHTML(1, 0, "Username:");
+		layout.setHTML(1, 0, "Patent Proposal:");
 		cellFormatter.setHorizontalAlignment(1, 0,
 				HasHorizontalAlignment.ALIGN_CENTER);
-		final TextBox txtUsername = new TextBox();
-		txtUsername.setText("ibm");
-		txtUsername.setWidth("150px");
-		layout.setWidget(1, 1, txtUsername);
+		txtProposal = new TextArea();
+		layout.setWidget(1, 1, txtProposal);
+		cellFormatter.setColSpan(1, 1, 2);
 
-		layout.setHTML(2, 0, "Password:");
+		layout.setHTML(2, 0, "Response:");
 		cellFormatter.setHorizontalAlignment(2, 0,
 				HasHorizontalAlignment.ALIGN_CENTER);
-		final PasswordTextBox txtPassowrd = new PasswordTextBox();
-		txtPassowrd.setText("demo");
-		txtPassowrd.setWidth("150px");
-		layout.setWidget(2, 1, txtPassowrd);
+		txtResponse = new TextArea();
+		layout.setWidget(2, 1, txtResponse);
+		cellFormatter.setColSpan(2, 1, 2);
 
 		layout.setHTML(3, 0, "");
 		layout.setHTML(3, 1, "");
+		layout.setHTML(3, 2, "");
 
-		Button btnSignin = new Button("Sign in");
-		layout.setWidget(4, 0, btnSignin);
-		cellFormatter.setColSpan(4, 0, 2);
+		Button btnSubmit = new Button("Submit");
+		layout.setWidget(4, 0, btnSubmit);
+		cellFormatter.setHorizontalAlignment(4, 0,
+				HasHorizontalAlignment.ALIGN_RIGHT);
+		btnSubmit.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+
+			}
+		});
+
+		Button btnApprove = new Button("Approve");
+		layout.setWidget(4, 1, btnApprove);
 		cellFormatter.setHorizontalAlignment(4, 0,
 				HasHorizontalAlignment.ALIGN_CENTER);
+
+		Button btnCancel = new Button("Cancel");
+		layout.setWidget(4, 2, btnCancel);
+		cellFormatter.setHorizontalAlignment(4, 0,
+				HasHorizontalAlignment.ALIGN_LEFT);
+		btnCancel.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				hide();
+			}
+		});
 
 		scroller = new ScrollPanel(layout);
 		setWidget(scroller);
 	}
 
-	/**
-	 * Adjusts the widget's size such that it fits within the window's client
-	 * area.
-	 */
 	public void adjustSize(int windowWidth, int windowHeight) {
 		int scrollWidth = windowWidth - scroller.getAbsoluteLeft() - 9;
 		if (scrollWidth < 1) {
@@ -76,10 +118,47 @@ public class PatentDetail extends DialogBox {
 		scroller.setPixelSize(scrollWidth, scrollHeight);
 	}
 
-	public void setItem(Patent item) {
-		// subject.setHTML(item.subject);
-		// sender.setHTML("<b>From:</b>&nbsp;" + item.sender);
-		// recipient.setHTML("<b>To:</b>&nbsp;user@nanosim.com");
-		// body.setHTML(item.body);
+	public void setInnerItem(Patent item) {
+		// lstTitles.seti.addItem(research.getTitle());
+
+		txtProposal.setText(item.getProposal());
+		txtResponse.setText(item.getResponse());
+	}
+
+	/*
+	 * final ListBox dropBox = new ListBox(false); String[] listTypes =
+	 * constants.cwListBoxCategories(); for (int i = 0; i < listTypes.length;
+	 * i++) { dropBox.addItem(listTypes[i]); }
+	 */
+	public void setItem(final Patent item) {
+		if (researchTitles == null) {
+			ResearchServiceAsync researchService = ResearchService.Util
+					.getInstance();
+			researchService.getCompletedResearch(nanosim.Group.getGroupId(),
+					new AsyncCallback<List<Research>>() {
+
+						@Override
+						public void onSuccess(List<Research> result) {
+							if (result == null || result.size() == 0) {
+								nanosim.endLoadingFailure();
+								return;
+							}
+							nanosim.endLoadingSuccess();
+							// load data
+							researchTitles = result;
+							for (Research research : result) {
+								lstTitles.addItem(research.getTitle());
+							}
+							setInnerItem(item);
+						}
+
+						@Override
+						public void onFailure(Throwable caught) {
+							nanosim.endLoadingFailure();
+						}
+					});
+
+		} else
+			setInnerItem(item);
 	}
 }

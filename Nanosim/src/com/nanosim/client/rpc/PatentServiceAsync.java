@@ -9,4 +9,7 @@ public interface PatentServiceAsync {
 	void getGroupPatents(long groupId, AsyncCallback<List<Patent>> callback);
 	void getApprovedPatents(AsyncCallback<List<Patent>> callback);
 	void getNewPatents(AsyncCallback<List<Patent>> callback);
+	
+	void submitPatent(Patent item, AsyncCallback<Integer> callback);
+	void approvePatent(Patent item, AsyncCallback<Integer> callback);
 }

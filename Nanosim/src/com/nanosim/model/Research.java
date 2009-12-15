@@ -9,8 +9,9 @@ public class Research implements Serializable {
 	 */
 	private static final long serialVersionUID = 6149569353449122019L;
 
-	private int researchId;
+	private long researchId;
 
+	private String title;
 	private float cost;
 	private String failed;
 	private String failedMessage;
@@ -20,18 +21,18 @@ public class Research implements Serializable {
 	private String patented;
 	private String researchProposal;
 	private String researchSources;
-	private int researchTypeId;
+	private long researchTypeId;
 	private Date submitted;
 	private int timeLeft;
 
 	public Research() {
 	}
 
-	public int getResearchId() {
+	public long getResearchId() {
 		return this.researchId;
 	}
 
-	public void setResearchId(int researchId) {
+	public void setResearchId(long researchId) {
 		this.researchId = researchId;
 	}
 
@@ -107,11 +108,11 @@ public class Research implements Serializable {
 		this.researchSources = researchSources;
 	}
 
-	public int getResearchTypeId() {
+	public long getResearchTypeId() {
 		return this.researchTypeId;
 	}
 
-	public void setResearchTypeId(int researchTypeId) {
+	public void setResearchTypeId(long researchTypeId) {
 		this.researchTypeId = researchTypeId;
 	}
 
@@ -129,5 +130,13 @@ public class Research implements Serializable {
 
 	public void setTimeLeft(int timeLeft) {
 		this.timeLeft = timeLeft;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getTitle() {
+		return title;
 	}
 }

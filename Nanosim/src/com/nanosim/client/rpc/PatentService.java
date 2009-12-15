@@ -26,4 +26,7 @@ public interface PatentService extends RemoteService {
 	List<Patent> getGroupPatents(long groupId);
 	List<Patent> getApprovedPatents();
 	List<Patent> getNewPatents();
+	
+	int submitPatent(Patent item);
+	int approvePatent(Patent item);
 }
