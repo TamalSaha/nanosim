@@ -1,10 +1,24 @@
 package com.nanosim.client;
 
 import com.google.gwt.user.client.ui.AbstractImagePrototype;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 
 public class UIHelper {
+
+	public int setSelectedValue(ListBox lst, int value) {
+		int index = -1;
+		String strVal = (new StringBuilder(value)).toString();
+		for (int i = lst.getItemCount(); i-- > 0;) {
+			if (lst.getValue(i).equals(strVal)) {
+				lst.setSelectedIndex(i);
+				index = i;
+				break;
+			}
+		}
+		return index;
+	}
 
 	public TreeItem addImageItem(Tree tree, String title,
 			AbstractImagePrototype imageProto) {

@@ -4,12 +4,10 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class Research implements Serializable {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 6149569353449122019L;
 
-	private long researchId;
+	private int researchId;
 
 	private String title;
 	private float cost;
@@ -21,18 +19,18 @@ public class Research implements Serializable {
 	private String patented;
 	private String researchProposal;
 	private String researchSources;
-	private long researchTypeId;
+	private int researchTypeId;
 	private Date submitted;
 	private int timeLeft;
 
 	public Research() {
 	}
 
-	public long getResearchId() {
+	public int getResearchId() {
 		return this.researchId;
 	}
 
-	public void setResearchId(long researchId) {
+	public void setResearchId(int researchId) {
 		this.researchId = researchId;
 	}
 
@@ -108,11 +106,11 @@ public class Research implements Serializable {
 		this.researchSources = researchSources;
 	}
 
-	public long getResearchTypeId() {
+	public int getResearchTypeId() {
 		return this.researchTypeId;
 	}
 
-	public void setResearchTypeId(long researchTypeId) {
+	public void setResearchTypeId(int researchTypeId) {
 		this.researchTypeId = researchTypeId;
 	}
 

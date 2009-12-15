@@ -6,6 +6,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import com.nanosim.model.Research;
+import com.nanosim.model.ResearchType;
 
 @RemoteServiceRelativePath("ResearchService")
 public interface ResearchService extends RemoteService {
@@ -22,5 +23,5 @@ public interface ResearchService extends RemoteService {
 		}
 	}
 	
-	List<Research> getCompletedResearch(long groupId);
+	List<ResearchType> getCompletedResearch(long groupId);
 }
