@@ -22,7 +22,6 @@ public class GroupType implements Serializable {
 	private boolean hasBusiness;
 	private boolean hasCertificates;
 	private boolean hasFacilities;
-	private boolean hasPatents;
 	private boolean hasResearch;
 	private boolean hasReview;
 	private boolean newspaper;
@@ -70,14 +69,6 @@ public class GroupType implements Serializable {
 
 	public void setHasFacilities(boolean hasFacilities) {
 		this.hasFacilities = hasFacilities;
-	}
-
-	public boolean getHasPatents() {
-		return this.hasPatents;
-	}
-
-	public void setHasPatents(boolean hasPatents) {
-		this.hasPatents = hasPatents;
 	}
 
 	public boolean getHasResearch() {
@@ -142,4 +133,55 @@ public class GroupType implements Serializable {
 
 	private boolean hasProfile;
 	private boolean hasProfileMission;
+	
+	/*
+	 * Patent Section 
+	 */
+
+	public boolean getHasPatents() {
+		return this.hasPatents;
+	}
+
+	public void setHasPatents(boolean hasPatents) {
+		this.hasPatents = hasPatents;
+	}
+
+	
+	public void setHasPatentsGroupPatents(boolean hasPatentsGroupPatents) {
+		this.hasPatentsGroupPatents = hasPatentsGroupPatents;
+	}
+
+	public boolean getHasPatentsGroupPatents() {
+		return hasPatentsGroupPatents;
+	}
+
+	public void setHasPatentsAllApproved(boolean hasPatentsAllApproved) {
+		this.hasPatentsAllApproved = hasPatentsAllApproved;
+	}
+
+	public boolean getHasPatentsAllApproved() {
+		return hasPatentsAllApproved;
+	}
+
+	public void setHasPatentsNewSubmission(boolean hasPatentsNewSubmission) {
+		this.hasPatentsNewSubmission = hasPatentsNewSubmission;
+	}
+
+	public boolean getHasPatentsNewSubmission() {
+		return hasPatentsNewSubmission;
+	}
+
+	public void setHasPatentsApproveSubmission(boolean hasPatentsApproveSubmission) {
+		this.hasPatentsApproveSubmission = hasPatentsApproveSubmission;
+	}
+
+	public boolean getHasPatentsApproveSubmission() {
+		return hasPatentsApproveSubmission;
+	}
+
+	private boolean hasPatents;
+	private boolean hasPatentsGroupPatents;
+	private boolean hasPatentsAllApproved;
+	private boolean hasPatentsNewSubmission;
+	private boolean hasPatentsApproveSubmission;
 }

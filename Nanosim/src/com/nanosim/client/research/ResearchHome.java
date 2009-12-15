@@ -1,4 +1,4 @@
-package com.nanosim.client.proposal;
+package com.nanosim.client.research;
 
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.user.client.ui.TreeItem;
@@ -8,9 +8,9 @@ import com.nanosim.client.StackContentBase;
 import com.nanosim.client.icons.NanosimImages;
 import com.nanosim.model.GroupType;
 
-public class Proposal extends StackContentBase {
+public class ResearchHome extends StackContentBase {
 
-	public Proposal() {
+	public ResearchHome() {
 		singleton = this;
 		NanosimImages images = Nanosim.images;
 
@@ -36,7 +36,7 @@ public class Proposal extends StackContentBase {
 	@Override
 	public void onSelection(SelectionEvent<TreeItem> event) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

@@ -52,13 +52,13 @@ public class Mailboxes extends StackContentBase {
 	}
 
 	@Override
-	public void displayItem(MailItem item) {
-		mailDetail.setItem(item);
+	public void displayItem(Object item) {
+		mailDetail.setItem((MailItem) item);
 	}
 
 	@Override
 	public void onSelection(SelectionEvent<TreeItem> event) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
