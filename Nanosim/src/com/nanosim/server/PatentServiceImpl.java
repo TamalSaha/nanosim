@@ -3,7 +3,6 @@ package com.nanosim.server;
 import java.util.List;
 
 import com.nanosim.client.rpc.PatentService;
-import com.nanosim.dao.GroupDAO;
 import com.nanosim.dao.PatentDAO;
 import com.nanosim.model.Patent;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
