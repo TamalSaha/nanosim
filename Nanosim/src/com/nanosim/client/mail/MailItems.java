@@ -144,20 +144,26 @@ public class MailItems {
 	}
 
 	private static MailItem createFakeMail() {
+		int mailId = 0;
+		
+		String recipient = "Yina";
+		
 		String sender = senders[senderIdx++];
 		if (senderIdx == senders.length) {
 			senderIdx = 0;
-		}
-
-		String email = emails[emailIdx++];
-		if (emailIdx == emails.length) {
-			emailIdx = 0;
 		}
 
 		String subject = subjects[subjectIdx++];
 		if (subjectIdx == subjects.length) {
 			subjectIdx = 0;
 		}
+		
+		String email = emails[emailIdx++];
+		if (emailIdx == emails.length) {
+			emailIdx = 0;
+		}
+		
+		Boolean read = true;
 
 		String body = "";
 		for (int i = 0; i < FRAGMENTS_PER_EMAIL; ++i) {
@@ -167,6 +173,6 @@ public class MailItems {
 			}
 		}
 
-		return new MailItem(sender, email, subject, body);
+		return new MailItem(mailId, recipient, sender, subject, email, read, body);
 	}
 }

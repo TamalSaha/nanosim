@@ -13,10 +13,11 @@ public class MailDetail extends Composite {
 
 	private VerticalPanel panel = new VerticalPanel();
 	private VerticalPanel headerPanel = new VerticalPanel();
-	private HTML subject = new HTML();
-	private HTML sender = new HTML();
+	private HTML sender = new HTML();	
 	private HTML recipient = new HTML();
+	private HTML subject = new HTML();
 	private HTML body = new HTML();
+	private HTML date = new HTML();
 	private ScrollPanel scroller = new ScrollPanel(body);
 
 	public MailDetail() {
@@ -25,6 +26,7 @@ public class MailDetail extends Composite {
 		headerPanel.add(subject);
 		headerPanel.add(sender);
 		headerPanel.add(recipient);
+		headerPanel.add(date);
 		headerPanel.setWidth("100%");
 
 		DockPanel innerPanel = new DockPanel();
@@ -67,7 +69,8 @@ public class MailDetail extends Composite {
 	public void setItem(MailItem item) {
 		subject.setHTML(item.subject);
 		sender.setHTML("<b>From:</b>&nbsp;" + item.sender);
-		recipient.setHTML("<b>To:</b>&nbsp;user@nanosim.com");
+		recipient.setHTML("<b>To:</b>&nbsp" + item.recipient);
+		//date.setHTML("<b>Sent:</b>&nbsp" + item.date);
 		body.setHTML(item.body);
 	}
 }
