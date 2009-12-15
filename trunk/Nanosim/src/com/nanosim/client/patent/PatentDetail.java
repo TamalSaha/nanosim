@@ -10,10 +10,8 @@ import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextArea;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.nanosim.client.Nanosim;
 import com.nanosim.client.UIHelper;
@@ -83,8 +81,25 @@ public class PatentDetail extends DialogBox {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				// TODO Auto-generated method stub
+				nanosim.beginLoading();
+				getInnerItem();
+				patentService.submitPatent(m_patent,
+						new AsyncCallback<Integer>() {
 
+							@Override
+							public void onFailure(Throwable caught) {
+								nanosim.endLoadingFailure();
+							}
+
+							@Override
+							public void onSuccess(Integer result) {
+								if (result < 0) {
+									nanosim.endLoadingFailure();
+									return;
+								}
+								// update background
+							}
+						});
 			}
 		});
 
@@ -92,6 +107,31 @@ public class PatentDetail extends DialogBox {
 		layout.setWidget(4, 1, btnApprove);
 		cellFormatter.setHorizontalAlignment(4, 0,
 				HasHorizontalAlignment.ALIGN_CENTER);
+		btnApprove.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				nanosim.beginLoading();
+				getInnerItem();
+				patentService.approvePatent(m_patent,
+						new AsyncCallback<Integer>() {
+
+							@Override
+							public void onFailure(Throwable caught) {
+								nanosim.endLoadingFailure();
+							}
+
+							@Override
+							public void onSuccess(Integer result) {
+								if (result < 0) {
+									nanosim.endLoadingFailure();
+									return;
+								}
+								// update background
+							}
+						});
+			}
+		});
 
 		Button btnCancel = new Button("Cancel");
 		layout.setWidget(4, 2, btnCancel);
