@@ -1,4 +1,4 @@
-package com.nanosim.client.proposal;
+package com.nanosim.client.research;
 
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.user.client.ui.TreeItem;
