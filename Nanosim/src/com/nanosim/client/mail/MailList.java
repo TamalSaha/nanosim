@@ -167,7 +167,6 @@ public class MailList extends Composite implements ClickHandler {
 	}
 
 	private void update() {
-//////////////////////////////////////		
 		// TODO fix groupId
 		int groupId = 47;
 
@@ -236,6 +235,5 @@ public class MailList extends Composite implements ClickHandler {
 				nanosim.endLoadingFailure();
 			}
 		});
-//////////////////////////////////////		
 	}
 }
