@@ -11,7 +11,7 @@ import com.nanosim.client.icons.NanosimImages;
 import com.nanosim.client.mail.Mailboxes;
 import com.nanosim.client.patent.PatentHome;
 import com.nanosim.client.profile.ProfileHome;
-import com.nanosim.client.proposal.ProposalHome;
+import com.nanosim.client.research.ProposalHome;
 import com.nanosim.client.research.ResearchHome;
 import com.nanosim.client.transfer.SendFund;
 import com.nanosim.model.GroupType;
@@ -73,7 +73,7 @@ public class LeftPanel extends Composite {
 		// add(new Profile(), images.group(), "Profile");
 
 		stackPanel.showStack(0);
-		patent.loadRightPanel();
+		mailboxes.loadRightPanel();
 	}
 
 	@Override
@@ -89,9 +89,12 @@ public class LeftPanel extends Composite {
 		super.onBrowserEvent(event);
 		switch (stackPanel.getSelectedIndex()) {
 		case 0:
-			patent.loadRightPanel();
+			mailboxes.loadRightPanel();
 			break;
 		case 1:
+			patent.loadRightPanel();
+			break;
+		case 2:
 			profile.loadRightPanel();
 			break;
 		default:

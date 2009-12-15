@@ -16,21 +16,20 @@ public class GroupPatentList extends ContentListBase {
 	protected void initTable() {
 		// Create the header row.
 		table.setText(0, 0, "Title");
-		table.setText(0, 1, "Group");
-		table.setText(0, 2, "Submission Time");
-		table.setText(0, 3, "Status");
+		table.setText(0, 1, "Submission Time");
+		table.setText(0, 2, "Status");
 		table.getRowFormatter().setStyleName(0, "mail-ListHeader");
 
-		// Initialize the rest of the rows.
-		for (int i = 0; i < 100; ++i) {
-			table.setText(i + 1, 0, "");
-			table.setText(i + 1, 1, "");
-			table.setText(i + 1, 2, "");
-			table.getCellFormatter().setWordWrap(i + 1, 0, false);
-			table.getCellFormatter().setWordWrap(i + 1, 1, false);
-			table.getCellFormatter().setWordWrap(i + 1, 2, false);
-			table.getFlexCellFormatter().setColSpan(i + 1, 2, 2);
-		}
+//		// Initialize the rest of the rows.
+//		for (int i = 0; i < 100; ++i) {
+//			table.setText(i + 1, 0, "");
+//			table.setText(i + 1, 1, "");
+//			table.setText(i + 1, 2, "");
+//			table.getCellFormatter().setWordWrap(i + 1, 0, false);
+//			table.getCellFormatter().setWordWrap(i + 1, 1, false);
+//			table.getCellFormatter().setWordWrap(i + 1, 2, false);
+//			table.getFlexCellFormatter().setColSpan(i + 1, 2, 2);
+//		}
 	}
 
 	@Override

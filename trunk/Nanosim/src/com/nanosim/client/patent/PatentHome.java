@@ -10,9 +10,10 @@ import com.nanosim.model.Patent;
 
 public class PatentHome extends StackContentBase {
 
+	private GroupPatentList groupPatentList;
 	private ApprovedPatentList approvedList;
-	// private ApprovedPatentList patentList;
-	// private ApprovedPatentList patentList;
+	private NewPatentList newPatentList;
+
 	private PatentDetail patentDetail = new PatentDetail();
 
 	public PatentHome() {
@@ -25,11 +26,10 @@ public class PatentHome extends StackContentBase {
 		Nanosim nanosim = Nanosim.getInstance();
 		NanosimImages images = Nanosim.images;
 
+		this.groupPatentList = new GroupPatentList();
 		this.approvedList = new ApprovedPatentList();
-		this.approvedList.setWidth("100%");
-
+		this.newPatentList = new NewPatentList();
 		this.patentDetail = new PatentDetail();
-		this.patentDetail.setWidth("100%");
 
 		if (nanosim.GroupType.getHasProfileMission()) {
 			uiHelper.addImageItem(tree, "Group Patents", images.inbox());
@@ -50,9 +50,11 @@ public class PatentHome extends StackContentBase {
 
 			rightPanel.clear();
 			if (title == "Group Patents") {
+				rightPanel.add(groupPatentList);
 			} else if (title == "All Approved") {
 				rightPanel.add(approvedList);
 			} else if (title == "New Submission") {
+				rightPanel.add(newPatentList);
 			}
 			item.setSelected(true);
 		}
@@ -68,13 +70,13 @@ public class PatentHome extends StackContentBase {
 		String title = event.getSelectedItem().getTitle();
 		if (title.equals("Group Patents")) {
 			rightPanel.clear();
-			// rightPanel.add(objective);
+			rightPanel.add(groupPatentList);
 		} else if (title.equals("All Approved")) {
 			rightPanel.clear();
 			rightPanel.add(approvedList);
 		} else if (title.equals("New Submission")) {
 			rightPanel.clear();
-			// rightPanel.add(objective);
+			rightPanel.add(newPatentList);
 		}
 	}
 }
