@@ -38,7 +38,7 @@ public final class MailItem {
 	/**
 	 * Read flag.
 	 */
-	public boolean read;
+	public String read;
 	
 	/**
 	 * The email's HTML body.
@@ -46,7 +46,7 @@ public final class MailItem {
 	public String body;
 
 	public MailItem(int mailId, String recipient, String sender,String subject, 
-			String email, Boolean read, String body) {
+			String email, String read, String body) {
 		this.mailId = mailId;
 		this.recipient = recipient;
 		this.sender = sender;
