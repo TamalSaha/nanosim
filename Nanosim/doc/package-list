@@ -1,0 +1,11 @@
+com.nanosim.client
+com.nanosim.client.content.mail
+com.nanosim.client.content.other
+com.nanosim.client.content.tables
+com.nanosim.client.event
+com.nanosim.client.internal
+com.nanosim.client.rpc
+com.nanosim.dao
+com.nanosim.model
+com.nanosim.server
+com.nanosim.util
