@@ -14,16 +14,20 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class AboutDialog extends DialogBox {
 
 	public AboutDialog() {
-		setText("About NanoSim");
-
+		
+	    setAnimationEnabled(true);
+	    setGlassEnabled(true);
+	    
 		VerticalPanel outer = new VerticalPanel();
-
+		
+		setText("About NanoSim");
 		HTML text = new HTML("NanoSim is a Role play simularion of the NNI "
 				+ "developed by: <br />"
 				+ "Yina Arenas, Tamal Saha and Mona Sergi" + " 2009");
 		text.setStyleName("nanosim-AboutText");
+		
+		outer.add(Nanosim.images.logo().createImage());
 		outer.add(text);
-
 		outer.add(new Button("Close", new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				hide();
