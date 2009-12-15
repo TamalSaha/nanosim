@@ -6,7 +6,6 @@ import com.nanosim.client.Nanosim;
 import com.nanosim.client.RightPanel;
 import com.nanosim.client.StackContentBase;
 import com.nanosim.client.icons.NanosimImages;
-import com.nanosim.model.GroupType;
 
 public class ProfileHome extends StackContentBase {
 
