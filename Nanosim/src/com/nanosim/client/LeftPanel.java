@@ -9,7 +9,6 @@ import com.google.gwt.user.client.ui.StackPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.nanosim.client.icons.NanosimImages;
 import com.nanosim.client.mail.Mailboxes;
-import com.nanosim.client.profile.Contacts;
 import com.nanosim.client.profile.Profile;
 import com.nanosim.client.proposal.Proposal;
 import com.nanosim.client.research.Research;

@@ -1,5 +1,7 @@
 package com.nanosim.client;
 
+import java.sql.Time;
+
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.ResizeEvent;
@@ -16,6 +18,7 @@ import com.nanosim.client.rpc.SigninServiceAsync;
 import com.nanosim.model.Group;
 import com.nanosim.model.GroupType;
 import com.nanosim.model.Person;
+import com.google.gwt.user.client.Timer;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -41,6 +44,7 @@ public class Nanosim implements EntryPoint, ResizeHandler {
 		return instance;
 	}
 
+	private Timer msgTimer;
 	public Person Person;
 	public Group Group;
 	public GroupType GroupType;
@@ -53,6 +57,11 @@ public class Nanosim implements EntryPoint, ResizeHandler {
 		Person = null;
 		Group = null;
 		GroupType = null;
+		msgTimer = new Timer() {
+			public void run() {
+				clearLoadingFailure();
+			}
+		};
 
 		// for test
 		signinService.signin("ibm", "demo", new AsyncCallback<Person>() {
@@ -136,8 +145,40 @@ public class Nanosim implements EntryPoint, ResizeHandler {
 		}
 	}
 
-	public void Logout() {
+	public void logout() {
 		cookieHelper.setIsLoggedIn(false);
 		setSigninScreen();
+	}
+
+	public void beginMessageShow(String msg) {
+		if (homeScreen != null && homeScreen.topPanel != null) {
+			homeScreen.topPanel.showMessage(msg);
+		}
+	}
+
+	public void beginLoading() {
+		if (homeScreen != null && homeScreen.topPanel != null) {
+			homeScreen.topPanel.showMessage("Loading ...");
+		}
+	}
+
+	public void endLoadingSuccess() {
+		if (homeScreen != null && homeScreen.topPanel != null) {
+			homeScreen.topPanel.showMessage("Success :)");
+			msgTimer.schedule(3000);
+		}
+	}
+
+	public void endLoadingFailure() {
+		if (homeScreen != null && homeScreen.topPanel != null) {
+			homeScreen.topPanel.showMessage("Failure :(");
+			msgTimer.schedule(3000);
+		}
+	}
+
+	public void clearLoadingFailure() {
+		if (homeScreen != null && homeScreen.topPanel != null) {
+			homeScreen.topPanel.showMessage("");
+		}
 	}
 }

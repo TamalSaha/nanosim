@@ -30,4 +30,14 @@ public class GroupServiceImpl extends RemoteServiceServlet implements
 			return null;
 		}
 	}
+
+	@Override
+	public int updateObjective(String obj) {
+		try {
+			GroupDAO groupDao = new GroupDAO();
+			return groupDao.updateObjective(obj);
+		} catch (Exception e) {
+			return -1;
+		}
+	}
 }

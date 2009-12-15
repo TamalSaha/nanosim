@@ -28,11 +28,16 @@ public class TopPanel extends Composite {
 		cellFormatter.setRowSpan(0, 0, 2);
 		cellFormatter.setHorizontalAlignment(0, 0,
 				HasHorizontalAlignment.ALIGN_LEFT);
-		layout.setHTML(0, 1, "<b>Welcome back</b></i>");
-		cellFormatter.setColSpan(0, 1, 3);
+
+		layout.setHTML(0, 1, "");
 		cellFormatter.setHorizontalAlignment(0, 1,
+				HasHorizontalAlignment.ALIGN_CENTER);
+
+		layout.setHTML(0, 2, "<b>Welcome back</b>");
+		cellFormatter.setColSpan(0, 2, 2);
+		cellFormatter.setHorizontalAlignment(0, 2,
 				HasHorizontalAlignment.ALIGN_RIGHT);
-		cellFormatter.setVerticalAlignment(0, 1,
+		cellFormatter.setVerticalAlignment(0, 2,
 				HasVerticalAlignment.ALIGN_BOTTOM);
 
 		layout.setHTML(1, 0, "");
@@ -50,7 +55,7 @@ public class TopPanel extends Composite {
 				HasHorizontalAlignment.ALIGN_RIGHT);
 		cellFormatter
 				.setVerticalAlignment(1, 1, HasVerticalAlignment.ALIGN_TOP);
-		cellFormatter.setWidth(1, 1, "100px");
+		cellFormatter.setWidth(1, 1, "200px");
 
 		final Anchor aboutLink = new Anchor("About", "about");
 		aboutLink.addClickHandler(new ClickHandler() {
@@ -73,7 +78,7 @@ public class TopPanel extends Composite {
 
 	public void setHeader() {
 		Nanosim nanosim = Nanosim.getInstance();
-		layout.setHTML(0, 1, "<b>Welcome back, <i>" + nanosim.Person.getName()
+		layout.setHTML(0, 2, "<b>Welcome back, <i>" + nanosim.Person.getName()
 				+ " (" + nanosim.Group.getName() + ")" + "</b></i>");
 	}
 
@@ -87,4 +92,7 @@ public class TopPanel extends Composite {
 			signoutHandlerColl.removeListener(handler);
 	}
 
+	public void showMessage(String msg) {
+		layout.setHTML(0, 1, msg);
+	}
 }
