@@ -1,6 +1,9 @@
 package com.nanosim.dao;
 
 import java.sql.ResultSet;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import com.nanosim.model.Group;
 import com.nanosim.model.GroupType;
@@ -68,6 +71,16 @@ public class GroupDAO {
 		} finally {
 			if (rs != null)
 				sqlHelper.close();
+		}
+	}
+
+	public int updateObjective(String obj) {
+		try {
+			int retVal = sqlHelper.executeUpdate(
+					"update groups set objective = ?", obj == null ? "" : obj);
+			return retVal;
+		} catch (Exception e) {
+			return -1;
 		}
 	}
 }

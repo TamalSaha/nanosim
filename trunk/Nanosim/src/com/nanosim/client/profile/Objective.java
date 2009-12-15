@@ -2,6 +2,7 @@ package com.nanosim.client.profile;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -11,11 +12,17 @@ import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.nanosim.client.Nanosim;
+import com.nanosim.client.rpc.GroupService;
+import com.nanosim.client.rpc.GroupServiceAsync;
 
 public class Objective extends Composite {
 
+	private final GroupServiceAsync groupService = GroupService.Util
+			.getInstance();
+	private Nanosim nanosim;
+
 	public Objective() {
-		Nanosim nanosim = Nanosim.getInstance();
+		nanosim = Nanosim.getInstance();
 
 		// Create a table to layout the form options
 		final FlexTable layout = new FlexTable();
@@ -39,14 +46,31 @@ public class Objective extends Composite {
 		cellFormatter.setHorizontalAlignment(2, 0,
 				HasHorizontalAlignment.ALIGN_CENTER);
 		btnSave.addClickHandler(new ClickHandler() {
-			
+
 			@Override
 			public void onClick(ClickEvent event) {
-				// TODO Auto-generated method stub
-				
+				nanosim.beginLoading();
+				nanosim.Group.setObjective(txtObjective.getText());
+
+				groupService.updateObjective(nanosim.Group.getObjective(),
+						new AsyncCallback<Integer>() {
+
+							@Override
+							public void onSuccess(Integer result) {
+								if (result != -1)
+									nanosim.endLoadingSuccess();
+								else
+									nanosim.endLoadingFailure();
+							}
+
+							@Override
+							public void onFailure(Throwable caught) {
+								nanosim.endLoadingFailure();
+							}
+						});
 			}
 		});
-		
+
 		initWidget(layout);
 	}
 }

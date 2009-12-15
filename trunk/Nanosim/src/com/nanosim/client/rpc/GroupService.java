@@ -23,4 +23,5 @@ public interface GroupService extends RemoteService {
 	
 	Group getGroup(long groupId);
 	GroupType getGroupType(long groupTypeId);
+	int updateObjective(String obj);
 }
