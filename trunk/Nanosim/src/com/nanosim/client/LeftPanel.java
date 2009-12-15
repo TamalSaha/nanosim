@@ -18,9 +18,7 @@ import com.nanosim.model.GroupType;
 import com.nanosim.model.Patent;
 
 /**
- * A composite that contains the shortcut stack panel on the left side. The
- * mailbox tree and shortcut lists don't actually do anything, but serve to show
- * how you can construct an interface using
+ * A composite that contains the shortcut stack panel on the left side. 
  * {@link com.google.gwt.user.client.ui.StackPanel},
  * {@link com.google.gwt.user.client.ui.Tree}, and other custom widgets.
  */
@@ -32,7 +30,6 @@ public class LeftPanel extends Composite {
 	private ProfileHome profile;
 
 	// private SendFund sendFund;
-	// private Mailboxes mailboxes;
 
 	public LeftPanel() {
 		stackPanel.setWidth("225px");
@@ -126,7 +123,6 @@ public class LeftPanel extends Composite {
 
 	private void add(Widget widget, AbstractImagePrototype imageProto,
 			String caption) {
-		widget.addStyleName("mail-StackContent");
 		stackPanel.add(widget, createHeaderHTML(imageProto, caption), true);
 	}
 
