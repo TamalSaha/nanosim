@@ -47,8 +47,8 @@ public class MailInbox extends ContentListBase {
 				for (int i = 0; i < length; ++i) {
 					Mail item = result.get(i);
 					table.setText(i + 1, 0, "" + item.getMailId());
-					table.setText(i + 1, 1, "" + item.getToGroup());
-					table.setText(i + 1, 2, "" + item.getFromGroup());
+					table.setText(i + 1, 1, "" + item.getToGroupName());
+					table.setText(i + 1, 2, "" + item.getFromGroupName());
 					table.setText(i + 1, 3, "" + item.getSent());
 					table.setText(i + 1, 4, "" + item.getUnread());
 				}

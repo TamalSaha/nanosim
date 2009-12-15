@@ -12,6 +12,6 @@ public class MySqlHelper extends SqlHelperBase implements ISqlHelper {
 		this.DRIVER_CLASS = "com.mysql.jdbc.Driver";
 		this.URL = "jdbc:mysql://localhost/nanosim";
 		this.USERNAME = "root";
-		this.PASSWORD = "root";
+		this.PASSWORD = "3366";
 	}
 }
