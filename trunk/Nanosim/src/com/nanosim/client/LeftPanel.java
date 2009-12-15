@@ -27,6 +27,7 @@ import com.nanosim.model.Patent;
 public class LeftPanel extends Composite {
 	private static StackPanel stackPanel = new StackPanel();
 
+	private Mailboxes mailboxes;
 	private PatentHome patent;
 	private ProfileHome profile;
 
@@ -41,6 +42,10 @@ public class LeftPanel extends Composite {
 	public void loadShortcuts(RightPanel rightPanel) {
 		Nanosim nanosim = Nanosim.getInstance();
 		NanosimImages images = Nanosim.images;
+
+		mailboxes = new Mailboxes();
+		mailboxes.loadShortcuts(rightPanel);
+		add(mailboxes, images.mail(), "Mail");
 
 		if (nanosim.GroupType.getHasPatents()) {
 			patent = new PatentHome();
@@ -70,10 +75,6 @@ public class LeftPanel extends Composite {
 		stackPanel.showStack(0);
 		patent.loadRightPanel();
 	}
-
-	// @Override
-	// protected void onLoad() {
-	// }
 
 	@Override
 	public void onBrowserEvent(Event event) {
