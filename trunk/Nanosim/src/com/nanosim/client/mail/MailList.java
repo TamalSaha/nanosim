@@ -47,7 +47,7 @@ public class MailList extends Composite implements ClickHandler {
 		navBar.setWidth("100%");
 
 		initWidget(table);
-		setStyleName("mail-List");
+		//setStyleName("mail-List");
 
 		initTable();
 		update();
