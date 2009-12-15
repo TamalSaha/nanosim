@@ -24,9 +24,8 @@ import com.google.gwt.user.client.Timer;
  * Entry point classes define <code>onModuleLoad()</code>.
  */
 public class Nanosim implements EntryPoint, ResizeHandler {
-	/**
-	 * The static images used throughout Nanosim.
-	 */
+
+	public static final int VISIBLE_ROW_COUNT = 25;
 	public static final NanosimImages images = (NanosimImages) GWT
 			.create(NanosimImages.class);
 

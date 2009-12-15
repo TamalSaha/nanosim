@@ -36,6 +36,6 @@ public abstract class StackContentBase extends Composite implements
 
 	public abstract void onSelection(SelectionEvent<TreeItem> event);
 
-	public void displayItem(MailItem item) {
+	public void displayItem(Object item) {
 	}
 }

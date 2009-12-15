@@ -9,11 +9,13 @@ import com.google.gwt.user.client.ui.StackPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.nanosim.client.icons.NanosimImages;
 import com.nanosim.client.mail.Mailboxes;
-import com.nanosim.client.profile.Profile;
-import com.nanosim.client.proposal.Proposal;
-import com.nanosim.client.research.Research;
+import com.nanosim.client.patent.PatentHome;
+import com.nanosim.client.profile.ProfileHome;
+import com.nanosim.client.proposal.ProposalHome;
+import com.nanosim.client.research.ResearchHome;
 import com.nanosim.client.transfer.SendFund;
 import com.nanosim.model.GroupType;
+import com.nanosim.model.Patent;
 
 /**
  * A composite that contains the shortcut stack panel on the left side. The
@@ -25,7 +27,8 @@ import com.nanosim.model.GroupType;
 public class LeftPanel extends Composite {
 	private static StackPanel stackPanel = new StackPanel();
 
-	private Profile profile;
+	private PatentHome patent;
+	private ProfileHome profile;
 
 	// private SendFund sendFund;
 	// private Mailboxes mailboxes;
@@ -39,8 +42,14 @@ public class LeftPanel extends Composite {
 		Nanosim nanosim = Nanosim.getInstance();
 		NanosimImages images = Nanosim.images;
 
+		if (nanosim.GroupType.getHasPatents()) {
+			patent = new PatentHome();
+			patent.loadShortcuts(rightPanel);
+			add(patent, images.group(), "Patents");
+		}
+
 		if (nanosim.GroupType.getHasProfile()) {
-			profile = new Profile();
+			profile = new ProfileHome();
 			profile.loadShortcuts(rightPanel);
 			add(profile, images.group(), "Profile");
 		}
@@ -59,8 +68,7 @@ public class LeftPanel extends Composite {
 		// add(new Profile(), images.group(), "Profile");
 
 		stackPanel.showStack(0);
-		// mailboxes.loadRightPanel();
-		profile.loadRightPanel();
+		patent.loadRightPanel();
 	}
 
 	// @Override
@@ -69,20 +77,25 @@ public class LeftPanel extends Composite {
 
 	@Override
 	public void onBrowserEvent(Event event) {
-		// if (DOM.eventGetType(event) == Event.ONCLICK) {
-		// Element target = DOM.eventGetTarget(event);
-		// int index = findDividerIndex(target);
-		// if (index != -1) {
-		// stackPanel.showStack(index);
-		//
-		// }
-		// }
-		// super.onBrowserEvent(event);
-		// if (stackPanel.getSelectedIndex() == 5)
-		// sendFund.loadRightPanel();
-		// else if (stackPanel.getSelectedIndex() == 0)
-		// mailboxes.loadRightPanel();
+		if (DOM.eventGetType(event) == Event.ONCLICK) {
+			Element target = DOM.eventGetTarget(event);
+			int index = findDividerIndex(target);
+			if (index != -1) {
+				stackPanel.showStack(index);
 
+			}
+		}
+		super.onBrowserEvent(event);
+		switch (stackPanel.getSelectedIndex()) {
+		case 0:
+			patent.loadRightPanel();
+			break;
+		case 1:
+			profile.loadRightPanel();
+			break;
+		default:
+			break;
+		}
 	}
 
 	private int findDividerIndex(Element elem) {

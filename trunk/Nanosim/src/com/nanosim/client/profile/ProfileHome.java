@@ -8,11 +8,11 @@ import com.nanosim.client.StackContentBase;
 import com.nanosim.client.icons.NanosimImages;
 import com.nanosim.model.GroupType;
 
-public class Profile extends StackContentBase {
+public class ProfileHome extends StackContentBase {
 
 	private Objective objective;
 
-	public Profile() {
+	public ProfileHome() {
 		singleton = this;
 	}
 
@@ -30,8 +30,11 @@ public class Profile extends StackContentBase {
 
 	@Override
 	public void loadRightPanel() {
-		rightPanel.clear();
-		// rightPanel.add(objective);
+		if (tree.getItemCount() > 0) {
+			rightPanel.clear();
+			rightPanel.add(objective);
+			tree.getItem(0).setSelected(true);
+		}
 	}
 
 	@Override
