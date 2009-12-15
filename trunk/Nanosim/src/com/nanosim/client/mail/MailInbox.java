@@ -10,6 +10,12 @@ import com.nanosim.model.Mail;
 
 public class MailInbox extends ContentListBase {
 
+	private final MailServiceAsync mailService = MailService.Util
+			.getInstance();
+	
+	public MailInbox() {
+	}
+
 	@Override
 	protected void initTable() {
 		// Create the header row.
@@ -23,8 +29,6 @@ public class MailInbox extends ContentListBase {
 
 	@Override
 	protected void update() {
-		MailServiceAsync mailService = MailService.Util.getInstance();
-
 		// TODO fix groupId
 		int groupId = 55;
 
