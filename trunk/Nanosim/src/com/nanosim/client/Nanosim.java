@@ -1,7 +1,5 @@
 package com.nanosim.client;
 
-import java.sql.Time;
-
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.ResizeEvent;
