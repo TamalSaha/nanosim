@@ -67,5 +67,13 @@
 		<servlet-name>NewspaperService</servlet-name>
 		<url-pattern>/nanosim/NewspaperService</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<servlet-name>MailService</servlet-name>
+		<servlet-class>com.nanosim.server.MailServiceImpl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>MailService</servlet-name>
+		<url-pattern>/nanosim/MailService</url-pattern>
+	</servlet-mapping>
 
 </web-app>
