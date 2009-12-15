@@ -6,11 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import sun.security.krb5.internal.PAEncTSEnc;
-
 import com.nanosim.model.Patent;
-import com.nanosim.model.Person;
 import com.nanosim.util.ISqlHelper;
 
 public class PatentDAO {
