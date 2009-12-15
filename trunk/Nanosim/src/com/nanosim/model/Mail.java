@@ -10,7 +10,9 @@ public class Mail implements Serializable {
 	
 	private int mailId;
 	private int toGroup;	
+	private String toGroupName;	
 	private int fromGroup;
+	private String fromGroupName;
 	private String subject;
 	private String message;
 	private Date sent;
@@ -72,5 +74,21 @@ public class Mail implements Serializable {
 
 	public void setUnread(String unread) {
 		this.unread = unread;
+	}
+
+	public void setToGroupName(String toGroupName) {
+		this.toGroupName = toGroupName;
+	}
+
+	public String getToGroupName() {
+		return toGroupName;
+	}
+
+	public void setFromGroupName(String fromGroupName) {
+		this.fromGroupName = fromGroupName;
+	}
+
+	public String getFromGroupName() {
+		return fromGroupName;
 	}
 }
