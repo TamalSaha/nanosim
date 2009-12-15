@@ -37,6 +37,7 @@ public class PatentDAO {
 				p.setSubmitted(rs.getDate("submitted"));
 				p.setApproved(rs.getString("approved"));
 				p.setResponse(rs.getString("response"));
+				patents.add(p);
 			}
 		} catch (Exception e) {
 		} finally {
@@ -51,7 +52,7 @@ public class PatentDAO {
 		ResultSet rs = null;
 		try {
 			rs = sqlHelper
-					.executeQuery("SELECT * FROM patents LEFT JOIN groups ON patents.group_id=groups.group_id ORDER BY submitted DESC");
+					.executeQuery("SELECT A.*, B.name groupName, C.title research_title FROM patents A inner join groups B ON A.group_id = B.group_id inner join research_types C ON A.research_type_id = C.research_type_id ORDER BY submitted DESC");
 			Patent p = null;
 			if (rs.next()) {
 				p = new Patent();
@@ -62,11 +63,14 @@ public class PatentDAO {
 				 */
 				p.setPatentId(rs.getLong("patent_id"));
 				p.setGroupId(rs.getLong("group_id"));
+				p.setGroupName(rs.getString("groupName"));
 				p.setResearchTypeId(rs.getInt("research_type_id"));
+				p.setResearchTitle(rs.getString("research_title"));
 				p.setProposal(rs.getString("proposal"));
 				p.setSubmitted(rs.getDate("submitted"));
 				p.setApproved(rs.getString("approved"));
 				p.setResponse(rs.getString("response"));
+				patents.add(p);
 			}
 		} catch (Exception e) {
 		} finally {
@@ -97,6 +101,7 @@ public class PatentDAO {
 				p.setSubmitted(rs.getDate("submitted"));
 				p.setApproved(rs.getString("approved"));
 				p.setResponse(rs.getString("response"));
+				patents.add(p);
 			}
 		} catch (Exception e) {
 		} finally {

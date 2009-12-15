@@ -13,8 +13,10 @@ public class Patent implements Serializable {
 	private String approved;
 	private int classId;
 	private long groupId;
+	private String groupName;
 	private String proposal;
 	private int researchTypeId;
+	private String researchTypeTitle;
 	private String response;
 	private Date submitted;
 
@@ -83,5 +85,21 @@ public class Patent implements Serializable {
 
 	public void setSubmitted(Date submitted) {
 		this.submitted = submitted;
+	}
+
+	public void setGroupName(String groupName) {
+		this.groupName = groupName;
+	}
+
+	public String getGroupName() {
+		return groupName;
+	}
+
+	public void setResearchTitle(String researchTypeTitle) {
+		this.researchTypeTitle = researchTypeTitle;
+	}
+
+	public String getResearchTitle() {
+		return researchTypeTitle;
 	}
 }

@@ -1,79 +1,58 @@
 package com.nanosim.client.patent;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.HTMLTable.Cell;
+import java.util.List;
+
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.nanosim.client.ContentListBase;
-import com.nanosim.client.Nanosim;
+import com.nanosim.client.rpc.PatentService;
+import com.nanosim.client.rpc.PatentServiceAsync;
+import com.nanosim.model.Patent;
 
 public class GroupPatentList extends ContentListBase {
 
 	@Override
 	protected void initTable() {
 		// Create the header row.
-		table.setText(0, 0, "Title");
-		table.setText(0, 1, "Submission Time");
-		table.setText(0, 2, "Status");
+		table.setText(0, 0, "#");
+		table.setText(0, 1, "Title");
+		table.setText(0, 2, "Submission Time");
+		table.setText(0, 3, "Status");
 		table.getRowFormatter().setStyleName(0, "mail-ListHeader");
-
-//		// Initialize the rest of the rows.
-//		for (int i = 0; i < 100; ++i) {
-//			table.setText(i + 1, 0, "");
-//			table.setText(i + 1, 1, "");
-//			table.setText(i + 1, 2, "");
-//			table.getCellFormatter().setWordWrap(i + 1, 0, false);
-//			table.getCellFormatter().setWordWrap(i + 1, 1, false);
-//			table.getCellFormatter().setWordWrap(i + 1, 2, false);
-//			table.getFlexCellFormatter().setColSpan(i + 1, 2, 2);
-//		}
 	}
 
 	@Override
 	protected void update() {
-		// // Update the older/newer buttons & label.
-		// int count = MailItems.getMailItemCount();
-		// int max = startIndex + VISIBLE_EMAIL_COUNT;
-		// if (max > count) {
-		// max = count;
-		// }
-		//
-		// newerButton.setVisible(startIndex != 0);
-		// olderButton.setVisible(startIndex + VISIBLE_EMAIL_COUNT < count);
-		// countLabel
-		// .setText("" + (startIndex + 1) + " - " + max + " of " + count);
-		//
-		// // Show the selected emails.
-		// int i = 0;
-		// for (; i < VISIBLE_EMAIL_COUNT; ++i) {
-		// // Don't read past the end.
-		// if (startIndex + i >= MailItems.getMailItemCount()) {
-		// break;
-		// }
-		//
-		// MailItem item = MailItems.getMailItem(startIndex + i);
-		//
-		// // Add a new row to the table, then set each of its columns to the
-		// // email's sender and subject values.
-		// table.setText(i + 1, 0, item.sender);
-		// table.setText(i + 1, 1, item.email);
-		// table.setText(i + 1, 2, item.subject);
-		// }
-		//
-		// // Clear any remaining slots.
-		// for (; i < VISIBLE_EMAIL_COUNT; ++i) {
-		// table.setHTML(i + 1, 0, "&nbsp;");
-		// table.setHTML(i + 1, 1, "&nbsp;");
-		// table.setHTML(i + 1, 2, "&nbsp;");
-		// }
-		//
-		// // Select the first row if none is selected.
-		// if (selectedRow == -1) {
-		// selectRow(0);
-		// }
+		PatentServiceAsync patentService = PatentService.Util.getInstance();
+
+		patentService.getGroupPatents(nanosim.Group.getGroupId() ,new AsyncCallback<List<Patent>>() {
+
+			@Override
+			public void onSuccess(List<Patent> result) {
+				if (result == null) {
+					nanosim.endLoadingFailure();
+					return;
+				}
+				nanosim.endLoadingSuccess();
+
+				int length = result.size();
+				for (int i = 0; i < length; ++i) {
+					Patent item = result.get(i);
+					table.setText(i + 1, 0, "" + item.getPatentId());
+					table.setText(i + 1, 1, item.getResearchTitle());
+					table.setText(i + 1, 2, "");
+					table.setText(i + 1, 3, "Accepted");
+				}
+				// Select the first row if none is selected.
+				if (selectedRow == -1) {
+					selectRow(0);
+				}
+			}
+
+			@Override
+			public void onFailure(Throwable caught) {
+				nanosim.endLoadingFailure();
+			}
+		});
 	}
 
 	private void selectRow(int row) {
