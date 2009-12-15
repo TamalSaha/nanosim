@@ -9,26 +9,23 @@ public class RightPanel extends Composite {
 	private VerticalPanel rightPanel = new VerticalPanel();
 
 	public RightPanel(Widget widget) {
+		rightPanel.setStylePrimaryName("nanosim-RightPanel");
+		rightPanel.setWidth("100%");
 		add(widget);
 		initWidget(rightPanel);
 	}
 
 	public RightPanel() {
+		rightPanel.setStylePrimaryName("nanosim-RightPanel");
+		rightPanel.setWidth("100%");
 		initWidget(rightPanel);
 	}
 
-	@Override
-	protected void onLoad() {
-
-	}
-
 	public void add(Widget widget) {
-		// widget.addStyleName("mail-StackContent");
 		rightPanel.add(widget);
 	}
 
 	public void clear() {
-		// widget.addStyleName("mail-StackContent");
 		rightPanel.clear();
 	}
 }

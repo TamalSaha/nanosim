@@ -1,5 +1,6 @@
 package com.nanosim.client.profile;
 
+import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.nanosim.client.Nanosim;
 import com.nanosim.client.RightPanel;
@@ -9,30 +10,36 @@ import com.nanosim.model.GroupType;
 
 public class Profile extends StackContentBase {
 
-	private Mission missionObjective;
+	private Objective objective;
 
 	public Profile() {
 		singleton = this;
-		NanosimImages images = Nanosim.images;
-
-		// TreeItem root = new TreeItem(uiHelper.imageItemHTML(images.home(),
-		// "user@nanosim.com"));
-		// tree.addItem(root);
-		// uiHelper.addImageItem(root, "Mission", images.inbox());
-		// root.setState(true);
 	}
 
 	@Override
-	public void loadShortcuts(RightPanel rightPanel, GroupType groupType) {
+	public void loadShortcuts(RightPanel rightPanel) {
 		this.rightPanel = rightPanel;
-		// rightPanel.add(null);
-		// rightPanel.add(null);
+		Nanosim nanosim = Nanosim.getInstance();
+		NanosimImages images = Nanosim.images;
+
+		if (nanosim.GroupType.getHasProfileMission()) {
+			objective = new Objective();
+			uiHelper.addImageItem(tree, "Objective", images.inbox());
+		}
 	}
 
 	@Override
 	public void loadRightPanel() {
 		rightPanel.clear();
-		missionObjective = new Mission();
+		// rightPanel.add(objective);
 	}
 
+	@Override
+	public void onSelection(SelectionEvent<TreeItem> event) {
+		String title = event.getSelectedItem().getTitle();
+		if (title.equals("Objective")) {
+			rightPanel.clear();
+			rightPanel.add(objective);
+		}
+	}
 }
