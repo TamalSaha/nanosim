@@ -13,31 +13,22 @@ public class ReserachDAO {
 
 	ISqlHelper sqlHelper = ISqlHelper.Factory.getInstance();
 
-	public List<Research> getCompletedResearch(long groupId) {
-		List<Research> research = new ArrayList<Research>();
+	public List<ResearchType> getCompletedResearch(long groupId) {
+		List<ResearchType> research = new ArrayList<ResearchType>();
 		ResultSet rs = null;
 		try {
 			rs = sqlHelper
 					.executeQuery(
-							"SELECT A.*, B.title FROM research A inner join research_types B on A.research_type_id = B.research_type_id WHERE A.group_id = ? AND A.owns_research = 'y' ORDER BY submitted DESC",
+							"SELECT distinct B.* FROM research A inner join research_types B on A.research_type_id = B.research_type_id WHERE A.group_id = ? AND A.owns_research = 'y' ORDER BY submitted DESC",
 							groupId);
 
-			Research r = null;
+			ResearchType r = null;
 			while (rs.next()) {
-				r = new Research();
+				r = new ResearchType();
 
-				r.setResearchId(rs.getLong("research_id"));
+				r.setResearchTypeId(rs.getInt("research_type_id"));
 				r.setTitle(rs.getString("title"));
 
-				/*
-				 * private float cost; private String failed; private String
-				 * failedMessage; private int failedTimeLeft; private int
-				 * groupId; private String ownsResearch; private String
-				 * patented; private String researchProposal; private String
-				 * researchSources; private int researchTypeId; private Date
-				 * submitted; private int timeLeft;
-				 */
-				// r.setn
 				research.add(r);
 			}
 		} catch (Exception e) {

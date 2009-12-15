@@ -16,23 +16,28 @@ import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.nanosim.client.Nanosim;
+import com.nanosim.client.UIHelper;
 import com.nanosim.client.rpc.PatentService;
 import com.nanosim.client.rpc.PatentServiceAsync;
 import com.nanosim.client.rpc.ResearchService;
 import com.nanosim.client.rpc.ResearchServiceAsync;
 import com.nanosim.model.Patent;
 import com.nanosim.model.Research;
+import com.nanosim.model.ResearchType;
 
 /**
  * A composite for displaying the details of an email message.
  */
 public class PatentDetail extends DialogBox {
 	private ScrollPanel scroller;
-	private List<Research> researchTitles;
+	private List<ResearchType> researchTitles;
 	private Nanosim nanosim;
 	private ListBox lstTitles;
 	private TextArea txtProposal;
 	private TextArea txtResponse;
+
+	private Patent m_patent;
+	private UIHelper uiHelper = new UIHelper();
 
 	private final PatentServiceAsync patentService = PatentService.Util
 			.getInstance();
@@ -119,10 +124,22 @@ public class PatentDetail extends DialogBox {
 	}
 
 	public void setInnerItem(Patent item) {
-		// lstTitles.seti.addItem(research.getTitle());
+		m_patent = item;
 
+		uiHelper.setSelectedValue(lstTitles, item.getResearchTypeId());
 		txtProposal.setText(item.getProposal());
 		txtResponse.setText(item.getResponse());
+	}
+
+	public void getInnerItem() {
+		int index = lstTitles.getSelectedIndex();
+		if (index > -1) {
+			m_patent.setResearchTypeId(Integer.parseInt(lstTitles
+					.getValue(index)));
+			m_patent.setResearchTitle(lstTitles.getItemText(index));
+		}
+		m_patent.setProposal(txtProposal.getText());
+		m_patent.setResponse(txtResponse.getText());
 	}
 
 	/*
@@ -132,13 +149,14 @@ public class PatentDetail extends DialogBox {
 	 */
 	public void setItem(final Patent item) {
 		if (researchTitles == null) {
+			nanosim.beginLoading();
 			ResearchServiceAsync researchService = ResearchService.Util
 					.getInstance();
 			researchService.getCompletedResearch(nanosim.Group.getGroupId(),
-					new AsyncCallback<List<Research>>() {
+					new AsyncCallback<List<ResearchType>>() {
 
 						@Override
-						public void onSuccess(List<Research> result) {
+						public void onSuccess(List<ResearchType> result) {
 							if (result == null || result.size() == 0) {
 								nanosim.endLoadingFailure();
 								return;
@@ -146,8 +164,11 @@ public class PatentDetail extends DialogBox {
 							nanosim.endLoadingSuccess();
 							// load data
 							researchTitles = result;
-							for (Research research : result) {
-								lstTitles.addItem(research.getTitle());
+							for (ResearchType researchType : result) {
+								lstTitles.addItem(researchType.getTitle(),
+										new StringBuilder(researchType
+												.getResearchTypeId())
+												.toString());
 							}
 							setInnerItem(item);
 						}
