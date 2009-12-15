@@ -1,7 +1,10 @@
 package com.nanosim.dao;
 
 import java.sql.ResultSet;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import sun.security.krb5.internal.PAEncTSEnc;
@@ -23,7 +26,7 @@ public class PatentDAO {
 							"SELECT * FROM patents WHERE group_id = ? ORDER BY submitted DESC",
 							groupId);
 			Patent p = null;
-			if (rs.next()) {
+			while (rs.next()) {
 				p = new Patent();
 
 				/*
@@ -54,7 +57,7 @@ public class PatentDAO {
 			rs = sqlHelper
 					.executeQuery("SELECT A.*, B.name groupName, C.title research_title FROM patents A inner join groups B ON A.group_id = B.group_id inner join research_types C ON A.research_type_id = C.research_type_id ORDER BY submitted DESC");
 			Patent p = null;
-			if (rs.next()) {
+			while (rs.next()) {
 				p = new Patent();
 
 				/*
@@ -87,7 +90,7 @@ public class PatentDAO {
 			rs = sqlHelper
 					.executeQuery("SELECT * FROM patents LEFT JOIN groups ON patents.group_id=groups.group_id ORDER BY submitted DESC LIMIT 10");
 			Patent p = null;
-			if (rs.next()) {
+			while (rs.next()) {
 				p = new Patent();
 
 				/*
@@ -110,4 +113,32 @@ public class PatentDAO {
 		}
 		return patents;
 	}
+
+	public int submitPatent(Patent item) {
+		try {
+			int retVal = sqlHelper
+					.executeUpdate(
+							"INSERT INTO patents (group_id, class_id, research_type_id, proposal, submitted) VALUES (?, ?, ?, ?, NOW())",
+							item.getGroupId(), item.getClassId(), item
+									.getResearchTypeId(), item.getProposal(),
+							item.getSubmitted());
+			return retVal;
+		} catch (Exception e) {
+			return -1;
+		}
+	}
+
+	public int approvePatent(Patent item) {
+		try {
+			int retVal = sqlHelper
+					.executeUpdate(
+							"UPDATE patents SET approved = ?, response = ? WHERE patent_id = ?",
+							item.getApproved(), item.getResponse(), item
+									.getPatentId());
+			return retVal;
+		} catch (Exception e) {
+			return -1;
+		}
+	}
+
 }

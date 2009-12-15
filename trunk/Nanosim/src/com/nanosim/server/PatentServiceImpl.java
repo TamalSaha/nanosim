@@ -42,4 +42,16 @@ public class PatentServiceImpl extends RemoteServiceServlet implements
 			return null;
 		}
 	}
+
+	@Override
+	public int submitPatent(Patent item) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int approvePatent(Patent item) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

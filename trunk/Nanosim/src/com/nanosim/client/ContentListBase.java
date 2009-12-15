@@ -4,33 +4,55 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment.HorizontalAlignmentConstant;
 import com.nanosim.client.Nanosim;
 
 public abstract class ContentListBase extends Composite implements ClickHandler {
 	protected Nanosim nanosim;
 	protected FlexTable table;
 	protected int startIndex, selectedRow = -1;
+	protected FlowPanel toolbar;
+	protected FlexCellFormatter cellFormatter;
 
 	public ContentListBase() {
 		this.nanosim = Nanosim.getInstance();
 
+		VerticalPanel vPanel = new VerticalPanel();
+		vPanel.setWidth("100%");
+
+		SimplePanel wrapper1 = new SimplePanel();
+		wrapper1.setStylePrimaryName("gwt-StackPanel");
+
+		toolbar = new FlowPanel();
+		toolbar.setHeight("30px");
+		toolbar.setStylePrimaryName("gwt-StackPanelItem");
+		wrapper1.add(toolbar);
+		vPanel.add(wrapper1);
+
+		SimplePanel wrapper2 = new SimplePanel();
+		wrapper2.setStylePrimaryName("nanosim-Listbase");
+
 		// Setup the table && Hook up events.
 		table = new FlexTable();
+		cellFormatter = table.getFlexCellFormatter();
 		table.setCellSpacing(0);
 		table.setCellPadding(0);
 		table.setWidth("100%");
 		table.addClickHandler(this);
+		wrapper2.add(table);
+		vPanel.add(wrapper2);
 
-		// ScrollPanel scPanel = new ScrollPanel(table);
-		// scPanel.setHeight("243px");
-		// initWidget(scPanel);
-		// setStyleName("mail-List");
-
-		initWidget(table);
-
+		initWidget(vPanel);
 		initTable();
+	}
+
+	@Override
+	public void onLoad() {
 		update();
 	}
 
@@ -50,7 +72,7 @@ public abstract class ContentListBase extends Composite implements ClickHandler 
 			if (cell != null) {
 				int row = cell.getRowIndex();
 				if (row > 0) {
-					selectRow(row - 1);
+					innerSelectRow(row - 1);
 				}
 			}
 		}
@@ -62,32 +84,31 @@ public abstract class ContentListBase extends Composite implements ClickHandler 
 	 * @param row
 	 *            the row to be selected
 	 */
-	private void selectRow(int row) {
-		// // When a row (other than the first one, which is used as a header)
-		// is
-		// // selected, display its associated MailItem.
-		// MailItem item = MailItems.getMailItem(startIndex + row);
-		// if (item == null) {
-		// return;
-		// }
-		//
-		// styleRow(selectedRow, false);
-		// styleRow(row, true);
-		//
-		// item.read = true;
-		// selectedRow = row;
-		// Mailboxes.get().displayItem(item);
+	private void innerSelectRow(int row) {
+		styleRow(selectedRow, false);
+		styleRow(row, true);
+		selectedRow = row;
+		//selectRow();
+	}
+
+	protected void selectRow() {
 	}
 
 	private void styleRow(int row, boolean selected) {
-		// if (row != -1) {
-		// if (selected) {
-		// table.getRowFormatter().addStyleName(row + 1,
-		// "mail-SelectedRow");
-		// } else {
-		// table.getRowFormatter().removeStyleName(row + 1,
-		// "mail-SelectedRow");
-		// }
-		// }
+		if (row != -1) {
+			if (selected) {
+				table.getRowFormatter().addStyleName(row + 1,
+						"mail-SelectedRow");
+			} else {
+				table.getRowFormatter().removeStyleName(row + 1,
+						"mail-SelectedRow");
+			}
+		}
+	}
+
+	protected void setCell(int row, int column, String text,
+			HorizontalAlignmentConstant alignCenter) {
+		table.setText(row, column, text);
+		cellFormatter.setHorizontalAlignment(row, column, alignCenter);
 	}
 }
