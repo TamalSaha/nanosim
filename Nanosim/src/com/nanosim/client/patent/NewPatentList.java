@@ -50,6 +50,7 @@ public class NewPatentList extends ContentListBase {
 
 	@Override
 	public void update() {
+		nanosim.beginLoading();
 		patentService.getNewPatents(new AsyncCallback<List<Patent>>() {
 
 			@Override

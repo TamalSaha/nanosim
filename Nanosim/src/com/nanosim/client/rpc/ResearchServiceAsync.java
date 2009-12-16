@@ -7,5 +7,9 @@ import com.nanosim.model.ResearchType;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public interface ResearchServiceAsync {
-	void getCompletedResearch(long groupId, AsyncCallback<List<ResearchType>> callback);
+	void getCompletedResearch(int groupId, AsyncCallback<List<Research>> callback);
+	void getIncompleteResearch(int groupId, AsyncCallback<List<Research>> callback);
+	void getAllCurrentResearch(AsyncCallback<List<Research>> callback);
+	void getResearchTypeTitles(int groupId, AsyncCallback<List<ResearchType>> callback);
+	void getResearchItem(int researchId, AsyncCallback<Research> callback);
 }

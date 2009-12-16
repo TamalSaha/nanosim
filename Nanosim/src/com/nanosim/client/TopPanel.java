@@ -7,10 +7,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
-import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
-import com.nanosim.model.Group;
-import com.nanosim.model.Person;
 import com.nanosim.client.event.ISignoutHandler;
 import com.nanosim.client.internal.EventHandlerCollection;
 

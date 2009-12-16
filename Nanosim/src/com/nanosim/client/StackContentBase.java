@@ -8,8 +8,6 @@ import com.google.gwt.user.client.ui.TreeItem;
 import com.nanosim.client.Nanosim;
 import com.nanosim.client.RightPanel;
 import com.nanosim.client.UIHelper;
-import com.nanosim.client.mail.MailItem;
-import com.nanosim.model.GroupType;
 import com.nanosim.model.Mail;
 
 public abstract class StackContentBase extends Composite implements

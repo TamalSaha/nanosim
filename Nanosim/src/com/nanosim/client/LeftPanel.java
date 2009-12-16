@@ -11,6 +11,7 @@ import com.nanosim.client.icons.NanosimImages;
 import com.nanosim.client.mail.Mailboxes;
 import com.nanosim.client.patent.PatentHome;
 import com.nanosim.client.profile.ProfileHome;
+import com.nanosim.client.research.ResearchHome;
 import com.nanosim.client.transfer.SendFundHome;
 
 /**
@@ -23,6 +24,7 @@ public class LeftPanel extends Composite {
 	private int stackIndex = -1;
 
 	private Mailboxes mailboxes;
+	private ResearchHome research;
 	private PatentHome patent;
 	private ProfileHome profile;
 	private SendFundHome sendFund;
@@ -39,6 +41,12 @@ public class LeftPanel extends Composite {
 		mailboxes = new Mailboxes();
 		mailboxes.loadShortcuts(rightPanel);
 		add(mailboxes, images.mail(), "Mail");
+
+		if (nanosim.GroupType.getHasResearch()) {
+			research = new ResearchHome();
+			research.loadShortcuts(rightPanel);
+			add(research, images.group(), "Research");
+		}
 
 		if (nanosim.GroupType.getHasPatents()) {
 			patent = new PatentHome();
