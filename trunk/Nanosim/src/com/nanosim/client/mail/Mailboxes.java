@@ -15,7 +15,8 @@ public class Mailboxes extends StackContentBase {
 
 	private MailList mailList;
 	private MailDetail mailDetail = new MailDetail();
-	private MailInbox mailInbox;
+
+	// private MailInbox mailInbox;
 
 	public Mailboxes() {
 		singleton = this;
@@ -26,30 +27,30 @@ public class Mailboxes extends StackContentBase {
 		NanosimImages images = Nanosim.images;
 		this.rightPanel = rightPanel;
 
-		this.mailInbox = new MailInbox();	
+		// this.mailInbox = new MailInbox();
 		this.mailList = new MailList();
 		this.mailDetail = new MailDetail();
 
 		this.mailList.setWidth("100%");
 		this.mailDetail.setWidth("100%");
-		this.mailInbox.setWidth("100%");
+		// this.mailInbox.setWidth("100%");
 
-		//		TreeItem root = new TreeItem(uiHelper.imageItemHTML(images.home(),
-		//				"user@nanosim.com"));
-		//		tree.addItem(root);
+		// TreeItem root = new TreeItem(uiHelper.imageItemHTML(images.home(),
+		// "user@nanosim.com"));
+		// tree.addItem(root);
 
 		uiHelper.addImageItem(tree, "Inbox", images.inbox());
 		uiHelper.addImageItem(tree, "Sent", images.sent());
-		uiHelper.addImageItem(tree, "Compose", images.drafts());		
+		uiHelper.addImageItem(tree, "Compose", images.drafts());
 	}
 
 	@Override
 	public void loadRightPanel() {
-		//		if (rightPanel != null) {
-		//			rightPanel.clear();
-		//			rightPanel.add(mailList);
-		//			rightPanel.add(mailDetail);
-		//		}
+		// if (rightPanel != null) {
+		// rightPanel.clear();
+		// rightPanel.add(mailList);
+		// rightPanel.add(mailDetail);
+		// }
 		if (tree.getItemCount() > 0) {
 			TreeItem item = tree.getItem(0);
 			String title = item.getTitle();
@@ -59,11 +60,11 @@ public class Mailboxes extends StackContentBase {
 				rightPanel.add(mailList);
 				rightPanel.add(mailDetail);
 			} else if (title.equals("Compose")) {
-				//TODO mailNew
-				rightPanel.add(mailInbox);
-				//	rightPanel.add(mailNew);				
+				// TODO mailNew
+				// rightPanel.add(mailInbox);
+				// rightPanel.add(mailNew);
 			} else if (title.equals("Sent")) {
-				//TODO display sent items
+				// TODO display sent items
 				rightPanel.add(mailList);
 				rightPanel.add(mailDetail);
 			}
@@ -80,17 +81,17 @@ public class Mailboxes extends StackContentBase {
 	public void onSelection(SelectionEvent<TreeItem> event) {
 		String title = event.getSelectedItem().getTitle();
 		rightPanel.clear();
-		//rightPanel.add(mailInbox);
+		// rightPanel.add(mailInbox);
 		if (title.equals("Inbox")) {
 			rightPanel.clear();
 			rightPanel.add(mailList);
 			rightPanel.add(mailDetail);
 		} else if (title.equals("Compose")) {
-			//TODO mailNew
-			rightPanel.add(mailInbox);	
+			// TODO mailNew
+			// rightPanel.add(mailInbox);
 		} else if (title.equals("Sent")) {
 			rightPanel.clear();
-			//TODO display sent items
+			// TODO display sent items
 			rightPanel.add(mailList);
 			rightPanel.add(mailDetail);
 		}

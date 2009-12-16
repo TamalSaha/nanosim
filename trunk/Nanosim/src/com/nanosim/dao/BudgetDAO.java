@@ -1,25 +1,42 @@
 package com.nanosim.dao;
 
+import java.sql.ResultSet;
+import java.sql.Time;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.nanosim.model.Budget;
 import com.nanosim.util.ISqlHelper;
 
 public class BudgetDAO {
 
 	ISqlHelper sqlHelper = ISqlHelper.Factory.getInstance();
 
-	public int insertBudget(double d, int id) {
+	public int insertBudget(double d, int id, String purpose) {
 		try {
-			DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-			Date date = new Date();
-			String now = dateFormat.format(date);
-			int retVal = sqlHelper.executeUpdate(
-					"INSERT Budgets SET time = ? AND credit = ? AND id = ",
-					now, d, id);
+			sqlHelper.setAutoCommit(false);
+			ResultSet credit = sqlHelper.executeQuery("select budget AS current_budget from groups where group_id= ?", id);
+			credit.first();
+			float total = credit.getFloat("current_budget") + (float)d;
+			int retVal = sqlHelper
+					.executeUpdate(
+							"insert into Budgets(credit, group_id, total, purpose) values(?,?,?,?)",	d, id,total, purpose);
+			retVal += sqlHelper
+			.executeUpdate(
+					"UPDATE groups SET budget = ? where group_id= ?",	total, id);
+			sqlHelper.setAutoCommit(true);
+
 			return retVal == -1 ? null : 1;
 		} catch (Exception e) {
+//			try {
+//				System.err.print("Transaction is being ");
+//				System.err.println("rolled back");
+//				sqlHelper.rollback();
+//			} catch(SQLException excep) {
+//				System.err.print("SQLException: ");
+//				System.err.println(excep.getMessage());
+//			}
 			System.out.println("In budgetDAO: " + e.toString());
 			return -1;
 		}

@@ -3,6 +3,7 @@ package com.nanosim.client.rpc;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
+import com.nanosim.model.Budget;
 
 @RemoteServiceRelativePath("TransferService")
 public interface TransferService extends RemoteService {
@@ -21,6 +22,6 @@ public interface TransferService extends RemoteService {
 	
 	//public Budget insertBudget(Budget b, int GroupID);
 
-	int insertBudget(String credit, String id);
+	int insertBudget(String credit, String id, String purpose);
 
 }
