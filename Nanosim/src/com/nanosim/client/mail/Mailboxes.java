@@ -14,9 +14,8 @@ import com.nanosim.model.Mail;
 public class Mailboxes extends StackContentBase {
 
 	private MailList mailList;
-	private MailDetail mailDetail = new MailDetail();
-
-	// private MailInbox mailInbox;
+	private MailBody mailBody;
+	private MailInbox mailInbox;
 
 	public Mailboxes() {
 		singleton = this;
@@ -27,45 +26,38 @@ public class Mailboxes extends StackContentBase {
 		NanosimImages images = Nanosim.images;
 		this.rightPanel = rightPanel;
 
-		// this.mailInbox = new MailInbox();
+		this.mailInbox = new MailInbox();
 		this.mailList = new MailList();
-		this.mailDetail = new MailDetail();
+		this.mailBody = new MailBody();
 
 		this.mailList.setWidth("100%");
-		this.mailDetail.setWidth("100%");
-		// this.mailInbox.setWidth("100%");
-
-		// TreeItem root = new TreeItem(uiHelper.imageItemHTML(images.home(),
-		// "user@nanosim.com"));
-		// tree.addItem(root);
+		this.mailBody.setWidth("100%");
+		this.mailInbox.setWidth("100%");
 
 		uiHelper.addImageItem(tree, "Inbox", images.inbox());
 		uiHelper.addImageItem(tree, "Sent", images.sent());
-		uiHelper.addImageItem(tree, "Compose", images.drafts());
+		//uiHelper.addImageItem(tree, "Compose", images.drafts());
 	}
 
 	@Override
 	public void displayItem(Mail item) {
-		mailDetail.setItem(item);
+		mailBody.setItem(item);
 	}
 
 	@Override
 	public void onSelection(SelectionEvent<TreeItem> event) {
 		String title = event.getSelectedItem().getTitle();
 		rightPanel.clear();
-		// rightPanel.add(mailInbox);
 		if (title.equals("Inbox")) {
 			rightPanel.clear();
-			rightPanel.add(mailList);
-			rightPanel.add(mailDetail);
-		} else if (title.equals("Compose")) {
-			// TODO mailNew
-			// rightPanel.add(mailInbox);
+			rightPanel.add(mailInbox);
 		} else if (title.equals("Sent")) {
 			rightPanel.clear();
 			// TODO display sent items
-			rightPanel.add(mailList);
-			rightPanel.add(mailDetail);
+			rightPanel.add(mailInbox);
+			//rightPanel.add(mailList);
+			//rightPanel.add(mailBody);
+			//rightPanel.add(mailDetail);
 		}
 	}
 }

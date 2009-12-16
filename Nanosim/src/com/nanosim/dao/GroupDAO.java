@@ -1,6 +1,8 @@
 package com.nanosim.dao;
 
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.nanosim.model.Group;
 import com.nanosim.model.GroupType;
@@ -93,6 +95,28 @@ public class GroupDAO {
 			return retVal;
 		} catch (Exception e) {
 			return -1;
+		}
+	}
+
+	public List<Group> getGroups() {
+		List<Group> groups = new ArrayList<Group>();
+		ResultSet rs = null;
+		try {
+			rs = sqlHelper.executeQuery(String.format(
+					"select * from groups"));
+			Group g = null;
+			while (rs.next()) {
+				g = new Group();
+				g.setGroupId(rs.getInt("group_id"));
+				g.setName(rs.getString("name"));
+				groups.add(g);
+			}
+			return groups;
+		} catch (Exception e) {
+			return null;
+		} finally {
+			if (rs != null)
+				sqlHelper.close();
 		}
 	}
 }

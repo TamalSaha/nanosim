@@ -38,14 +38,14 @@ public class MailDAO {
 		}
 		return mail;
 	}
-	
+
 	public int sendMail(Mail item) {
 		try {
 			int retVal = sqlHelper
 					.executeUpdate(
-							"INSERT INTO mail (mail_id, to_group, from_group, subject, message, sent, unread) VALUES (?, ?, ?, ?, ?, NOW(), ?)",
-							item.getMailId(), item.getToGroup(), item.getFromGroup(), item.getSubject(),
-							item.getMessage(), "y");
+							"INSERT INTO mail (to_group, from_group, subject, message, sent, unread) VALUES (?, ?, ?, ?, NOW(), ?)",
+							item.getToGroup(), item.getFromGroup(), item
+									.getSubject(), item.getMessage(), "y");
 			return retVal;
 		} catch (Exception e) {
 			return -1;

@@ -45,7 +45,11 @@ public class GroupServiceImpl extends RemoteServiceServlet implements
 
 	@Override
 	public List<Group> getGroups() {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			GroupDAO groupDao = new GroupDAO();
+			return groupDao.getGroups();
+		} catch (Exception e) {
+			return null;
+		}
 	}
 }

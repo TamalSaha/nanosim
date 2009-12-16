@@ -1,19 +1,48 @@
 package com.nanosim.client.mail;
 
 import java.util.List;
-
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Button;
 import com.nanosim.client.ContentListBase;
+import com.nanosim.client.patent.PatentDetail;
 import com.nanosim.client.rpc.MailService;
 import com.nanosim.client.rpc.MailServiceAsync;
 import com.nanosim.model.Mail;
+import com.nanosim.model.Patent;
 
 public class MailInbox extends ContentListBase {
 
-	private final MailServiceAsync mailService = MailService.Util
-			.getInstance();
-	
+	private List<Mail> data;
+	private MailDetail detail;
+	private final MailServiceAsync mailService = MailService.Util.getInstance();
+
 	public MailInbox() {
+		detail = new MailDetail(this);
+		Button btnCompose = new Button("Compose");
+		btnCompose.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				detail.setItem(MailDetail.EditorMode.NEW, null);
+				detail.center();
+			}
+		});
+		toolbar.add(btnCompose);
+
+		Button btnView = new Button("View");
+		btnView.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				if (selectedRow >= 0 && data.size() > selectedRow) {
+					Mail item = data.get(selectedRow);
+					detail.setItem(MailDetail.EditorMode.VIEW, item);
+					detail.center();
+				}
+			}
+		});
+		toolbar.add(btnView);
 	}
 
 	@Override
@@ -29,8 +58,7 @@ public class MailInbox extends ContentListBase {
 
 	@Override
 	public void update() {
-		// TODO fix groupId
-		int groupId = 55;
+		int groupId = nanosim.Group.getGroupId();
 
 		mailService.getMail(groupId, new AsyncCallback<List<Mail>>() {
 
@@ -41,9 +69,9 @@ public class MailInbox extends ContentListBase {
 					return;
 				}
 				nanosim.endLoadingSuccess();
-
+				data = result;
 				int length = result.size();
-	
+
 				for (int i = 0; i < length; ++i) {
 					Mail item = result.get(i);
 					table.setText(i + 1, 0, "" + item.getMailId());
