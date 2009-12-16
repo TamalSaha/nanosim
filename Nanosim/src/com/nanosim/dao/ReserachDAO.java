@@ -198,6 +198,7 @@ public class ReserachDAO {
 				r.setTitle(rs.getString("title"));
 				r.setAndParents(rs.getString("and_parents"));
 				r.setOrParents(rs.getString("or_parents"));
+				r.setCost(rs.getInt("cost"));
 
 				research.add(r);
 			}

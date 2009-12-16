@@ -15,14 +15,15 @@ public interface ResearchService extends RemoteService {
 	 */
 	public static class Util {
 		private static ResearchServiceAsync instance;
-		public static ResearchServiceAsync getInstance(){
+
+		public static ResearchServiceAsync getInstance() {
 			if (instance == null) {
 				instance = GWT.create(ResearchService.class);
 			}
 			return instance;
 		}
 	}
-	
+
 	List<Research> getCompletedResearch(int groupId);
 	List<Research> getIncompleteResearch(int groupId);
 	List<Research> getAllCurrentResearch();
