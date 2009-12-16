@@ -80,12 +80,15 @@ public class LeftPanel extends Composite {
 					mailboxes.loadRightPanel();
 					break;
 				case 1:
-					patent.loadRightPanel();
+					research.loadRightPanel();
 					break;
 				case 2:
-					profile.loadRightPanel();
+					patent.loadRightPanel();
 					break;
 				case 3:
+					profile.loadRightPanel();
+					break;
+				case 4:
 					sendFund.loadRightPanel();
 					break;
 				default:
