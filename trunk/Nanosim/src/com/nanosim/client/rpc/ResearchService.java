@@ -23,5 +23,9 @@ public interface ResearchService extends RemoteService {
 		}
 	}
 	
-	List<ResearchType> getCompletedResearch(long groupId);
+	List<Research> getCompletedResearch(int groupId);
+	List<Research> getIncompleteResearch(int groupId);
+	List<Research> getAllCurrentResearch();
+	List<ResearchType> getResearchTypeTitles(int groupId);
+	Research getResearchItem(int researchId);
 }

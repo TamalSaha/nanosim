@@ -5,24 +5,23 @@ import java.io.Serializable;
 public class GroupType implements Serializable {
 
 	private static final long serialVersionUID = 2892477664295981025L;
-	
-//	public final String GOVERNMENT = "Government"; 
-//	
-//	public final String FUNDING_AGENCY = "Fuding Agency"; 
-//	
-//	public final String PRIVATE_LAB = "Private Labratory"; 
-//	public final String PUBLIC_LAB = "Public Labratory";
-//	
-//	public final String REVIEW = "Review"; 
-//	public final String Newspaper = "Newspaper"; 
-//	public final String RISK_REDUCTION = "Risk Reduction"; 
+
+	// public final String GOVERNMENT = "Government";
+	//	
+	// public final String FUNDING_AGENCY = "Fuding Agency";
+	//	
+	// public final String PRIVATE_LAB = "Private Labratory";
+	// public final String PUBLIC_LAB = "Public Labratory";
+	//	
+	// public final String REVIEW = "Review";
+	// public final String Newspaper = "Newspaper";
+	// public final String RISK_REDUCTION = "Risk Reduction";
 
 	private int groupTypeId;
 	private String name;
 	private boolean hasBusiness;
 	private boolean hasCertificates;
 	private boolean hasFacilities;
-	private boolean hasResearch;
 	private boolean hasReview;
 	private boolean newspaper;
 	private boolean researchAvailability;
@@ -71,14 +70,6 @@ public class GroupType implements Serializable {
 		this.hasFacilities = hasFacilities;
 	}
 
-	public boolean getHasResearch() {
-		return this.hasResearch;
-	}
-
-	public void setHasResearch(boolean hasResearch) {
-		this.hasResearch = hasResearch;
-	}
-
 	public boolean getHasReview() {
 		return this.hasReview;
 	}
@@ -110,7 +101,7 @@ public class GroupType implements Serializable {
 	public void setViewAllBudgets(boolean viewAllBudgets) {
 		this.viewAllBudgets = viewAllBudgets;
 	}
-	
+
 	/*
 	 * Profile Section
 	 */
@@ -133,9 +124,9 @@ public class GroupType implements Serializable {
 
 	private boolean hasProfile;
 	private boolean hasProfileMission;
-	
+
 	/*
-	 * Patent Section 
+	 * Patent Section
 	 */
 
 	public boolean getHasPatents() {
@@ -146,7 +137,6 @@ public class GroupType implements Serializable {
 		this.hasPatents = hasPatents;
 	}
 
-	
 	public void setHasPatentsGroupPatents(boolean hasPatentsGroupPatents) {
 		this.hasPatentsGroupPatents = hasPatentsGroupPatents;
 	}
@@ -171,7 +161,8 @@ public class GroupType implements Serializable {
 		return hasPatentsNewSubmission;
 	}
 
-	public void setHasPatentsApproveSubmission(boolean hasPatentsApproveSubmission) {
+	public void setHasPatentsApproveSubmission(
+			boolean hasPatentsApproveSubmission) {
 		this.hasPatentsApproveSubmission = hasPatentsApproveSubmission;
 	}
 
@@ -184,4 +175,45 @@ public class GroupType implements Serializable {
 	private boolean hasPatentsAllApproved;
 	private boolean hasPatentsNewSubmission;
 	private boolean hasPatentsApproveSubmission;
+
+	/*
+	 * Research Section
+	 */
+
+	public boolean getHasResearch() {
+		return this.hasResearch;
+	}
+
+	public void setHasResearch(boolean hasResearch) {
+		this.hasResearch = hasResearch;
+	}
+
+	public void setHasResearchCompleted(boolean hasResearchCompleted) {
+		this.hasResearchCompleted = hasResearchCompleted;
+	}
+
+	public boolean getHasResearchCompleted() {
+		return hasResearchCompleted;
+	}
+
+	public void setHasResearchIncomplete(boolean hasResearchIncomplete) {
+		this.hasResearchIncomplete = hasResearchIncomplete;
+	}
+
+	public boolean getHasResearchIncomplete() {
+		return hasResearchIncomplete;
+	}
+
+	public void setHasResearchAllCurrent(boolean hasResearchAllCurrent) {
+		this.hasResearchAllCurrent = hasResearchAllCurrent;
+	}
+
+	public boolean getHasResearchAllCurrent() {
+		return hasResearchAllCurrent;
+	}
+
+	private boolean hasResearch;
+	private boolean hasResearchCompleted;
+	private boolean hasResearchIncomplete;
+	private boolean hasResearchAllCurrent;
 }

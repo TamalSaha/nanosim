@@ -15,13 +15,16 @@ public class Research implements Serializable {
 	private String failedMessage;
 	private int failedTimeLeft;
 	private int groupId;
+	private String groupName;
 	private String ownsResearch;
 	private String patented;
 	private String researchProposal;
 	private String researchSources;
 	private int researchTypeId;
+	private String researchTypeTitle;
 	private Date submitted;
 	private int timeLeft;
+	private String riskReducion;
 
 	public Research() {
 	}
@@ -136,5 +139,29 @@ public class Research implements Serializable {
 
 	public String getTitle() {
 		return title;
+	}
+
+	public void setGroupName(String groupName) {
+		this.groupName = groupName;
+	}
+
+	public String getGroupName() {
+		return groupName;
+	}
+
+	public void setResearchTypeTitle(String researchTypeTitle) {
+		this.researchTypeTitle = researchTypeTitle;
+	}
+
+	public String getResearchTypeTitle() {
+		return researchTypeTitle;
+	}
+
+	public void setRiskReducion(String riskReducion) {
+		this.riskReducion = riskReducion;
+	}
+
+	public String getRiskReducion() {
+		return riskReducion;
 	}
 }

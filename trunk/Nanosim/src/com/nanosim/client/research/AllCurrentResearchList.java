@@ -1,45 +1,34 @@
-package com.nanosim.client.patent;
+package com.nanosim.client.research;
 
 import java.util.List;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.nanosim.client.ContentListBase;
-import com.nanosim.client.rpc.PatentService;
-import com.nanosim.client.rpc.PatentServiceAsync;
-import com.nanosim.model.Patent;
+import com.nanosim.client.rpc.ResearchService;
+import com.nanosim.client.rpc.ResearchServiceAsync;
+import com.nanosim.model.Research;
 
-public class GroupPatentList extends ContentListBase {
+public class AllCurrentResearchList extends ContentListBase {
 
-	private List<Patent> data;
-	private PatentDetail detail;
-	private final PatentServiceAsync patentService = PatentService.Util
+	private List<Research> data;
+	private ResearchDetail detail;
+	private final ResearchServiceAsync researchService = ResearchService.Util
 			.getInstance();
 
-	public GroupPatentList() {
-		detail = new PatentDetail(this);
-
-		Button btnNew = new Button("New Proposal");
-		btnNew.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				detail.setItem(PatentDetail.EditorMode.NEW, null);
-				detail.center();
-			}
-		});
-		toolbar.add(btnNew);
-
-		Button btnView = new Button("View Proposal");
+	public AllCurrentResearchList() {
+		detail = new ResearchDetail(this);
+		Button btnView = new Button("View Research Detail");
 		btnView.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				if (selectedRow >= 0 && data.size() > selectedRow) {
-					Patent item = data.get(selectedRow);
-					detail.setItem(PatentDetail.EditorMode.VIEW, item);
+					Research item = data.get(selectedRow);
+					detail.setItem(ResearchDetail.EditorMode.VIEW, item);
 					detail.center();
 				}
 			}
@@ -54,7 +43,7 @@ public class GroupPatentList extends ContentListBase {
 		setCell(0, 1, "Title", HasHorizontalAlignment.ALIGN_LEFT);
 		setCell(0, 2, "Group", HasHorizontalAlignment.ALIGN_CENTER);
 		setCell(0, 3, "Submission Time", HasHorizontalAlignment.ALIGN_CENTER);
-		setCell(0, 4, "Status", HasHorizontalAlignment.ALIGN_CENTER);
+		setCell(0, 4, "Reduced Risk", HasHorizontalAlignment.ALIGN_CENTER);
 
 		table.getRowFormatter().setStyleName(0, "mail-ListHeader");
 	}
@@ -62,11 +51,11 @@ public class GroupPatentList extends ContentListBase {
 	@Override
 	public void update() {
 		nanosim.beginLoading();
-		patentService.getGroupPatents(nanosim.Group.getGroupId(),
-				new AsyncCallback<List<Patent>>() {
+		researchService
+				.getAllCurrentResearch(new AsyncCallback<List<Research>>() {
 
 					@Override
-					public void onSuccess(List<Patent> result) {
+					public void onSuccess(List<Research> result) {
 						if (result == null) {
 							nanosim.endLoadingFailure();
 							return;
@@ -79,16 +68,16 @@ public class GroupPatentList extends ContentListBase {
 							clearTable();
 						}
 						for (int i = 0; i < length; ++i) {
-							Patent item = result.get(i);
-							setCell(i + 1, 0, "" + item.getPatentId(),
+							Research item = result.get(i);
+							setCell(i + 1, 0, "" + item.getResearchId(),
 									HasHorizontalAlignment.ALIGN_CENTER);
-							setCell(i + 1, 1, item.getResearchTitle(),
+							setCell(i + 1, 1, item.getResearchTypeTitle(),
 									HasHorizontalAlignment.ALIGN_LEFT);
 							setCell(i + 1, 2, item.getGroupName(),
 									HasHorizontalAlignment.ALIGN_CENTER);
 							setCell(i + 1, 3, "" + item.getSubmitted(),
 									HasHorizontalAlignment.ALIGN_CENTER);
-							setCell(i + 1, 4, item.getApprovedText(),
+							setCell(i + 1, 4, item.getRiskReducion(),
 									HasHorizontalAlignment.ALIGN_CENTER);
 						}
 						// Select the first row if none is selected.

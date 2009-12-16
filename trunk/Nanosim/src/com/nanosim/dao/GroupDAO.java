@@ -48,7 +48,6 @@ public class GroupDAO {
 				g.setHasCertificates(rs.getString("has_certificates").equals(
 						"y"));
 				g.setHasFacilities(rs.getString("has_facilities").equals("y"));
-				g.setHasResearch(rs.getString("has_research").equals("y"));
 				g.setHasReview(rs.getString("has_review").equals("y"));
 				g.setNewspaper(rs.getString("newspaper").equals("y"));
 				g.setResearchAvailability(rs.getString("research_availability")
@@ -71,6 +70,12 @@ public class GroupDAO {
 						"has_patents_new_submission").equals("y"));
 				g.setHasPatentsApproveSubmission(rs.getString(
 						"has_patents_approve_submission").equals("y"));
+				
+				/* Research Section */
+				g.setHasResearch(rs.getString("has_research").equals("y"));
+				g.setHasResearchCompleted(rs.getString("has_research_completed").equals("y"));
+				g.setHasResearchIncomplete(rs.getString("has_research_incomplete").equals("y"));
+				g.setHasResearchAllCurrent(rs.getString("has_research_allcurrent").equals("y"));
 			}
 			return g;
 		} catch (Exception e) {

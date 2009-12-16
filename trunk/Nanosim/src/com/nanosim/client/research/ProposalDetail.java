@@ -1,4 +1,4 @@
-package com.nanosim.client.patent;
+package com.nanosim.client.research;
 
 import java.util.List;
 
@@ -17,42 +17,42 @@ import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.nanosim.client.ContentListBase;
 import com.nanosim.client.Nanosim;
 import com.nanosim.client.UIHelper;
-import com.nanosim.client.rpc.PatentService;
-import com.nanosim.client.rpc.PatentServiceAsync;
 import com.nanosim.client.rpc.ResearchService;
 import com.nanosim.client.rpc.ResearchServiceAsync;
-import com.nanosim.model.Patent;
+import com.nanosim.client.rpc.ResearchService;
+import com.nanosim.client.rpc.ResearchServiceAsync;
+import com.nanosim.model.Research;
 import com.nanosim.model.ResearchType;
 
 /**
  * A composite for displaying the details of an email message.
  */
-public class PatentDetail extends DialogBox {
+public class ProposalDetail extends DialogBox {
 
 	public enum EditorMode {
-		NEW, APPROVE, VIEW
+		NEW
 	}
 
 	private ScrollPanel scroller;
 	private List<ResearchType> researchTitles;
 	private Nanosim nanosim;
-	private ListBox lstTitles;
+	private ListBox lstTopics;
 	private TextArea txtProposal;
-	private TextArea txtResponse;
+	private TextArea txtSources;
+	private ListBox lstRisks;
 
 	private ContentListBase m_ListView;
-	private Patent m_patent;
+	private Research m_research;
 	private EditorMode m_mode;
 	private UIHelper uiHelper = new UIHelper();
 
-	private final PatentServiceAsync patentService = PatentService.Util
+	private final ResearchServiceAsync researchService = ResearchService.Util
 			.getInstance();
 	private Button btnSubmit;
-	private Button btnApprove;
 	private Button btnCancel;
 	private FlowPanel dockPanel;
 
-	public PatentDetail(ContentListBase listView) {
+	public ProposalDetail(ContentListBase listView) {
 		nanosim = Nanosim.getInstance();
 		m_ListView = listView;
 
@@ -61,34 +61,41 @@ public class PatentDetail extends DialogBox {
 		layout.setCellSpacing(6);
 		FlexCellFormatter cellFormatter = layout.getFlexCellFormatter();
 
-		layout.setHTML(0, 0, "Title:");
+		layout.setHTML(0, 0, "Research Topics:");
 		cellFormatter.setHorizontalAlignment(0, 0,
 				HasHorizontalAlignment.ALIGN_LEFT);
-		lstTitles = new ListBox(false);
-		lstTitles.setWidth("400px");
-		layout.setWidget(0, 1, lstTitles);
+		lstTopics = new ListBox(false);
+		lstTopics.setWidth("400px");
+		layout.setWidget(0, 1, lstTopics);
 
-		layout.setHTML(1, 0, "Patent Proposal:");
+		layout.setHTML(1, 0, "Proposal:");
 		cellFormatter.setHorizontalAlignment(1, 0,
 				HasHorizontalAlignment.ALIGN_LEFT);
 		txtProposal = new TextArea();
 		txtProposal.setPixelSize(400, 150);
 		layout.setWidget(1, 1, txtProposal);
 
-		layout.setHTML(2, 0, "Response:");
+		layout.setHTML(2, 0, "Sources:");
 		cellFormatter.setHorizontalAlignment(2, 0,
 				HasHorizontalAlignment.ALIGN_LEFT);
-		txtResponse = new TextArea();
-		txtResponse.setPixelSize(400, 150);
-		layout.setWidget(2, 1, txtResponse);
+		txtSources = new TextArea();
+		txtSources.setPixelSize(400, 50);
+		layout.setWidget(2, 1, txtSources);
 
-		layout.setHTML(3, 0, "");
-		layout.setHTML(3, 1, "");
+		layout.setHTML(3, 0, "Risk Reduction:");
+		cellFormatter.setHorizontalAlignment(3, 0,
+				HasHorizontalAlignment.ALIGN_LEFT);
+		lstTopics = new ListBox(false);
+		lstTopics.setWidth("400px");
+		layout.setWidget(3, 1, lstRisks);
+
+		layout.setHTML(4, 0, "");
+		layout.setHTML(4, 1, "");
 
 		dockPanel = new FlowPanel();
-		layout.setWidget(4, 0, dockPanel);
-		cellFormatter.setColSpan(4, 0, 2);
-		cellFormatter.setHorizontalAlignment(4, 0,
+		layout.setWidget(5, 0, dockPanel);
+		cellFormatter.setColSpan(5, 0, 2);
+		cellFormatter.setHorizontalAlignment(5, 0,
 				HasHorizontalAlignment.ALIGN_CENTER);
 
 		btnSubmit = new Button("Submit");
@@ -99,57 +106,25 @@ public class PatentDetail extends DialogBox {
 			public void onClick(ClickEvent event) {
 				nanosim.beginLoading();
 				getInnerItem();
-				patentService.submitPatent(m_patent,
-						new AsyncCallback<Integer>() {
-
-							@Override
-							public void onFailure(Throwable caught) {
-								nanosim.endLoadingFailure();
-							}
-
-							@Override
-							public void onSuccess(Integer result) {
-								if (result < 0) {
-									nanosim.endLoadingFailure();
-									return;
-								}
-								m_ListView.update();
-								nanosim.endLoadingSuccess();
-								hide();
-							}
-						});
-			}
-		});
-
-		btnApprove = new Button("Approve");
-		// dockPanel.add(btnApprove);
-		btnApprove.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				nanosim.beginLoading();
-				getInnerItem();
-				m_patent.setApproved("y");
-				patentService.approvePatent(m_patent,
-						new AsyncCallback<Integer>() {
-
-							@Override
-							public void onFailure(Throwable caught) {
-								nanosim.endLoadingFailure();
-							}
-
-							@Override
-							public void onSuccess(Integer result) {
-								if (result < 0) {
-									nanosim.endLoadingFailure();
-									return;
-								}
-								// update background
-								m_ListView.update();
-								nanosim.endLoadingSuccess();
-								hide();
-							}
-						});
+//				researchService.submitResearch(m_research,
+//						new AsyncCallback<Integer>() {
+//
+//							@Override
+//							public void onFailure(Throwable caught) {
+//								nanosim.endLoadingFailure();
+//							}
+//
+//							@Override
+//							public void onSuccess(Integer result) {
+//								if (result < 0) {
+//									nanosim.endLoadingFailure();
+//									return;
+//								}
+//								m_ListView.update();
+//								nanosim.endLoadingSuccess();
+//								hide();
+//							}
+//						});
 			}
 		});
 
@@ -183,20 +158,19 @@ public class PatentDetail extends DialogBox {
 	}
 
 	public void getInnerItem() {
-		m_patent.setGroupId(nanosim.Group.getGroupId());
-		m_patent.setClassId(91);
+		m_research.setGroupId(nanosim.Group.getGroupId());
 
-		int index = lstTitles.getSelectedIndex();
+		int index = lstTopics.getSelectedIndex();
 		if (index > -1) {
-			m_patent.setResearchTypeId(Integer.parseInt(lstTitles
-					.getValue(index)));
-			m_patent.setResearchTitle(lstTitles.getItemText(index));
+//			m_research.setResearchTypeId(Integer.parseInt(lstTopics
+//					.getValue(index)));
+//			m_research.setResearchTitle(lstTopics.getItemText(index));
 		}
-		m_patent.setProposal(txtProposal.getText());
-		m_patent.setResponse(txtResponse.getText());
+		m_research.setResearchProposal(txtProposal.getText());
+		m_research.setResearchSources(txtSources.getText());
 	}
 
-	public void setItem(final EditorMode mode, final Patent item) {
+	public void setItem(final EditorMode mode, final Research item) {
 		if (researchTitles == null) {
 			nanosim.beginLoading();
 			ResearchServiceAsync researchService = ResearchService.Util
@@ -214,7 +188,7 @@ public class PatentDetail extends DialogBox {
 							// load data
 							researchTitles = result;
 							for (ResearchType researchType : result) {
-								lstTitles.addItem(researchType.getTitle(), ""
+								lstTopics.addItem(researchType.getTitle(), ""
 										+ researchType.getResearchTypeId());
 							}
 							setInnerItem(mode, item);
@@ -230,8 +204,8 @@ public class PatentDetail extends DialogBox {
 			setInnerItem(mode, item);
 	}
 
-	public void setInnerItem(EditorMode mode, Patent item) {
-		m_patent = item;
+	public void setInnerItem(EditorMode mode, Research item) {
+		m_research = item;
 		m_mode = mode;
 
 		switch (mode) {
@@ -240,31 +214,13 @@ public class PatentDetail extends DialogBox {
 			dockPanel.add(btnSubmit);
 			dockPanel.add(btnCancel);
 
-			setText("Patent*");
-			m_patent = new Patent();
-			m_patent.setApproved("n");
-			lstTitles.setItemSelected(0, true);
+			setText("Research*");
+			m_research = new Research();
+			//m_research.setApproved("n");
+			lstTopics.setItemSelected(0, true);
 			txtProposal.setText("");
-			txtResponse.setText("");
-			break;
-		case VIEW:
-			dockPanel.clear();
-			dockPanel.add(btnCancel);
-
-			setText("Patent # " + item.getPatentId());
-			uiHelper.setSelectedValue(lstTitles, item.getResearchTypeId());
-			txtProposal.setText(item.getProposal());
-			txtResponse.setText(item.getResponse());
-			break;
-		case APPROVE:
-			dockPanel.clear();
-			dockPanel.add(btnApprove);
-			dockPanel.add(btnCancel);
-
-			setText("Patent # " + item.getPatentId());
-			uiHelper.setSelectedValue(lstTitles, item.getResearchTypeId());
-			txtProposal.setText(item.getProposal());
-			txtResponse.setText(item.getResponse());
+			txtSources.setText("");
+			lstRisks.setItemSelected(0, true);
 			break;
 		default:
 			break;

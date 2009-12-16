@@ -10,8 +10,11 @@ public class RiskCertificate implements Serializable {
 	
 	private int certificateId;
 	private int certificateTypeId;
+	private int riskReduction;
+	private String title;
 	private int cost;
 	private int groupId;
+	private String groupName;
 	private Date submitted;
 	private int timeLeft;
 
@@ -64,6 +67,30 @@ public class RiskCertificate implements Serializable {
 
 	public void setTimeLeft(int timeLeft) {
 		this.timeLeft = timeLeft;
+	}
+
+	public void setRiskReduction(int riskReduction) {
+		this.riskReduction = riskReduction;
+	}
+
+	public int getRiskReduction() {
+		return riskReduction;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setGroupName(String groupName) {
+		this.groupName = groupName;
+	}
+
+	public String getGroupName() {
+		return groupName;
 	}
 
 }

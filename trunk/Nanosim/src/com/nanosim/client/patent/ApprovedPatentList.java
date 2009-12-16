@@ -50,6 +50,7 @@ public class ApprovedPatentList extends ContentListBase {
 
 	@Override
 	public void update() {
+		nanosim.beginLoading();
 		patentService.getApprovedPatents(new AsyncCallback<List<Patent>>() {
 
 			@Override
