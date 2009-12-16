@@ -6,11 +6,9 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.nanosim.client.ContentListBase;
-import com.nanosim.client.patent.PatentDetail;
 import com.nanosim.client.rpc.MailService;
 import com.nanosim.client.rpc.MailServiceAsync;
 import com.nanosim.model.Mail;
-import com.nanosim.model.Patent;
 
 public class MailInbox extends ContentListBase {
 
