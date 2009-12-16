@@ -13,10 +13,11 @@ import com.nanosim.model.Mail;
  */
 public class Mailboxes extends StackContentBase {
 
-	private MailList mailList;
-	private MailBody mailBody;
+	//private MailList mailList;
+	//private MailBody mailBody;
 	private MailInbox mailInbox;
-
+	private MailSent mailSent;
+	
 	public Mailboxes() {
 		singleton = this;
 	}
@@ -26,13 +27,15 @@ public class Mailboxes extends StackContentBase {
 		NanosimImages images = Nanosim.images;
 		this.rightPanel = rightPanel;
 
+		//this.mailList = new MailList();
+		//this.mailBody = new MailBody();
 		this.mailInbox = new MailInbox();
-		this.mailList = new MailList();
-		this.mailBody = new MailBody();
+		this.mailSent = new MailSent();
 
-		this.mailList.setWidth("100%");
-		this.mailBody.setWidth("100%");
+		//this.mailList.setWidth("100%");
+		//this.mailBody.setWidth("100%");
 		this.mailInbox.setWidth("100%");
+		this.mailSent.setWidth("100%");
 
 		uiHelper.addImageItem(tree, "Inbox", images.inbox());
 		uiHelper.addImageItem(tree, "Sent", images.sent());
@@ -41,7 +44,7 @@ public class Mailboxes extends StackContentBase {
 
 	@Override
 	public void displayItem(Mail item) {
-		mailBody.setItem(item);
+		//mailBody.setItem(item);
 	}
 
 	@Override
@@ -53,11 +56,9 @@ public class Mailboxes extends StackContentBase {
 			rightPanel.add(mailInbox);
 		} else if (title.equals("Sent")) {
 			rightPanel.clear();
-			// TODO display sent items
-			rightPanel.add(mailInbox);
+			rightPanel.add(mailSent);
 			//rightPanel.add(mailList);
 			//rightPanel.add(mailBody);
-			//rightPanel.add(mailDetail);
 		}
 	}
 }
