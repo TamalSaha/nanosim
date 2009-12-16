@@ -9,7 +9,7 @@ public class UIHelper {
 
 	public int setSelectedValue(ListBox lst, int value) {
 		int index = -1;
-		String strVal = (new StringBuilder(value)).toString();
+		String strVal = "" + value;
 		for (int i = lst.getItemCount(); i-- > 0;) {
 			if (lst.getValue(i).equals(strVal)) {
 				lst.setSelectedIndex(i);
