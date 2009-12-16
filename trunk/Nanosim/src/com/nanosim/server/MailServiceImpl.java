@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.nanosim.client.rpc.MailService;
 import com.nanosim.dao.MailDAO;
+import com.nanosim.dao.PatentDAO;
 import com.nanosim.model.Mail;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -18,6 +19,16 @@ public class MailServiceImpl extends RemoteServiceServlet implements MailService
 			return mailDao.getMail(groupId);
 		} catch (Exception e) {
 			return null;
+		}
+	}
+
+	@Override
+	public int sendMail(Mail item) {
+		try {
+			MailDAO mailDao = new MailDAO();
+			return mailDao.sendMail(item);
+		} catch (Exception e) {
+			return -1;
 		}
 	}
 }
