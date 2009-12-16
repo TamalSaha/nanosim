@@ -7,4 +7,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public interface MailServiceAsync {
 	void getMail(long groupId, AsyncCallback<List<Mail>> callback);
+	
+	void sendMail(Mail item, AsyncCallback<Integer> callback);
 }
