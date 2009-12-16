@@ -10,7 +10,7 @@ public class GroupDAO {
 
 	ISqlHelper sqlHelper = ISqlHelper.Factory.getInstance();
 
-	public Group getGroupById(long groupId) {
+	public Group getGroupById(int groupId) {
 		ResultSet rs = null;
 		try {
 			rs = sqlHelper.executeQuery(String.format(
@@ -20,7 +20,7 @@ public class GroupDAO {
 				g = new Group();
 				g.setGroupId(groupId);
 				g.setName(rs.getString("name"));
-				g.setGroupTypeId(rs.getLong("group_type_id"));
+				g.setGroupTypeId(rs.getInt("group_type_id"));
 				g.setObjective(rs.getString("objective"));
 				g.setBudget(rs.getDouble("budget"));
 			}
@@ -33,7 +33,7 @@ public class GroupDAO {
 		}
 	}
 
-	public GroupType getGroupTypeById(long groupTypeId) {
+	public GroupType getGroupTypeById(int groupTypeId) {
 		ResultSet rs = null;
 		try {
 			rs = sqlHelper.executeQuery(String.format(

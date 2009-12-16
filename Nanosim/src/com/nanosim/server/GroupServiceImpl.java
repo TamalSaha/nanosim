@@ -12,7 +12,7 @@ public class GroupServiceImpl extends RemoteServiceServlet implements
 	private static final long serialVersionUID = 1599752535430264095L;
 
 	@Override
-	public Group getGroup(long groupId) {
+	public Group getGroup(int groupId) {
 		try {
 			GroupDAO groupDao = new GroupDAO();
 			return groupDao.getGroupById(groupId);
@@ -22,7 +22,7 @@ public class GroupServiceImpl extends RemoteServiceServlet implements
 	}
 
 	@Override
-	public GroupType getGroupType(long groupTypeId) {
+	public GroupType getGroupType(int groupTypeId) {
 		try {
 			GroupDAO groupDao = new GroupDAO();
 			return groupDao.getGroupTypeById(groupTypeId);
