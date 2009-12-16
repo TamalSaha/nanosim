@@ -99,4 +99,18 @@ public class SqlHelperBase implements ISqlHelper {
 		this.close();
 		return retVal;
 	}
+	
+	@Override 
+	public void setAutoCommit(boolean isOn)  throws Exception{
+		if (conn != null && !conn.isClosed())
+			conn.setAutoCommit(isOn);
+		
+	}
+	
+	@Override 
+	public void rollBack() throws Exception{
+		if (conn != null && !conn.isClosed())
+			conn.rollback();
+	}
+
 }

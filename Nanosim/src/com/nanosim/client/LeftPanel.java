@@ -13,12 +13,12 @@ import com.nanosim.client.patent.PatentHome;
 import com.nanosim.client.profile.ProfileHome;
 import com.nanosim.client.research.ProposalHome;
 import com.nanosim.client.research.ResearchHome;
-import com.nanosim.client.transfer.SendFund;
+import com.nanosim.client.transfer.SendFundHome;
 import com.nanosim.model.GroupType;
 import com.nanosim.model.Patent;
 
 /**
- * A composite that contains the shortcut stack panel on the left side. 
+ * A composite that contains the shortcut stack panel on the left side.
  * {@link com.google.gwt.user.client.ui.StackPanel},
  * {@link com.google.gwt.user.client.ui.Tree}, and other custom widgets.
  */
@@ -28,8 +28,7 @@ public class LeftPanel extends Composite {
 	private Mailboxes mailboxes;
 	private PatentHome patent;
 	private ProfileHome profile;
-
-	// private SendFund sendFund;
+	private SendFundHome sendFund;
 
 	public LeftPanel() {
 		stackPanel.setWidth("225px");
@@ -56,18 +55,9 @@ public class LeftPanel extends Composite {
 			add(profile, images.group(), "Profile");
 		}
 
-		// mailboxes = new Mailboxes();
-		// add(mailboxes, images.mail(), "Mail");
-		//		
-		// add(new Proposal(), images.proposal(), "Proposals");
-		//		
-		// add(new Research(), images.research(), "Research");
-		// // if (groupType.getHasPatents())
-		// // add(new Patents(), images.patent(), "Patents");
-		// sendFund = new SendFund();
-		// add(sendFund, images.transfer(), "Transfers");
-		//		
-		// add(new Profile(), images.group(), "Profile");
+		sendFund = new SendFundHome();
+		sendFund.loadShortcuts(rightPanel);
+		add(sendFund, images.group(), "Transactions");
 
 		stackPanel.showStack(0);
 		mailboxes.loadRightPanel();
@@ -89,6 +79,9 @@ public class LeftPanel extends Composite {
 					break;
 				case 2:
 					profile.loadRightPanel();
+					break;
+				case 3:
+					sendFund.loadRightPanel();
 					break;
 				default:
 					break;

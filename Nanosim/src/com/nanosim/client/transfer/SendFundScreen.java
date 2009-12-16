@@ -1,5 +1,6 @@
 package com.nanosim.client.transfer;
 
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -10,6 +11,7 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PasswordTextBox;
+import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.nanosim.client.event.ISendBudgetHandler;
@@ -22,7 +24,7 @@ public class SendFundScreen extends Composite {
 	private EventHandlerCollection<ISendBudgetHandler> sendBudgetHandlerColl = new EventHandlerCollection<ISendBudgetHandler>();
 
 	private final TransferServiceAsync transferService = TransferService.Util
-			.getInstance();
+	.getInstance();
 
 	public SendFundScreen() {
 		DockPanel dock = new DockPanel();
@@ -51,22 +53,30 @@ public class SendFundScreen extends Composite {
 		final TextBox txtUsername = new TextBox();
 		flexTable.setWidget(1, 1, txtUsername);
 
-		final Label lblPassword = new Label();
-		lblPassword.setText("To groupID: ");
-		flexTable.setWidget(2, 0, lblPassword);
+		final Label lblToGroupID = new Label();
+		lblToGroupID.setText("To groupID: ");
+		flexTable.setWidget(2, 0, lblToGroupID);
 
-		final PasswordTextBox txtPassowrd = new PasswordTextBox();
-		flexTable.setWidget(2, 1, txtPassowrd);
+		final TextBox txtToGroupID = new TextBox();
+		flexTable.setWidget(2, 1, txtToGroupID);
+		
+		final Label lblPurpose = new Label();
+		lblPurpose.setText("Purpose: ");
+		flexTable.setWidget(3, 0, lblPurpose);
+
+		final TextArea txtPurpose = new TextArea();
+		flexTable.setWidget(3, 1, txtPurpose);
 
 		Button btnSignin = new Button("Transfer");
-		flexTable.setWidget(3, 0, btnSignin);
-		cellFormatter.setColSpan(3, 0, 2);
+		flexTable.setWidget(4, 0, btnSignin);
+		cellFormatter.setColSpan(4, 0, 2);
 		btnSignin.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				String creditString = txtUsername.getText();
-				String groupIDString = txtPassowrd.getText();
+				String groupIDString = txtToGroupID.getText();
+				String purposeString = txtPurpose.getText();
 
 				if (creditString == null || creditString.equals("")) {
 					flexTable.setHTML(0, 0, "Credit cannot be 0.");
@@ -76,50 +86,52 @@ public class SendFundScreen extends Composite {
 					boolean valid = true;
 					char[] credit = creditString.toCharArray();
 					for (int i = 0; i < credit.length; i++) {
-						if (Character.isDigit(credit[i]) || credit[i] == '.')
+						if(Character.isDigit(credit[i]) || credit[i] == '.')
 							continue;
-						else {
-							flexTable.setHTML(0, 0,
-									"Invalid credit. Please inter a number.");
+						else{
+							flexTable.setHTML(0, 0, "Invalid credit. Please inter a number.");
 							valid = false;
 						}
 					}
-
+					
 					char[] id = groupIDString.toCharArray();
 					for (int i = 0; i < id.length; i++) {
-						if (Character.isDigit(id[i]))
+						if(Character.isDigit(id[i]) )
 							continue;
-						else {
-							flexTable.setHTML(0, 0,
-									"Invalid group ID. Please inter a number.");
+						else{
+							flexTable.setHTML(0, 0, "Invalid group ID. Please inter a number.");
 							valid = false;
 						}
 					}
-					if (valid) {
+					
+					if(purposeString.equals("")){
+						flexTable.setHTML(0, 0, "Please enter your purposal.");
+						valid = false;
+					}
+					if(valid){
+						
+					transferService.insertBudget(creditString, groupIDString, purposeString,
+							new AsyncCallback<Integer>() {
+								@Override
+								public void onFailure(Throwable caught) {
+									flexTable.setHTML(0, 0,
+											"Transaction failed !!!");
+								}
 
-						transferService.insertBudget(creditString,
-								groupIDString, new AsyncCallback<Integer>() {
-
-									@Override
-									public void onFailure(Throwable caught) {
+								@Override
+								public void onSuccess(Integer result) {
+									if (result == -1) {
 										flexTable.setHTML(0, 0,
 												"Transaction failed !!!");
-									}
-
-									@Override
-									public void onSuccess(Integer result) {
-										if (result == -1) {
-											flexTable.setHTML(0, 0,
-													"Transaction failed !!!");
-										} else {
-											flexTable.setHTML(0, 0, "");
-											for (ISendBudgetHandler handler : sendBudgetHandlerColl
-													.getList()) {
-												handler.OnSuccess(result);
-											}
+									} else {
+										flexTable.setHTML(0, 0, "You send your purposal successfully!");
+										for (ISendBudgetHandler handler : sendBudgetHandlerColl
+												.getList()) {
+											handler.OnSuccess(result);
 										}
 									}
-								});
+								}
+							});
 					}
 				}
 			}
