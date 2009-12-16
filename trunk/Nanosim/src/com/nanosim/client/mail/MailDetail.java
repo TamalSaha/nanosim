@@ -5,6 +5,7 @@ import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.nanosim.model.Mail;
 
 /**
  * A composite for displaying the details of an email message.
@@ -66,11 +67,11 @@ public class MailDetail extends Composite {
 		scroller.setPixelSize(scrollWidth, scrollHeight);
 	}
 
-	public void setItem(MailItem item) {
-		subject.setHTML(item.subject);
-		sender.setHTML("<b>From:</b>&nbsp;" + item.sender);
-		recipient.setHTML("<b>To:</b>&nbsp" + item.recipient);
+	public void setItem(Mail item) {
+		subject.setHTML(item.getSubject());
+		sender.setHTML("<b>From:</b>&nbsp;" + item.getFromGroup());
+		recipient.setHTML("<b>To:</b>&nbsp" + item.getToGroup());
 		//date.setHTML("<b>Sent:</b>&nbsp" + item.date);
-		body.setHTML(item.body);
+		body.setHTML(item.getMessage());
 	}
 }
