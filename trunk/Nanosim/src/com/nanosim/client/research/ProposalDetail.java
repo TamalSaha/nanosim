@@ -177,78 +177,79 @@ public class ProposalDetail extends DialogBox {
 	}
 
 	public void setItem(final EditorMode mode, final Research item) {
-		if (riskCertificates == null) {
-			nanosim.beginLoading();
+		nanosim.beginLoading();
+		researchService.getPossibleResearch(nanosim.Group.getGroupId(),
+				new AsyncCallback<List<ResearchType>>() {
 
-			riskCertificateService
-					.getRiskReductionOptions(new AsyncCallback<List<RiskCertificate>>() {
+					@Override
+					public void onFailure(Throwable caught) {
+						nanosim.endLoadingFailure();
+					}
 
-						@Override
-						public void onSuccess(List<RiskCertificate> result1) {
-							if (result1 == null || result1.size() == 0) {
-								nanosim.endLoadingFailure();
-								return;
-							}
-							// nanosim.endLoadingSuccess();
-							// load data
-							riskCertificates = result1;
-							lstRisks.addItem("No Risk Mitigation", "0");
-							for (RiskCertificate riskCertificate : result1) {
-								StringBuilder sb = new StringBuilder();
-								sb.append(riskCertificate.getGroupName());
-								sb.append(" - ");
-								sb.append(riskCertificate.getTitle());
-								sb.append(" - ");
-								sb.append(riskCertificate.getCost());
-								lstRisks.addItem(sb.toString(), ""
-										+ riskCertificate.getCertificateId());
-							}
-
-							researchService.getPossibleResearch(nanosim.Group
-									.getGroupId(),
-									new AsyncCallback<List<ResearchType>>() {
-
-										@Override
-										public void onFailure(Throwable caught) {
-											nanosim.endLoadingFailure();
-										}
+					@Override
+					public void onSuccess(List<ResearchType> result1) {
+						if (result1 == null || result1.size() == 0) {
+							nanosim.endLoadingFailure();
+							return;
+						}
+						// load data
+						possibleResearch = result1;
+						for (ResearchType rt : result1) {
+							StringBuilder sb = new StringBuilder();
+							sb.append(rt.getTitle());
+							sb.append(" - $");
+							sb.append(rt.getCost());
+							lstTopics.addItem(sb.toString(), ""
+									+ rt.getResearchTypeId());
+						}
+						if (riskCertificates == null) {
+							riskCertificateService
+									.getRiskReductionOptions(new AsyncCallback<List<RiskCertificate>>() {
 
 										@Override
 										public void onSuccess(
-												List<ResearchType> result2) {
+												List<RiskCertificate> result2) {
 											if (result2 == null
 													|| result2.size() == 0) {
 												nanosim.endLoadingFailure();
 												return;
 											}
 											// load data
-											possibleResearch = result2;
-											for (ResearchType rt : result2) {
+											riskCertificates = result2;
+											lstRisks.addItem(
+													"No Risk Mitigation", "0");
+											for (RiskCertificate riskCertificate : result2) {
 												StringBuilder sb = new StringBuilder();
-												sb.append(rt.getTitle());
-												sb.append(" - $");
-												sb.append(rt.getCost());
-												lstTopics
+												sb.append(riskCertificate
+														.getGroupName());
+												sb.append(" - ");
+												sb.append(riskCertificate
+														.getTitle());
+												sb.append(" - ");
+												sb.append(riskCertificate
+														.getCost());
+												lstRisks
 														.addItem(
 																sb.toString(),
 																""
-																		+ rt
-																				.getResearchTypeId());
+																		+ riskCertificate
+																				.getCertificateId());
 											}
-											// setInnerItem(mode, item);
+											setInnerItem(mode, item);
 											nanosim.endLoadingSuccess();
 										}
+
+										@Override
+										public void onFailure(Throwable caught) {
+											nanosim.endLoadingFailure();
+										}
 									});
+						} else {
+							setInnerItem(mode, item);
+							nanosim.endLoadingSuccess();
 						}
-
-						@Override
-						public void onFailure(Throwable caught) {
-							nanosim.endLoadingFailure();
-						}
-					});
-
-		} else
-			setInnerItem(mode, item);
+					}
+				});
 	}
 
 	public void setInnerItem(EditorMode mode, Research item) {

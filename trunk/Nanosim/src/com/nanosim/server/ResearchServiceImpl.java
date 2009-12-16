@@ -75,7 +75,6 @@ public class ResearchServiceImpl extends RemoteServiceServlet implements
 			String andParents;
 			String orParents;
 			for (ResearchType researchType : availableResearch) {
-				hasRequirements = 1;
 				andParents = researchType.getAndParents();
 				orParents = researchType.getOrParents();
 
@@ -86,7 +85,10 @@ public class ResearchServiceImpl extends RemoteServiceServlet implements
 						if (parent != null && !parent.trim().equals("")) {
 							if (reserachDao.getDependentResearch(groupId,
 									Integer.parseInt(parent)))
+							{
 								hasRequirements = 1;
+								break;
+							}
 						}
 					}
 				} else if (andParents != null && !andParents.trim().equals("")) {
@@ -96,7 +98,10 @@ public class ResearchServiceImpl extends RemoteServiceServlet implements
 						if (parent != null && !parent.trim().equals("")) {
 							if (!reserachDao.getDependentResearch(groupId,
 									Integer.parseInt(parent)))
+							{
 								hasRequirements = 0;
+								break;
+							}
 						}
 					}
 				}
@@ -104,7 +109,7 @@ public class ResearchServiceImpl extends RemoteServiceServlet implements
 					possibleResearch.add(researchType);
 				}
 			}
-			return null;
+			return possibleResearch;
 		} catch (Exception e) {
 			return null;
 		}
