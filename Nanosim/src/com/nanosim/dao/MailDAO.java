@@ -9,14 +9,22 @@ import com.nanosim.util.ISqlHelper;
 public class MailDAO {
 	ISqlHelper sqlHelper = ISqlHelper.Factory.getInstance();
 
-	public List<Mail> getMail(long groupId) {
+	public List<Mail> getMail(long groupId, String type) {
 		List<Mail> mail = new ArrayList<Mail>();
 		ResultSet rs = null;
 		try {
-			rs = sqlHelper
-					.executeQuery(
-							"SELECT M . * , F.name from_name, T.name to_name FROM mail M INNER JOIN groups F ON M.from_group = F.group_id INNER JOIN groups T ON M.to_group = T.group_id WHERE M.to_group = ? ORDER BY sent DESC",
-							groupId);
+			if (type.equals("inbox")){
+				rs = sqlHelper
+				.executeQuery(
+						"SELECT M . * , F.name from_name, T.name to_name FROM mail M INNER JOIN groups F ON M.from_group = F.group_id INNER JOIN groups T ON M.to_group = T.group_id WHERE M.to_group = ? ORDER BY sent DESC",
+						groupId);
+			}
+			else if (type.equals("sent")){
+				rs = sqlHelper
+				.executeQuery(
+						"SELECT M . * , F.name from_name, T.name to_name FROM mail M INNER JOIN groups F ON M.from_group = F.group_id INNER JOIN groups T ON M.to_group = T.group_id WHERE M.from_group = ? ORDER BY sent DESC",
+						groupId);
+			}
 			Mail m = null;
 			while (rs.next()) {
 				m = new Mail();
@@ -42,10 +50,10 @@ public class MailDAO {
 	public int sendMail(Mail item) {
 		try {
 			int retVal = sqlHelper
-					.executeUpdate(
-							"INSERT INTO mail (to_group, from_group, subject, message, sent, unread) VALUES (?, ?, ?, ?, NOW(), ?)",
-							item.getToGroup(), item.getFromGroup(), item
-									.getSubject(), item.getMessage(), "y");
+			.executeUpdate(
+					"INSERT INTO mail (to_group, from_group, subject, message, sent, unread) VALUES (?, ?, ?, ?, NOW(), ?)",
+					item.getToGroup(), item.getFromGroup(), item
+					.getSubject(), item.getMessage(), "y");
 			return retVal;
 		} catch (Exception e) {
 			return -1;
