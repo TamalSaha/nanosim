@@ -37,7 +37,7 @@ public class ProposalDetail extends DialogBox {
 	}
 
 	private ScrollPanel scroller;
-	// private List<ResearchType> researchTitles;
+	private List<ResearchType> possibleResearch;
 	private List<RiskCertificate> riskCertificates;
 	private Nanosim nanosim;
 	private ListBox lstTopics;
@@ -184,16 +184,16 @@ public class ProposalDetail extends DialogBox {
 					.getRiskReductionOptions(new AsyncCallback<List<RiskCertificate>>() {
 
 						@Override
-						public void onSuccess(List<RiskCertificate> result) {
-							if (result == null || result.size() == 0) {
+						public void onSuccess(List<RiskCertificate> result1) {
+							if (result1 == null || result1.size() == 0) {
 								nanosim.endLoadingFailure();
 								return;
 							}
-							nanosim.endLoadingSuccess();
+							// nanosim.endLoadingSuccess();
 							// load data
-							riskCertificates = result;
+							riskCertificates = result1;
 							lstRisks.addItem("No Risk Mitigation", "0");
-							for (RiskCertificate riskCertificate : result) {
+							for (RiskCertificate riskCertificate : result1) {
 								StringBuilder sb = new StringBuilder();
 								sb.append(riskCertificate.getGroupName());
 								sb.append(" - ");
@@ -203,7 +203,42 @@ public class ProposalDetail extends DialogBox {
 								lstRisks.addItem(sb.toString(), ""
 										+ riskCertificate.getCertificateId());
 							}
-							setInnerItem(mode, item);
+
+							researchService.getPossibleResearch(nanosim.Group
+									.getGroupId(),
+									new AsyncCallback<List<ResearchType>>() {
+
+										@Override
+										public void onFailure(Throwable caught) {
+											nanosim.endLoadingFailure();
+										}
+
+										@Override
+										public void onSuccess(
+												List<ResearchType> result2) {
+											if (result2 == null
+													|| result2.size() == 0) {
+												nanosim.endLoadingFailure();
+												return;
+											}
+											// load data
+											possibleResearch = result2;
+											for (ResearchType rt : result2) {
+												StringBuilder sb = new StringBuilder();
+												sb.append(rt.getTitle());
+												sb.append(" - $");
+												sb.append(rt.getCost());
+												lstTopics
+														.addItem(
+																sb.toString(),
+																""
+																		+ rt
+																				.getResearchTypeId());
+											}
+											// setInnerItem(mode, item);
+											nanosim.endLoadingSuccess();
+										}
+									});
 						}
 
 						@Override

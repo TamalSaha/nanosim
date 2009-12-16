@@ -183,4 +183,48 @@ public class ReserachDAO {
 		}
 	}
 
+	public List<ResearchType> getAvailableResearch() {
+		List<ResearchType> research = new ArrayList<ResearchType>();
+		ResultSet rs = null;
+		try {
+			rs = sqlHelper
+					.executeQuery("SELECT * FROM research_types ORDER BY title ASC");
+
+			ResearchType r = null;
+			while (rs.next()) {
+				r = new ResearchType();
+
+				r.setResearchTypeId(rs.getInt("research_type_id"));
+				r.setTitle(rs.getString("title"));
+				r.setAndParents(rs.getString("and_parents"));
+				r.setOrParents(rs.getString("or_parents"));
+
+				research.add(r);
+			}
+		} catch (Exception e) {
+		} finally {
+			if (rs != null)
+				sqlHelper.close();
+		}
+		return research;
+	}
+
+	public boolean getDependentResearch(int groupId, int parentId) {
+		ResultSet rs = null;
+		try {
+			rs = sqlHelper
+					.executeQuery(
+							"SELECT count(*) result_count FROM research WHERE group_id = ? AND research_type_id = ? AND owns_research = 'y'",
+							groupId, parentId);
+			if (rs.next()) {
+				return rs.getInt("result_count") > 0;
+			}
+			return false;
+		} catch (Exception e) {
+			return false;
+		} finally {
+			if (rs != null)
+				sqlHelper.close();
+		}
+	}
 }
