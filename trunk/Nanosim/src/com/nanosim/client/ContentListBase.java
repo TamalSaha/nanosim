@@ -5,7 +5,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
@@ -25,7 +25,7 @@ public abstract class ContentListBase extends Composite implements ClickHandler 
 		VerticalPanel vPanel = new VerticalPanel();
 		vPanel.setWidth("100%");
 
-		SimplePanel wrapper1 = new SimplePanel();
+		FlowPanel wrapper1 = new FlowPanel();
 		wrapper1.setStylePrimaryName("gwt-StackPanel");
 
 		toolbar = new FlowPanel();
@@ -34,7 +34,7 @@ public abstract class ContentListBase extends Composite implements ClickHandler 
 		wrapper1.add(toolbar);
 		vPanel.add(wrapper1);
 
-		SimplePanel wrapper2 = new SimplePanel();
+		FlowPanel wrapper2 = new FlowPanel();
 		wrapper2.setStylePrimaryName("nanosim-Listbase");
 
 		// Setup the table && Hook up events.

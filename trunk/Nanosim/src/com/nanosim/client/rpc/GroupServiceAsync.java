@@ -5,7 +5,7 @@ import com.nanosim.model.GroupType;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public interface GroupServiceAsync {
-	void getGroup(long groupId, AsyncCallback<Group> callback);
-	void getGroupType(long groupTypeId, AsyncCallback<GroupType> callback);
+	void getGroup(int groupId, AsyncCallback<Group> callback);
+	void getGroupType(int groupTypeId, AsyncCallback<GroupType> callback);
 	void updateObjective(String obj, AsyncCallback<Integer> callback);
 }

@@ -7,7 +7,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.nanosim.client.AboutDialog;
 import com.nanosim.client.ContentListBase;
 import com.nanosim.client.rpc.PatentService;
 import com.nanosim.client.rpc.PatentServiceAsync;
