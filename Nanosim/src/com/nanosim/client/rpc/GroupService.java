@@ -1,5 +1,7 @@
 package com.nanosim.client.rpc;
 
+import java.util.List;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
@@ -22,6 +24,7 @@ public interface GroupService extends RemoteService {
 	}
 	
 	Group getGroup(int groupId);
+	List<Group> getGroups();
 	GroupType getGroupType(int groupTypeId);
 	int updateObjective(String obj);
 }

@@ -1,5 +1,7 @@
 package com.nanosim.server;
 
+import java.util.List;
+
 import com.nanosim.client.rpc.GroupService;
 import com.nanosim.dao.GroupDAO;
 import com.nanosim.model.Group;
@@ -39,5 +41,11 @@ public class GroupServiceImpl extends RemoteServiceServlet implements
 		} catch (Exception e) {
 			return -1;
 		}
+	}
+
+	@Override
+	public List<Group> getGroups() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
