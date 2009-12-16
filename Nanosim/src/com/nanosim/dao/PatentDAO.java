@@ -1,10 +1,7 @@
 package com.nanosim.dao;
 
 import java.sql.ResultSet;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import com.nanosim.model.Patent;
 import com.nanosim.util.ISqlHelper;
@@ -49,15 +46,11 @@ public class PatentDAO {
 		ResultSet rs = null;
 		try {
 			rs = sqlHelper
-					.executeQuery("SELECT A.*, B.name groupName, C.title research_title FROM patents A inner join groups B ON A.group_id = B.group_id inner join research_types C ON A.research_type_id = C.research_type_id ORDER BY submitted DESC");
+					.executeQuery("SELECT A.*, B.name groupName, C.title research_title FROM patents A inner join groups B ON A.group_id = B.group_id inner join research_types C ON A.research_type_id = C.research_type_id where A.approved='y' ORDER BY submitted DESC");
 			Patent p = null;
 			while (rs.next()) {
 				p = new Patent();
 
-				/*
-				 * `patent_id` `class_id` `group_id` `research_type_id`
-				 * `proposal` `submitted` `approved` `response`
-				 */
 				p.setPatentId(rs.getInt("patent_id"));
 				p.setGroupId(rs.getInt("group_id"));
 				p.setGroupName(rs.getString("groupName"));
@@ -82,7 +75,7 @@ public class PatentDAO {
 		ResultSet rs = null;
 		try {
 			rs = sqlHelper
-					.executeQuery("SELECT * FROM patents LEFT JOIN groups ON patents.group_id=groups.group_id ORDER BY submitted DESC LIMIT 10");
+					.executeQuery("SELECT A.*, B.name groupName, C.title research_title FROM patents A inner join groups B ON A.group_id = B.group_id inner join research_types C ON A.research_type_id = C.research_type_id where A.approved!='y' ORDER BY submitted DESC");
 			Patent p = null;
 			while (rs.next()) {
 				p = new Patent();

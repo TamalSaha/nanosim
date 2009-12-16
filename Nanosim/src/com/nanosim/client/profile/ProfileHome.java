@@ -28,15 +28,6 @@ public class ProfileHome extends StackContentBase {
 	}
 
 	@Override
-	public void loadRightPanel() {
-		if (tree.getItemCount() > 0) {
-			rightPanel.clear();
-			rightPanel.add(objective);
-			tree.getItem(0).setSelected(true);
-		}
-	}
-
-	@Override
 	public void onSelection(SelectionEvent<TreeItem> event) {
 		String title = event.getSelectedItem().getTitle();
 		if (title.equals("Objective")) {

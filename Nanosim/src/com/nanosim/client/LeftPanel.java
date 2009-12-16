@@ -11,11 +11,7 @@ import com.nanosim.client.icons.NanosimImages;
 import com.nanosim.client.mail.Mailboxes;
 import com.nanosim.client.patent.PatentHome;
 import com.nanosim.client.profile.ProfileHome;
-import com.nanosim.client.research.ProposalHome;
-import com.nanosim.client.research.ResearchHome;
 import com.nanosim.client.transfer.SendFundHome;
-import com.nanosim.model.GroupType;
-import com.nanosim.model.Patent;
 
 /**
  * A composite that contains the shortcut stack panel on the left side.
@@ -23,7 +19,8 @@ import com.nanosim.model.Patent;
  * {@link com.google.gwt.user.client.ui.Tree}, and other custom widgets.
  */
 public class LeftPanel extends Composite {
-	private static StackPanel stackPanel = new StackPanel();
+	private StackPanel stackPanel = new StackPanel();
+	private int stackIndex = -1;
 
 	private Mailboxes mailboxes;
 	private PatentHome patent;
@@ -59,17 +56,17 @@ public class LeftPanel extends Composite {
 		sendFund.loadShortcuts(rightPanel);
 		add(sendFund, images.group(), "Transactions");
 
-		stackPanel.showStack(0);
+		stackPanel.showStack(stackIndex = 0);
 		mailboxes.loadRightPanel();
 	}
 
 	@Override
 	public void onBrowserEvent(Event event) {
+		super.onBrowserEvent(event);
 		if (DOM.eventGetType(event) == Event.ONCLICK) {
-			Element target = DOM.eventGetTarget(event);
-			int index = findDividerIndex(target);
-			if (index != -1) {
-				stackPanel.showStack(index);
+			int index = stackPanel.getSelectedIndex();
+			if (index >= 0 && stackIndex != index) {
+				stackIndex = index;
 				switch (index) {
 				case 0:
 					mailboxes.loadRightPanel();
@@ -88,30 +85,6 @@ public class LeftPanel extends Composite {
 				}
 			}
 		}
-		super.onBrowserEvent(event);
-	}
-
-	private int findDividerIndex(Element elem) {
-		while (elem != getElement()) {
-			String expando = DOM.getElementProperty(elem, "__index");
-			if (expando != null) {
-				// Make sure it belongs to me!
-				int ownerHash = DOM.getElementPropertyInt(elem, "__owner");
-				if (ownerHash == hashCode()) {
-					// Yes, it's mine.
-					return Integer.parseInt(expando);
-				} else {
-					// It must belong to some nested StackPanel.
-					return -1;
-				}
-			}
-			elem = DOM.getParent(elem);
-		}
-		return -1;
-	}
-
-	public static int whichItemChosen() {
-		return stackPanel.getSelectedIndex();
 	}
 
 	private void add(Widget widget, AbstractImagePrototype imageProto,

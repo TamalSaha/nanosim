@@ -6,15 +6,12 @@ import com.nanosim.client.Nanosim;
 import com.nanosim.client.RightPanel;
 import com.nanosim.client.StackContentBase;
 import com.nanosim.client.icons.NanosimImages;
-import com.nanosim.model.Patent;
 
 public class PatentHome extends StackContentBase {
 
 	private GroupPatentList groupPatentList;
 	private ApprovedPatentList approvedList;
 	private NewPatentList newPatentList;
-
-	private PatentDetail patentDetail = new PatentDetail();
 
 	public PatentHome() {
 		singleton = this;
@@ -29,7 +26,6 @@ public class PatentHome extends StackContentBase {
 		this.groupPatentList = new GroupPatentList();
 		this.approvedList = new ApprovedPatentList();
 		this.newPatentList = new NewPatentList();
-		this.patentDetail = new PatentDetail();
 
 		if (nanosim.GroupType.getHasPatentsGroupPatents()) {
 			uiHelper.addImageItem(tree, "Group Patents", images.inbox());
@@ -43,26 +39,8 @@ public class PatentHome extends StackContentBase {
 	}
 
 	@Override
-	public void loadRightPanel() {
-		if (tree.getItemCount() > 0) {
-			TreeItem item = tree.getItem(0);
-			String title = item.getTitle();
-
-			rightPanel.clear();
-			if (title.equals("Group Patents")) {
-				rightPanel.add(groupPatentList);
-			} else if (title.equals("All Approved")) {
-				rightPanel.add(approvedList);
-			} else if (title.equals("New Submission")) {
-				rightPanel.add(newPatentList);
-			}
-			item.setSelected(true);
-		}
-	}
-
-	@Override
 	public void displayItem(Object item) {
-		patentDetail.setItem((Patent) item);
+		// patentDetail.setItem((Patent) item);
 	}
 
 	@Override

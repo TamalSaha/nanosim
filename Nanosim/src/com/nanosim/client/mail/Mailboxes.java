@@ -45,35 +45,7 @@ public class Mailboxes extends StackContentBase {
 	}
 
 	@Override
-	public void loadRightPanel() {
-		// if (rightPanel != null) {
-		// rightPanel.clear();
-		// rightPanel.add(mailList);
-		// rightPanel.add(mailDetail);
-		// }
-		if (tree.getItemCount() > 0) {
-			TreeItem item = tree.getItem(0);
-			String title = item.getTitle();
-
-			rightPanel.clear();
-			if (title.equals("Inbox")) {
-				rightPanel.add(mailList);
-				rightPanel.add(mailDetail);
-			} else if (title.equals("Compose")) {
-				// TODO mailNew
-				// rightPanel.add(mailInbox);
-				// rightPanel.add(mailNew);
-			} else if (title.equals("Sent")) {
-				// TODO display sent items
-				rightPanel.add(mailList);
-				rightPanel.add(mailDetail);
-			}
-			item.setSelected(true);
-		}
-	}
-
-	@Override
-	public void displayItem(Mail item){
+	public void displayItem(Mail item) {
 		mailDetail.setItem(item);
 	}
 

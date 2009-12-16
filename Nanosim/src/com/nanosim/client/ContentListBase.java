@@ -52,17 +52,14 @@ public abstract class ContentListBase extends Composite implements ClickHandler 
 	}
 
 	@Override
-	public void onLoad() {
+	public void onAttach() {
+		super.onAttach();
 		update();
 	}
 
-	/**
-	 * Initializes the table so that it contains enough rows for a full page of
-	 * items. Also creates the images that will be used as 'read' flags.
-	 */
 	protected abstract void initTable();
 
-	protected abstract void update();
+	public abstract void update();
 
 	public void onClick(ClickEvent event) {
 		Object sender = event.getSource();
@@ -72,26 +69,16 @@ public abstract class ContentListBase extends Composite implements ClickHandler 
 			if (cell != null) {
 				int row = cell.getRowIndex();
 				if (row > 0) {
-					innerSelectRow(row - 1);
+					selectRow(row - 1);
 				}
 			}
 		}
 	}
 
-	/**
-	 * Selects the given row (relative to the current page).
-	 * 
-	 * @param row
-	 *            the row to be selected
-	 */
-	private void innerSelectRow(int row) {
+	private void selectRow(int row) {
 		styleRow(selectedRow, false);
 		styleRow(row, true);
 		selectedRow = row;
-		//selectRow();
-	}
-
-	protected void selectRow() {
 	}
 
 	private void styleRow(int row, boolean selected) {
@@ -110,5 +97,12 @@ public abstract class ContentListBase extends Composite implements ClickHandler 
 			HorizontalAlignmentConstant alignCenter) {
 		table.setText(row, column, text);
 		cellFormatter.setHorizontalAlignment(row, column, alignCenter);
+	}
+
+	protected void clearTable() {
+		for (int i = table.getRowCount(); i-- > 1;) {
+			table.removeRow(1);
+		}
+		selectedRow = -1;
 	}
 }
