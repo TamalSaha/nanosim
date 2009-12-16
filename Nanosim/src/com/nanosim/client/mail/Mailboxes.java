@@ -6,6 +6,7 @@ import com.nanosim.client.Nanosim;
 import com.nanosim.client.RightPanel;
 import com.nanosim.client.StackContentBase;
 import com.nanosim.client.icons.NanosimImages;
+import com.nanosim.model.Mail;
 
 /**
  * A tree displaying a set of email folders.
@@ -71,8 +72,8 @@ public class Mailboxes extends StackContentBase {
 	}
 
 	@Override
-	public void displayItem(Object item) {
-		mailDetail.setItem((MailItem) item);
+	public void displayItem(Mail item){
+		mailDetail.setItem(item);
 	}
 
 	@Override

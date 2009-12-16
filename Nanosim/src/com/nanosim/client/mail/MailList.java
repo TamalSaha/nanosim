@@ -1,5 +1,6 @@
 package com.nanosim.client.mail;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -31,9 +32,10 @@ public class MailList extends Composite implements ClickHandler {
 			"<a href='javascript:;'>&lt; newer</a>", true);
 	private HTML olderButton = new HTML(
 			"<a href='javascript:;'>older &gt;</a>", true);
-	private int startIndex, selectedRow = -1;
+	private int startIndex, selectedRow, count = -1;
 	private FlexTable table = new FlexTable();
 	private HorizontalPanel navBar = new HorizontalPanel();
+	private ArrayList <Mail> items = new ArrayList<Mail>();
 
 	public MailList() {
 		this.nanosim = Nanosim.getInstance();
@@ -71,7 +73,7 @@ public class MailList extends Composite implements ClickHandler {
 		if (sender == olderButton) {
 			// Move forward a page.
 			startIndex += VISIBLE_EMAIL_COUNT;
-			if (startIndex >= MailItems.getMailItemCount()) {
+			if (startIndex >= count) {
 				startIndex -= VISIBLE_EMAIL_COUNT;
 			} else {
 				styleRow(selectedRow, false);
@@ -132,40 +134,6 @@ public class MailList extends Composite implements ClickHandler {
 		}
 	}
 
-	/**
-	 * Selects the given row (relative to the current page).
-	 * 
-	 * @param row
-	 *            the row to be selected
-	 */
-	private void selectRow(int row) {
-		// When a row (other than the first one, which is used as a header) is
-		// selected, display its associated MailItem.
-		MailItem item = MailItems.getMailItem(startIndex + row);
-		if (item == null) {
-			return;
-		}
-
-		styleRow(selectedRow, false);
-		styleRow(row, true);
-
-		//item.read = true;
-		selectedRow = row;
-		Mailboxes.get().displayItem(item);
-	}
-
-	private void styleRow(int row, boolean selected) {
-		if (row != -1) {
-			if (selected) {
-				table.getRowFormatter().addStyleName(row + 1,
-						"mail-SelectedRow");
-			} else {
-				table.getRowFormatter().removeStyleName(row + 1,
-						"mail-SelectedRow");
-			}
-		}
-	}
-
 	private void update() {
 		// TODO fix groupId
 		int groupId = 47;
@@ -181,9 +149,10 @@ public class MailList extends Composite implements ClickHandler {
 				nanosim.endLoadingSuccess();
 
 				int length = result.size();
+				items = (ArrayList<Mail>) result;
 				
 				// Update the older/newer buttons & label.
-				int count = length;
+				count = length;
 				int max = startIndex + VISIBLE_EMAIL_COUNT;
 				if (max > count) {
 					max = count;
@@ -235,5 +204,39 @@ public class MailList extends Composite implements ClickHandler {
 				nanosim.endLoadingFailure();
 			}
 		});
+	}
+	
+	/**
+	 * Selects the given row (relative to the current page).
+	 * 
+	 * @param row
+	 *            the row to be selected
+	 */
+	private void selectRow(int row) {
+		// When a row (other than the first one, which is used as a header) is
+		// selected, display its associated MailItem.
+		Mail item = items.get(startIndex + row);
+		if (item == null) {
+			return;
+		}
+
+		styleRow(selectedRow, false);
+		styleRow(row, true);
+
+		//item.read = true;
+		selectedRow = row;
+		Mailboxes.get().displayItem(item);
+	}
+
+	private void styleRow(int row, boolean selected) {
+		if (row != -1) {
+			if (selected) {
+				table.getRowFormatter().addStyleName(row + 1,
+						"mail-SelectedRow");
+			} else {
+				table.getRowFormatter().removeStyleName(row + 1,
+						"mail-SelectedRow");
+			}
+		}
 	}
 }
