@@ -4,9 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class Patent implements Serializable {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = -2292634940221943566L;
 
 	private int patentId;
@@ -33,6 +31,10 @@ public class Patent implements Serializable {
 
 	public String getApproved() {
 		return this.approved;
+	}
+
+	public String getApprovedText() {
+		return this.approved.equals("y") ? "Approved" : "Submitted";
 	}
 
 	public void setApproved(String approved) {

@@ -14,6 +14,7 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
+import com.nanosim.client.ContentListBase;
 import com.nanosim.client.Nanosim;
 import com.nanosim.client.UIHelper;
 import com.nanosim.client.rpc.PatentService;
@@ -28,8 +29,8 @@ import com.nanosim.model.ResearchType;
  */
 public class PatentDetail extends DialogBox {
 
-	public enum Mode {
-		NEW, APPROVE, VIEW, EDIT
+	public enum EditorMode {
+		NEW, APPROVE, VIEW
 	}
 
 	private ScrollPanel scroller;
@@ -39,14 +40,21 @@ public class PatentDetail extends DialogBox {
 	private TextArea txtProposal;
 	private TextArea txtResponse;
 
+	private ContentListBase m_ListView;
 	private Patent m_patent;
+	private EditorMode m_mode;
 	private UIHelper uiHelper = new UIHelper();
 
 	private final PatentServiceAsync patentService = PatentService.Util
 			.getInstance();
+	private Button btnSubmit;
+	private Button btnApprove;
+	private Button btnCancel;
+	private FlowPanel dockPanel;
 
-	public PatentDetail() {
+	public PatentDetail(ContentListBase listView) {
 		nanosim = Nanosim.getInstance();
+		m_ListView = listView;
 
 		final FlexTable layout = new FlexTable();
 		setWidth("500px");
@@ -77,14 +85,14 @@ public class PatentDetail extends DialogBox {
 		layout.setHTML(3, 0, "");
 		layout.setHTML(3, 1, "");
 
-		FlowPanel dockPanel = new FlowPanel();
+		dockPanel = new FlowPanel();
 		layout.setWidget(4, 0, dockPanel);
 		cellFormatter.setColSpan(4, 0, 2);
 		cellFormatter.setHorizontalAlignment(4, 0,
 				HasHorizontalAlignment.ALIGN_CENTER);
 
-		Button btnSubmit = new Button("Submit");
-		dockPanel.add(btnSubmit);
+		btnSubmit = new Button("Submit");
+		// dockPanel.add(btnSubmit);
 		btnSubmit.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -105,7 +113,7 @@ public class PatentDetail extends DialogBox {
 									nanosim.endLoadingFailure();
 									return;
 								}
-								// update background
+								m_ListView.update();
 								nanosim.endLoadingSuccess();
 								hide();
 							}
@@ -113,14 +121,15 @@ public class PatentDetail extends DialogBox {
 			}
 		});
 
-		Button btnApprove = new Button("Approve");
-		dockPanel.add(btnApprove);
+		btnApprove = new Button("Approve");
+		// dockPanel.add(btnApprove);
 		btnApprove.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				nanosim.beginLoading();
 				getInnerItem();
+				m_patent.setApproved("y");
 				patentService.approvePatent(m_patent,
 						new AsyncCallback<Integer>() {
 
@@ -136,6 +145,7 @@ public class PatentDetail extends DialogBox {
 									return;
 								}
 								// update background
+								m_ListView.update();
 								nanosim.endLoadingSuccess();
 								hide();
 							}
@@ -143,13 +153,14 @@ public class PatentDetail extends DialogBox {
 			}
 		});
 
-		Button btnCancel = new Button("Cancel");
+		btnCancel = new Button("Cancel");
 		dockPanel.add(btnCancel);
 		btnCancel.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				hide();
+				dockPanel.clear();
 			}
 		});
 
@@ -171,15 +182,6 @@ public class PatentDetail extends DialogBox {
 		scroller.setPixelSize(scrollWidth, scrollHeight);
 	}
 
-	public void setInnerItem(Patent item) {
-		m_patent = item;
-
-		setText("Patent # " + item.getPatentId());
-		uiHelper.setSelectedValue(lstTitles, item.getResearchTypeId());
-		txtProposal.setText(item.getProposal());
-		txtResponse.setText(item.getResponse());
-	}
-
 	public void getInnerItem() {
 		m_patent.setGroupId(nanosim.Group.getGroupId());
 		m_patent.setClassId(91);
@@ -194,12 +196,7 @@ public class PatentDetail extends DialogBox {
 		m_patent.setResponse(txtResponse.getText());
 	}
 
-	/*
-	 * final ListBox dropBox = new ListBox(false); String[] listTypes =
-	 * constants.cwListBoxCategories(); for (int i = 0; i < listTypes.length;
-	 * i++) { dropBox.addItem(listTypes[i]); }
-	 */
-	public void setItem(final Patent item) {
+	public void setItem(final EditorMode mode, final Patent item) {
 		if (researchTitles == null) {
 			nanosim.beginLoading();
 			ResearchServiceAsync researchService = ResearchService.Util
@@ -220,7 +217,7 @@ public class PatentDetail extends DialogBox {
 								lstTitles.addItem(researchType.getTitle(), ""
 										+ researchType.getResearchTypeId());
 							}
-							setInnerItem(item);
+							setInnerItem(mode, item);
 						}
 
 						@Override
@@ -230,6 +227,47 @@ public class PatentDetail extends DialogBox {
 					});
 
 		} else
-			setInnerItem(item);
+			setInnerItem(mode, item);
+	}
+
+	public void setInnerItem(EditorMode mode, Patent item) {
+		m_patent = item;
+		m_mode = mode;
+
+		switch (mode) {
+		case NEW:
+			dockPanel.clear();
+			dockPanel.add(btnSubmit);
+			dockPanel.add(btnCancel);
+
+			setText("Patent*");
+			m_patent = new Patent();
+			m_patent.setApproved("n");
+			lstTitles.setItemSelected(0, true);
+			txtProposal.setText("");
+			txtResponse.setText("");
+			break;
+		case VIEW:
+			dockPanel.clear();
+			dockPanel.add(btnCancel);
+
+			setText("Patent # " + item.getPatentId());
+			uiHelper.setSelectedValue(lstTitles, item.getResearchTypeId());
+			txtProposal.setText(item.getProposal());
+			txtResponse.setText(item.getResponse());
+			break;
+		case APPROVE:
+			dockPanel.clear();
+			dockPanel.add(btnApprove);
+			dockPanel.add(btnCancel);
+
+			setText("Patent # " + item.getPatentId());
+			uiHelper.setSelectedValue(lstTitles, item.getResearchTypeId());
+			txtProposal.setText(item.getProposal());
+			txtResponse.setText(item.getResponse());
+			break;
+		default:
+			break;
+		}
 	}
 }

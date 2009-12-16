@@ -33,7 +33,18 @@ public abstract class StackContentBase extends Composite implements
 
 	public abstract void loadShortcuts(RightPanel rightPanel);
 
-	public abstract void loadRightPanel();
+	public void loadRightPanel() {
+		if (tree.getItemCount() > 0) {
+			TreeItem item = null;
+			for (int i = tree.getItemCount(); i-- > 0;) {
+				if (tree.getItem(i).isSelected())
+					item = tree.getItem(i);
+			}
+			if (item == null)
+				item = tree.getItem(0);
+			tree.setSelectedItem(item, true);
+		}
+	}
 
 	public abstract void onSelection(SelectionEvent<TreeItem> event);
 

@@ -29,11 +29,6 @@ public class ResearchHome extends StackContentBase {
 	}
 
 	@Override
-	public void loadRightPanel() {
-		rightPanel.clear();
-	}
-
-	@Override
 	public void onSelection(SelectionEvent<TreeItem> event) {
 		// TODO Auto-generated method stub
 

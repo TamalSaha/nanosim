@@ -19,19 +19,15 @@ public class GroupPatentList extends ContentListBase {
 			.getInstance();
 
 	public GroupPatentList() {
-		detail = new PatentDetail();
+		detail = new PatentDetail(this);
 
 		Button btnNew = new Button("New Proposal");
 		btnNew.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				if (selectedRow >= 0 && data.size() > selectedRow) {
-					Patent item = data.get(selectedRow);
-					detail.setItem(item);
-					detail.center();
-					detail.show();
-				}
+				detail.setItem(PatentDetail.EditorMode.NEW, null);
+				detail.center();
 			}
 		});
 		toolbar.add(btnNew);
@@ -43,9 +39,8 @@ public class GroupPatentList extends ContentListBase {
 			public void onClick(ClickEvent event) {
 				if (selectedRow >= 0 && data.size() > selectedRow) {
 					Patent item = data.get(selectedRow);
-					detail.setItem(item);
+					detail.setItem(PatentDetail.EditorMode.VIEW, item);
 					detail.center();
-					detail.show();
 				}
 			}
 		});
@@ -65,7 +60,7 @@ public class GroupPatentList extends ContentListBase {
 	}
 
 	@Override
-	protected void update() {
+	public void update() {
 		patentService.getGroupPatents(nanosim.Group.getGroupId(),
 				new AsyncCallback<List<Patent>>() {
 
@@ -79,6 +74,9 @@ public class GroupPatentList extends ContentListBase {
 
 						data = result;
 						int length = result.size();
+						if (length == 0) {
+							clearTable();
+						}
 						for (int i = 0; i < length; ++i) {
 							Patent item = result.get(i);
 							setCell(i + 1, 0, "" + item.getPatentId(),
@@ -87,9 +85,9 @@ public class GroupPatentList extends ContentListBase {
 									HasHorizontalAlignment.ALIGN_LEFT);
 							setCell(i + 1, 2, item.getGroupName(),
 									HasHorizontalAlignment.ALIGN_CENTER);
-							setCell(i + 1, 3, "",
+							setCell(i + 1, 3, "" + item.getSubmitted(),
 									HasHorizontalAlignment.ALIGN_CENTER);
-							setCell(i + 1, 4, "Accepted",
+							setCell(i + 1, 4, item.getApprovedText(),
 									HasHorizontalAlignment.ALIGN_CENTER);
 						}
 						// Select the first row if none is selected.

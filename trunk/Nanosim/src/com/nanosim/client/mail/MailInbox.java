@@ -28,7 +28,7 @@ public class MailInbox extends ContentListBase {
 	}
 
 	@Override
-	protected void update() {
+	public void update() {
 		// TODO fix groupId
 		int groupId = 55;
 

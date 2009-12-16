@@ -42,11 +42,9 @@ public class SendFundHome extends StackContentBase {
 		}
 	}
 
-	public void loadRightPanel() {
-		if (tree.getItemCount() > 0) {
-			rightPanel.clear();
-			rightPanel.add(sendFundScreen);
-			tree.getItem(0).setSelected(true);
-		}
+	public void onLoadRightPanel(TreeItem item) {
+		rightPanel.clear();
+		rightPanel.add(sendFundScreen);
+		item.setSelected(true);
 	}
 }
