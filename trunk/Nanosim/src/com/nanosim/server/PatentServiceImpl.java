@@ -13,7 +13,7 @@ public class PatentServiceImpl extends RemoteServiceServlet implements
 	private static final long serialVersionUID = 4663921301204293875L;
 
 	@Override
-	public List<Patent> getGroupPatents(long groupId) {
+	public List<Patent> getGroupPatents(int groupId) {
 		try {
 			PatentDAO patentDao = new PatentDAO();
 			return patentDao.getGroupPatents(groupId);
@@ -44,13 +44,21 @@ public class PatentServiceImpl extends RemoteServiceServlet implements
 
 	@Override
 	public int submitPatent(Patent item) {
-		// TODO Auto-generated method stub
-		return 0;
+		try {
+			PatentDAO patentDao = new PatentDAO();
+			return patentDao.submitPatent(item);
+		} catch (Exception e) {
+			return -1;
+		}
 	}
 
 	@Override
 	public int approvePatent(Patent item) {
-		// TODO Auto-generated method stub
-		return 0;
+		try {
+			PatentDAO patentDao = new PatentDAO();
+			return patentDao.approvePatent(item);
+		} catch (Exception e) {
+			return -1;
+		}
 	}
 }

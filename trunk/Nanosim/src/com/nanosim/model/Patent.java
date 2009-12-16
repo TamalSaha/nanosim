@@ -8,11 +8,11 @@ public class Patent implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -2292634940221943566L;
-	
-	private long patentId;
+
+	private int patentId;
 	private String approved;
 	private int classId;
-	private long groupId;
+	private int groupId;
 	private String groupName;
 	private String proposal;
 	private int researchTypeId;
@@ -23,11 +23,11 @@ public class Patent implements Serializable {
 	public Patent() {
 	}
 
-	public long getPatentId() {
+	public int getPatentId() {
 		return this.patentId;
 	}
 
-	public void setPatentId(long patentId) {
+	public void setPatentId(int patentId) {
 		this.patentId = patentId;
 	}
 
@@ -47,11 +47,11 @@ public class Patent implements Serializable {
 		this.classId = classId;
 	}
 
-	public long getGroupId() {
+	public int getGroupId() {
 		return this.groupId;
 	}
 
-	public void setGroupId(long groupId) {
+	public void setGroupId(int groupId) {
 		this.groupId = groupId;
 	}
 

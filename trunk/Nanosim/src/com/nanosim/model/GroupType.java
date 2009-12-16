@@ -17,7 +17,7 @@ public class GroupType implements Serializable {
 //	public final String Newspaper = "Newspaper"; 
 //	public final String RISK_REDUCTION = "Risk Reduction"; 
 
-	private long groupTypeId;
+	private int groupTypeId;
 	private String name;
 	private boolean hasBusiness;
 	private boolean hasCertificates;
@@ -31,11 +31,11 @@ public class GroupType implements Serializable {
 	public GroupType() {
 	}
 
-	public long getGroupTypeId() {
+	public int getGroupTypeId() {
 		return this.groupTypeId;
 	}
 
-	public void setGroupTypeId(long groupTypeId) {
+	public void setGroupTypeId(int groupTypeId) {
 		this.groupTypeId = groupTypeId;
 	}
 

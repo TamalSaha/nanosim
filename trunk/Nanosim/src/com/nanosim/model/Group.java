@@ -6,21 +6,21 @@ public class Group implements Serializable {
 
 	private static final long serialVersionUID = -8449529016272321612L;
 
-	private long groupId;
+	private int groupId;
 	private double budget;
-	//private long classId;
-	private long groupTypeId;
+	// private int classId;
+	private int groupTypeId;
 	private String name;
 	private String objective;
 
 	public Group() {
 	}
 
-	public long getGroupId() {
+	public int getGroupId() {
 		return this.groupId;
 	}
 
-	public void setGroupId(long groupId) {
+	public void setGroupId(int groupId) {
 		this.groupId = groupId;
 	}
 
@@ -32,19 +32,19 @@ public class Group implements Serializable {
 		this.budget = budget;
 	}
 
-//	public long getClassId() {
-//		return this.classId;
-//	}
-//
-//	public void setClassId(long classId) {
-//		this.classId = classId;
-//	}
+	// public int getClassId() {
+	// return this.classId;
+	// }
+	//
+	// public void setClassId(int classId) {
+	// this.classId = classId;
+	// }
 
-	public long getGroupTypeId() {
+	public int getGroupTypeId() {
 		return this.groupTypeId;
 	}
 
-	public void setGroupTypeId(long groupTypeId) {
+	public void setGroupTypeId(int groupTypeId) {
 		this.groupTypeId = groupTypeId;
 	}
 

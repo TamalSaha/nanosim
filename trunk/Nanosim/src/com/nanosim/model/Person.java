@@ -4,22 +4,19 @@ import java.io.Serializable;
 
 public class Person implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -779653421827193669L;
 
-	private long personId;
+	private int personId;
 
 	private String name;
 
-	private long groupId;
+	private int groupId;
 
-	public long getPersonId() {
+	public int getPersonId() {
 		return personId;
 	}
 
-	public void setPersonId(long personId) {
+	public void setPersonId(int personId) {
 		this.personId = personId;
 	}
 
@@ -35,11 +32,11 @@ public class Person implements Serializable {
 		this.name = name;
 	}
 
-	public long getGroupId() {
+	public int getGroupId() {
 		return groupId;
 	}
 
-	public void setGroupId(long groupId) {
+	public void setGroupId(int groupId) {
 		this.groupId = groupId;
 	}
 }

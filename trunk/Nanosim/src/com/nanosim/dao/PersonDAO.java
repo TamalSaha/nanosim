@@ -18,9 +18,9 @@ public class PersonDAO {
 			Person p = null;
 			if (rs.next()) {
 				p = new Person();
-				p.setPersonId(rs.getLong("person_id"));
+				p.setPersonId(rs.getInt("person_id"));
 				p.setName(rs.getString("name"));
-				p.setGroupId(rs.getLong("group_id"));
+				p.setGroupId(rs.getInt("group_id"));
 			}
 			return p;
 		} catch (Exception e) {

@@ -19,19 +19,17 @@ public class PatentDAO {
 		try {
 			rs = sqlHelper
 					.executeQuery(
-							"SELECT * FROM patents WHERE group_id = ? ORDER BY submitted DESC",
+							"SELECT A.*, B.name groupName, C.title research_title FROM patents A inner join groups B ON A.group_id = B.group_id inner join research_types C ON A.research_type_id = C.research_type_id WHERE A.group_id = ? ORDER BY submitted DESC",
 							groupId);
 			Patent p = null;
 			while (rs.next()) {
 				p = new Patent();
 
-				/*
-				 * `patent_id` `class_id` `group_id` `research_type_id`
-				 * `proposal` `submitted` `approved` `response`
-				 */
-				p.setPatentId(rs.getLong("patent_id"));
-				p.setGroupId(rs.getLong("group_id"));
+				p.setPatentId(rs.getInt("patent_id"));
+				p.setGroupId(rs.getInt("group_id"));
+				p.setGroupName(rs.getString("groupName"));
 				p.setResearchTypeId(rs.getInt("research_type_id"));
+				p.setResearchTitle(rs.getString("research_title"));
 				p.setProposal(rs.getString("proposal"));
 				p.setSubmitted(rs.getDate("submitted"));
 				p.setApproved(rs.getString("approved"));
@@ -60,8 +58,8 @@ public class PatentDAO {
 				 * `patent_id` `class_id` `group_id` `research_type_id`
 				 * `proposal` `submitted` `approved` `response`
 				 */
-				p.setPatentId(rs.getLong("patent_id"));
-				p.setGroupId(rs.getLong("group_id"));
+				p.setPatentId(rs.getInt("patent_id"));
+				p.setGroupId(rs.getInt("group_id"));
 				p.setGroupName(rs.getString("groupName"));
 				p.setResearchTypeId(rs.getInt("research_type_id"));
 				p.setResearchTitle(rs.getString("research_title"));
@@ -89,13 +87,11 @@ public class PatentDAO {
 			while (rs.next()) {
 				p = new Patent();
 
-				/*
-				 * `patent_id` `class_id` `group_id` `research_type_id`
-				 * `proposal` `submitted` `approved` `response`
-				 */
-				p.setPatentId(rs.getLong("patent_id"));
-				p.setGroupId(rs.getLong("group_id"));
+				p.setPatentId(rs.getInt("patent_id"));
+				p.setGroupId(rs.getInt("group_id"));
+				p.setGroupName(rs.getString("groupName"));
 				p.setResearchTypeId(rs.getInt("research_type_id"));
+				p.setResearchTitle(rs.getString("research_title"));
 				p.setProposal(rs.getString("proposal"));
 				p.setSubmitted(rs.getDate("submitted"));
 				p.setApproved(rs.getString("approved"));
@@ -114,10 +110,10 @@ public class PatentDAO {
 		try {
 			int retVal = sqlHelper
 					.executeUpdate(
-							"INSERT INTO patents (group_id, class_id, research_type_id, proposal, submitted) VALUES (?, ?, ?, ?, NOW())",
+							"INSERT INTO patents (group_id, class_id, research_type_id, proposal, submitted, response) VALUES (?, ?, ?, ?, NOW(), ?)",
 							item.getGroupId(), item.getClassId(), item
 									.getResearchTypeId(), item.getProposal(),
-							item.getSubmitted());
+							item.getResponse());
 			return retVal;
 		} catch (Exception e) {
 			return -1;
