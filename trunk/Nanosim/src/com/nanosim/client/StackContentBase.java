@@ -10,6 +10,7 @@ import com.nanosim.client.RightPanel;
 import com.nanosim.client.UIHelper;
 import com.nanosim.client.mail.MailItem;
 import com.nanosim.model.GroupType;
+import com.nanosim.model.Mail;
 
 public abstract class StackContentBase extends Composite implements
 		SelectionHandler<TreeItem> {
@@ -37,5 +38,8 @@ public abstract class StackContentBase extends Composite implements
 	public abstract void onSelection(SelectionEvent<TreeItem> event);
 
 	public void displayItem(Object item) {
+	}
+
+	public void displayItem(Mail item) {
 	}
 }
