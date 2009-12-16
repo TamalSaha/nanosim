@@ -138,7 +138,7 @@ public class MailList extends Composite implements ClickHandler {
 		// TODO fix groupId
 		int groupId = 47;
 
-		mailService.getMail(groupId, new AsyncCallback<List<Mail>>() {
+		mailService.getMail(groupId, "inbox", new AsyncCallback<List<Mail>>() {
 
 			@Override
 			public void onSuccess(List<Mail> result) {

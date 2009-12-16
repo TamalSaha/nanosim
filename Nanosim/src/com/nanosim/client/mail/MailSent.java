@@ -17,6 +17,7 @@ public class MailSent extends ContentListBase {
 	private final MailServiceAsync mailService = MailService.Util.getInstance();
 
 	public MailSent() {
+		detail = new MailDetail(this);
 		Button btnView = new Button("View");
 		btnView.addClickHandler(new ClickHandler() {
 
@@ -47,7 +48,7 @@ public class MailSent extends ContentListBase {
 	public void update() {
 		int groupId = nanosim.Group.getGroupId();
 
-		mailService.getMail(groupId, new AsyncCallback<List<Mail>>() {
+		mailService.getMail(groupId, "sent", new AsyncCallback<List<Mail>>() {
 
 			@Override
 			public void onSuccess(List<Mail> result) {
