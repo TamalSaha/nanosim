@@ -11,17 +11,30 @@ import com.nanosim.client.ContentListBase;
 import com.nanosim.client.rpc.ResearchService;
 import com.nanosim.client.rpc.ResearchServiceAsync;
 import com.nanosim.model.Research;
-import com.nanosim.model.RiskCertificate;
 
 public class GroupCompletedResearchList extends ContentListBase {
 
 	private List<Research> data;
-	private ResearchDetail detail;
+	private ResearchDetail researchDetail;
+	private ProposalDetail proposalDetail;
 	private final ResearchServiceAsync researchService = ResearchService.Util
 			.getInstance();
 
 	public GroupCompletedResearchList() {
-		detail = new ResearchDetail(this);
+		researchDetail = new ResearchDetail(this);
+		proposalDetail = new ProposalDetail(this);
+
+		Button btnNew = new Button("New Proposal");
+		btnNew.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				proposalDetail.setItem(ProposalDetail.EditorMode.NEW, null);
+				proposalDetail.center();
+			}
+		});
+		toolbar.add(btnNew);
+
 		Button btnView = new Button("View Research Detail");
 		btnView.addClickHandler(new ClickHandler() {
 
@@ -29,8 +42,9 @@ public class GroupCompletedResearchList extends ContentListBase {
 			public void onClick(ClickEvent event) {
 				if (selectedRow >= 0 && data.size() > selectedRow) {
 					Research item = data.get(selectedRow);
-					detail.setItem(ResearchDetail.EditorMode.VIEW, item);
-					detail.center();
+					researchDetail
+							.setItem(ResearchDetail.EditorMode.VIEW, item);
+					researchDetail.center();
 				}
 			}
 		});

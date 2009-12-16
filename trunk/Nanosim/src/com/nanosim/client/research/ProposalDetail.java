@@ -21,8 +21,11 @@ import com.nanosim.client.rpc.ResearchService;
 import com.nanosim.client.rpc.ResearchServiceAsync;
 import com.nanosim.client.rpc.ResearchService;
 import com.nanosim.client.rpc.ResearchServiceAsync;
+import com.nanosim.client.rpc.RiskCertificateService;
+import com.nanosim.client.rpc.RiskCertificateServiceAsync;
 import com.nanosim.model.Research;
 import com.nanosim.model.ResearchType;
+import com.nanosim.model.RiskCertificate;
 
 /**
  * A composite for displaying the details of an email message.
@@ -34,7 +37,8 @@ public class ProposalDetail extends DialogBox {
 	}
 
 	private ScrollPanel scroller;
-	private List<ResearchType> researchTitles;
+	// private List<ResearchType> researchTitles;
+	private List<RiskCertificate> riskCertificates;
 	private Nanosim nanosim;
 	private ListBox lstTopics;
 	private TextArea txtProposal;
@@ -42,11 +46,13 @@ public class ProposalDetail extends DialogBox {
 	private ListBox lstRisks;
 
 	private ContentListBase m_ListView;
-	private Research m_research;
+	private Research m_proposal;
 	private EditorMode m_mode;
 	private UIHelper uiHelper = new UIHelper();
 
 	private final ResearchServiceAsync researchService = ResearchService.Util
+			.getInstance();
+	private final RiskCertificateServiceAsync riskCertificateService = RiskCertificateService.Util
 			.getInstance();
 	private Button btnSubmit;
 	private Button btnCancel;
@@ -72,7 +78,7 @@ public class ProposalDetail extends DialogBox {
 		cellFormatter.setHorizontalAlignment(1, 0,
 				HasHorizontalAlignment.ALIGN_LEFT);
 		txtProposal = new TextArea();
-		txtProposal.setPixelSize(400, 150);
+		txtProposal.setPixelSize(400, 200);
 		layout.setWidget(1, 1, txtProposal);
 
 		layout.setHTML(2, 0, "Sources:");
@@ -85,8 +91,8 @@ public class ProposalDetail extends DialogBox {
 		layout.setHTML(3, 0, "Risk Reduction:");
 		cellFormatter.setHorizontalAlignment(3, 0,
 				HasHorizontalAlignment.ALIGN_LEFT);
-		lstTopics = new ListBox(false);
-		lstTopics.setWidth("400px");
+		lstRisks = new ListBox(false);
+		lstRisks.setWidth("400px");
 		layout.setWidget(3, 1, lstRisks);
 
 		layout.setHTML(4, 0, "");
@@ -106,25 +112,25 @@ public class ProposalDetail extends DialogBox {
 			public void onClick(ClickEvent event) {
 				nanosim.beginLoading();
 				getInnerItem();
-//				researchService.submitResearch(m_research,
-//						new AsyncCallback<Integer>() {
-//
-//							@Override
-//							public void onFailure(Throwable caught) {
-//								nanosim.endLoadingFailure();
-//							}
-//
-//							@Override
-//							public void onSuccess(Integer result) {
-//								if (result < 0) {
-//									nanosim.endLoadingFailure();
-//									return;
-//								}
-//								m_ListView.update();
-//								nanosim.endLoadingSuccess();
-//								hide();
-//							}
-//						});
+				// researchService.submitResearch(m_proposal,
+				// new AsyncCallback<Integer>() {
+				//
+				// @Override
+				// public void onFailure(Throwable caught) {
+				// nanosim.endLoadingFailure();
+				// }
+				//
+				// @Override
+				// public void onSuccess(Integer result) {
+				// if (result < 0) {
+				// nanosim.endLoadingFailure();
+				// return;
+				// }
+				// m_ListView.update();
+				// nanosim.endLoadingSuccess();
+				// hide();
+				// }
+				// });
 			}
 		});
 
@@ -158,38 +164,44 @@ public class ProposalDetail extends DialogBox {
 	}
 
 	public void getInnerItem() {
-		m_research.setGroupId(nanosim.Group.getGroupId());
+		m_proposal.setGroupId(nanosim.Group.getGroupId());
 
 		int index = lstTopics.getSelectedIndex();
 		if (index > -1) {
-//			m_research.setResearchTypeId(Integer.parseInt(lstTopics
-//					.getValue(index)));
-//			m_research.setResearchTitle(lstTopics.getItemText(index));
+			// m_proposal.setResearchTypeId(Integer.parseInt(lstTopics
+			// .getValue(index)));
+			// m_proposal.setResearchTitle(lstTopics.getItemText(index));
 		}
-		m_research.setResearchProposal(txtProposal.getText());
-		m_research.setResearchSources(txtSources.getText());
+		m_proposal.setResearchProposal(txtProposal.getText());
+		m_proposal.setResearchSources(txtSources.getText());
 	}
 
 	public void setItem(final EditorMode mode, final Research item) {
-		if (researchTitles == null) {
+		if (riskCertificates == null) {
 			nanosim.beginLoading();
-			ResearchServiceAsync researchService = ResearchService.Util
-					.getInstance();
-			researchService.getResearchTypeTitles(nanosim.Group.getGroupId(),
-					new AsyncCallback<List<ResearchType>>() {
+
+			riskCertificateService
+					.getRiskReductionOptions(new AsyncCallback<List<RiskCertificate>>() {
 
 						@Override
-						public void onSuccess(List<ResearchType> result) {
+						public void onSuccess(List<RiskCertificate> result) {
 							if (result == null || result.size() == 0) {
 								nanosim.endLoadingFailure();
 								return;
 							}
 							nanosim.endLoadingSuccess();
 							// load data
-							researchTitles = result;
-							for (ResearchType researchType : result) {
-								lstTopics.addItem(researchType.getTitle(), ""
-										+ researchType.getResearchTypeId());
+							riskCertificates = result;
+							lstRisks.addItem("No Risk Mitigation", "0");
+							for (RiskCertificate riskCertificate : result) {
+								StringBuilder sb = new StringBuilder();
+								sb.append(riskCertificate.getGroupName());
+								sb.append(" - ");
+								sb.append(riskCertificate.getTitle());
+								sb.append(" - ");
+								sb.append(riskCertificate.getCost());
+								lstRisks.addItem(sb.toString(), ""
+										+ riskCertificate.getCertificateId());
 							}
 							setInnerItem(mode, item);
 						}
@@ -205,7 +217,7 @@ public class ProposalDetail extends DialogBox {
 	}
 
 	public void setInnerItem(EditorMode mode, Research item) {
-		m_research = item;
+		m_proposal = item;
 		m_mode = mode;
 
 		switch (mode) {
@@ -214,9 +226,8 @@ public class ProposalDetail extends DialogBox {
 			dockPanel.add(btnSubmit);
 			dockPanel.add(btnCancel);
 
-			setText("Research*");
-			m_research = new Research();
-			//m_research.setApproved("n");
+			setText("Proposal*");
+			m_proposal = new Research();
 			lstTopics.setItemSelected(0, true);
 			txtProposal.setText("");
 			txtSources.setText("");
