@@ -45,13 +45,13 @@ public class LeftPanel extends Composite {
 		if (nanosim.GroupType.getHasResearch()) {
 			research = new ResearchHome();
 			research.loadShortcuts(rightPanel);
-			add(research, images.group(), "Research");
+			add(research, images.research(), "Research");
 		}
 
 		if (nanosim.GroupType.getHasPatents()) {
 			patent = new PatentHome();
 			patent.loadShortcuts(rightPanel);
-			add(patent, images.group(), "Patents");
+			add(patent, images.patent(), "Patents");
 		}
 
 		if (nanosim.GroupType.getHasProfile()) {
@@ -62,7 +62,7 @@ public class LeftPanel extends Composite {
 
 		sendFund = new SendFundHome();
 		sendFund.loadShortcuts(rightPanel);
-		add(sendFund, images.group(), "Transactions");
+		add(sendFund, images.transfer(), "Transactions");
 
 		stackPanel.showStack(stackIndex = 0);
 		mailboxes.loadRightPanel();

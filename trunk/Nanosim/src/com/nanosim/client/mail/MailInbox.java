@@ -58,7 +58,7 @@ public class MailInbox extends ContentListBase {
 	public void update() {
 		int groupId = nanosim.Group.getGroupId();
 
-		mailService.getMail(groupId, new AsyncCallback<List<Mail>>() {
+		mailService.getMail(groupId, "inbox", new AsyncCallback<List<Mail>>() {
 
 			@Override
 			public void onSuccess(List<Mail> result) {
