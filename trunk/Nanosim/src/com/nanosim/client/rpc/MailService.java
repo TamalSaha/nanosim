@@ -22,7 +22,7 @@ public interface MailService extends RemoteService {
 		}
 	}
 	
-	List<Mail> getMail(long groupId);
+	List<Mail> getMail(long groupId, String type);
 	
 	int sendMail(Mail item);
 }
