@@ -23,4 +23,6 @@ public interface MailService extends RemoteService {
 	}
 	
 	List<Mail> getMail(long groupId);
+	
+	int sendMail(Mail item);
 }
