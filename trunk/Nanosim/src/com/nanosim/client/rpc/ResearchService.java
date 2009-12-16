@@ -28,4 +28,5 @@ public interface ResearchService extends RemoteService {
 	List<Research> getAllCurrentResearch();
 	List<ResearchType> getResearchTypeTitles(int groupId);
 	Research getResearchItem(int researchId);
+	List<ResearchType> getPossibleResearch(int groupId);
 }
