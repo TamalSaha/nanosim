@@ -23,5 +23,7 @@ public interface TransferService extends RemoteService {
 	//public Budget insertBudget(Budget b, int GroupID);
 
 	int insertBudget(String credit, String id, String purpose);
+	
+	String[] getGroupNames();
 
 }

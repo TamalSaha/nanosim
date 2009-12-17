@@ -12,6 +12,21 @@ import com.nanosim.util.ISqlHelper;
 public class BudgetDAO {
 
 	ISqlHelper sqlHelper = ISqlHelper.Factory.getInstance();
+	
+	public String[] getGroupNames(){
+		String result[];
+		String resultAll = ""; 
+		try {
+			ResultSet names = sqlHelper.executeQuery("select name from group_types");
+			while(!names.last())
+				resultAll.concat(names.next()+"!");
+			result = resultAll.split("!");
+			return result;
+		} catch (Exception e) {
+			System.out.println("In budgetDAO: " + e.toString());
+			return null;
+		}
+	}
 
 	public int insertBudget(double d, int id, String purpose) {
 		try {
