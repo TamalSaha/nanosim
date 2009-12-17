@@ -30,4 +30,5 @@ public interface ResearchService extends RemoteService {
 	List<ResearchType> getResearchTypeTitles(int groupId);
 	Research getResearchItem(int researchId);
 	List<ResearchType> getPossibleResearch(int groupId);
+	String submitResearchProposal(Research r);
 }

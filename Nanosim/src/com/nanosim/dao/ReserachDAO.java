@@ -2,9 +2,7 @@ package com.nanosim.dao;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-
 import com.nanosim.model.Research;
 import com.nanosim.model.ResearchType;
 import com.nanosim.util.ISqlHelper;
@@ -223,6 +221,124 @@ public class ReserachDAO {
 			return false;
 		} catch (Exception e) {
 			return false;
+		} finally {
+			if (rs != null)
+				sqlHelper.close();
+		}
+	}
+
+	public boolean alreadyHasResearch(int groupId, int researchTypeId) {
+		ResultSet rs = null;
+		try {
+			rs = sqlHelper
+					.executeQuery(
+							"SELECT count(*) result_count FROM research WHERE group_id = ? AND research_type_id = ? AND failed = 'n'",
+							groupId, researchTypeId);
+			if (rs.next()) {
+				return rs.getInt("result_count") > 0;
+			}
+			return false;
+		} catch (Exception e) {
+			return false;
+		} finally {
+			if (rs != null)
+				sqlHelper.close();
+		}
+	}
+
+	public ResearchType getResearchTopic(int researchTypeId) {
+		ResultSet rs = null;
+		try {
+			rs = sqlHelper.executeQuery(
+					"SELECT * FROM research_types WHERE research_type_id = ?",
+					researchTypeId);
+
+			ResearchType r = null;
+			if (rs.next()) {
+				r = new ResearchType();
+
+				r.setResearchTypeId(rs.getInt("research_type_id"));
+				r.setTitle(rs.getString("title"));
+				r.setAndParents(rs.getString("and_parents"));
+				r.setOrParents(rs.getString("or_parents"));
+				r.setCost(rs.getInt("cost"));
+				r.setDuration(rs.getInt("duration"));
+				r.setFacilityReq(rs.getString("facility_req"));
+				r.setLevel(rs.getInt("level"));
+			}
+			return r;
+		} catch (Exception e) {
+			return null;
+		} finally {
+			if (rs != null)
+				sqlHelper.close();
+		}
+	}
+
+	public int insertResearch(Research r) {
+		try {
+			int retVal = sqlHelper
+					.executeUpdate(
+							"INSERT INTO research (group_id, research_type_id, submitted, time_left, cost, research_proposal, research_sources) VALUES (?, ?, NOW(), ?, ?, ?, ?)",
+							r.getGroupId(), r.getResearchTypeId(), r
+									.getTimeLeft(), r.getCost(), r
+									.getResearchProposal(), r
+									.getResearchSources());
+			return retVal == -1 ? null : 1;
+		} catch (Exception e) {
+			return -1;
+		}
+	}
+
+	public int getResearchLevelCount(int groupId, int researchLevel) {
+		ResultSet rs = null;
+		try {
+			rs = sqlHelper
+					.executeQuery(
+							"SELECT COUNT(*) result_count FROM research INNER JOIN research_types ON research.research_type_id = research_types.research_type_id WHERE research_types.level = ? AND research.group_id = ? and research.owns_research = 'y'",
+							researchLevel, groupId);
+			if (rs.next()) {
+				return rs.getInt("result_count");
+			}
+			return 0;
+		} catch (Exception e) {
+			return 0;
+		} finally {
+			if (rs != null)
+				sqlHelper.close();
+		}
+	}
+
+	public boolean checkLevelRequirement(int rid, int groupId) {
+		boolean meetsReq = true;
+		int researchLevel = getResearchTopic(rid).getLevel();
+		if (researchLevel == 2) {
+			int levelOnes = getResearchLevelCount(1, groupId);
+			if (levelOnes < 2)
+				meetsReq = false;
+		}
+		if (researchLevel == 3) {
+			int levelOnes = getResearchLevelCount(1, groupId);
+			int levelTwos = getResearchLevelCount(2, groupId);
+			if (levelOnes < 4 || levelTwos < 2)
+				meetsReq = false;
+		}
+		return meetsReq;
+	}
+
+	public int getTimeLeft(int groupId) {
+		ResultSet rs = null;
+		try {
+			rs = sqlHelper
+					.executeQuery(
+							"SELECT SUM(time_left) result_sum FROM research WHERE group_id = $group_id AND time_left > 0",
+							groupId);
+			if (rs.next()) {
+				return rs.getInt("result_sum");
+			}
+			return 0;
+		} catch (Exception e) {
+			return 0;
 		} finally {
 			if (rs != null)
 				sqlHelper.close();

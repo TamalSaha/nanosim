@@ -112,28 +112,28 @@ public class ProposalDetail extends DialogBox {
 			public void onClick(ClickEvent event) {
 				nanosim.beginLoading();
 				getInnerItem();
-				// researchService.submitResearch(m_proposal,
-				// new AsyncCallback<Integer>() {
-				//
-				// @Override
-				// public void onFailure(Throwable caught) {
-				// nanosim.endLoadingFailure();
-				// }
-				//
-				// @Override
-				// public void onSuccess(Integer result) {
-				// if (result < 0) {
-				// nanosim.endLoadingFailure();
-				// return;
-				// }
-				// m_ListView.update();
-				// nanosim.endLoadingSuccess();
-				// hide();
-				// }
-				// });
+				researchService.submitResearchProposal(m_proposal,
+						new AsyncCallback<String>() {
+
+							@Override
+							public void onFailure(Throwable caught) {
+								nanosim.endLoadingFailure();
+							}
+
+							@Override
+							public void onSuccess(String result) {
+								if (!result.equals("")) {
+									nanosim.endLoading(result);
+									hide();
+									return;
+								}
+								m_ListView.update();
+								nanosim.endLoadingSuccess();
+								hide();
+							}
+						});
 			}
 		});
-
 		btnCancel = new Button("Cancel");
 		dockPanel.add(btnCancel);
 		btnCancel.addClickHandler(new ClickHandler() {
@@ -168,10 +168,11 @@ public class ProposalDetail extends DialogBox {
 
 		int index = lstTopics.getSelectedIndex();
 		if (index > -1) {
-			// m_proposal.setResearchTypeId(Integer.parseInt(lstTopics
-			// .getValue(index)));
-			// m_proposal.setResearchTitle(lstTopics.getItemText(index));
+			m_proposal.setResearchTypeId(Integer.parseInt(lstTopics
+					.getValue(index)));
+			m_proposal.setResearchTypeTitle(lstTopics.getItemText(index));
 		}
+		m_proposal.setGroupId(nanosim.Group.getGroupId());
 		m_proposal.setResearchProposal(txtProposal.getText());
 		m_proposal.setResearchSources(txtSources.getText());
 	}

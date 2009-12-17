@@ -13,4 +13,5 @@ public interface ResearchServiceAsync {
 	void getResearchTypeTitles(int groupId, AsyncCallback<List<ResearchType>> callback);
 	void getResearchItem(int researchId, AsyncCallback<Research> callback);
 	void getPossibleResearch(int groupId, AsyncCallback<List<ResearchType>> callback);
+	void submitResearchProposal(Research r, AsyncCallback<String> callback);
 }
