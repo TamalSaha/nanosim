@@ -110,11 +110,14 @@ public class SendFundScreen extends Composite {
 			@Override
 			public void onClick(ClickEvent event) {
 				String creditString = txtUsername.getText();
-				String groupIDString = "51";// txtToGroupID.getText();
+				String groupIDString = "";
 				String groupNameString = lstGroupID.getItemText(lstGroupID
 						.getSelectedIndex());
-				
-				groupIDString = groupNameString.substring(groupNameString.indexOf(' '),groupNameString.length() - 1);
+
+				int index = lstGroupID.getSelectedIndex();
+				if (index > -1) {
+					groupIDString = lstGroupID.getValue(index);
+				}
 				String purposeString = txtPurpose.getText();
 
 				if (creditString == null || creditString.equals("")) {
