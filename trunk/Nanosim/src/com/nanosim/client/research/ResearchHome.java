@@ -13,6 +13,8 @@ public class ResearchHome extends StackContentBase {
 	private GroupIncompleteResearchList incompleteResearchList;
 	private AllCurrentResearchList currentResearchList;
 
+	private TechnologyTreeView techTreeView;
+
 	public ResearchHome() {
 		singleton = this;
 	}
@@ -27,6 +29,8 @@ public class ResearchHome extends StackContentBase {
 		this.incompleteResearchList = new GroupIncompleteResearchList();
 		this.currentResearchList = new AllCurrentResearchList();
 
+		this.techTreeView = new TechnologyTreeView();
+
 		if (nanosim.GroupType.getHasResearchCompleted()) {
 			uiHelper.addImageItem(tree, "Completed Research", images.inbox());
 		}
@@ -36,6 +40,7 @@ public class ResearchHome extends StackContentBase {
 		if (nanosim.GroupType.getHasResearchAllCurrent()) {
 			uiHelper.addImageItem(tree, "All Current Research", images.inbox());
 		}
+		uiHelper.addImageItem(tree, "Technology Tree", images.inbox());
 	}
 
 	@Override
@@ -55,6 +60,9 @@ public class ResearchHome extends StackContentBase {
 		} else if (title.equals("All Current Research")) {
 			rightPanel.clear();
 			rightPanel.add(currentResearchList);
+		} else if (title.equals("Technology Tree")) {
+			rightPanel.clear();
+			rightPanel.add(techTreeView);
 		}
 	}
 }
