@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.nanosim.client.rpc.ResearchService;
+import com.nanosim.dao.BudgetDAO;
+import com.nanosim.dao.FacilityDAO;
+import com.nanosim.dao.FacilityUserDAO;
+import com.nanosim.dao.PatentDAO;
 import com.nanosim.dao.ReserachDAO;
 import com.nanosim.model.Research;
 import com.nanosim.model.ResearchType;
@@ -84,8 +88,7 @@ public class ResearchServiceImpl extends RemoteServiceServlet implements
 					for (String parent : researchList) {
 						if (parent != null && !parent.trim().equals("")) {
 							if (reserachDao.getDependentResearch(groupId,
-									Integer.parseInt(parent)))
-							{
+									Integer.parseInt(parent))) {
 								hasRequirements = 1;
 								break;
 							}
@@ -97,8 +100,7 @@ public class ResearchServiceImpl extends RemoteServiceServlet implements
 					for (String parent : researchList) {
 						if (parent != null && !parent.trim().equals("")) {
 							if (!reserachDao.getDependentResearch(groupId,
-									Integer.parseInt(parent)))
-							{
+									Integer.parseInt(parent))) {
 								hasRequirements = 0;
 								break;
 							}
@@ -112,6 +114,72 @@ public class ResearchServiceImpl extends RemoteServiceServlet implements
 			return possibleResearch;
 		} catch (Exception e) {
 			return null;
+		}
+	}
+
+	@Override
+	public String submitResearchProposal(Research r) {
+		try {
+			ReserachDAO reserachDao = new ReserachDAO();
+			PatentDAO patentDao = new PatentDAO();
+			FacilityDAO facilityDAO = new FacilityDAO();
+			FacilityUserDAO facilityUserDAO = new FacilityUserDAO();
+			BudgetDAO budgetDAO = new BudgetDAO();
+
+			// Checks if group already has reaserach
+			if (reserachDao.alreadyHasResearch(r.getGroupId(), r
+					.getResearchTypeId()))
+				return "Your group already has access to or has started that research.";
+
+			// Checks if there is a patent on the research
+			if (patentDao.alreadyHasPatent(r.getResearchTypeId()))
+				return "That research has been patented.";
+
+			ResearchType researchType = reserachDao.getResearchTopic(r
+					.getResearchTypeId());
+
+			// check if group has facility rerequisites for research
+			// **EDIT HERE FOR CORE COMPETENCY
+			boolean hasRequirements = true;
+			String strFacilityReq = researchType.getFacilityReq();
+			if (strFacilityReq != null && !strFacilityReq.trim().equals("")) {
+				String[] facilityList = strFacilityReq.split(",");
+				for (String strFacilityTypeId : facilityList) {
+					if (strFacilityTypeId != null
+							&& !strFacilityTypeId.trim().equals("")) {
+						if (!facilityDAO.hasFacility(r.getGroupId(), Integer
+								.parseInt(strFacilityTypeId))) {
+							if (!facilityUserDAO.hasFacility(r.getGroupId(),
+									Integer.parseInt(strFacilityTypeId))) {
+								hasRequirements = false;
+							}
+						}
+					}
+				}
+				if (hasRequirements) {
+					return "Your group does not have the facilities to research $title.";
+				}
+			}
+			hasRequirements = reserachDao.checkLevelRequirement(r
+					.getResearchTypeId(), r.getGroupId());
+			if (!hasRequirements) {
+				return "Your group does not meet the level requirements to research $title.";
+			}
+			if (researchType.getLevel() == 1)
+				researchType.setDuration(researchType.getDuration()
+						+ reserachDao.getTimeLeft(r.getGroupId()));
+			else
+				r.setTimeLeft(0);
+
+			// $duration = $duration + getTimeReduction($research_type_id,
+			// $group_id);
+			reserachDao.insertResearch(r);
+			budgetDAO.insertBudget(r.getCost(), r.getGroupId(), "Purpose: "
+					+ researchType.getTitle());
+
+			return "";
+		} catch (Exception e) {
+			return e.getMessage();
 		}
 	}
 }

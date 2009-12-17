@@ -180,6 +180,13 @@ public class Nanosim implements EntryPoint, ResizeHandler {
 		}
 	}
 
+	public void endLoading(String msg) {
+		if (homeScreen != null && homeScreen.topPanel != null) {
+			homeScreen.topPanel.showMessage(msg);
+			msgTimer.schedule(3000);
+		}
+	}
+
 	public void clearLoadingFailure() {
 		if (homeScreen != null && homeScreen.topPanel != null) {
 			homeScreen.topPanel.showMessage("");

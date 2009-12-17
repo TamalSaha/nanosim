@@ -126,4 +126,22 @@ public class PatentDAO {
 		}
 	}
 
+	public boolean alreadyHasPatent(int researchTypeId) {
+		ResultSet rs = null;
+		try {
+			rs = sqlHelper
+					.executeQuery(
+							"SELECT count(*) result_count FROM patents WHERE research_type_id = ?",
+							researchTypeId);
+			if (rs.next()) {
+				return rs.getInt("result_count") > 0;
+			}
+			return false;
+		} catch (Exception e) {
+			return false;
+		} finally {
+			if (rs != null)
+				sqlHelper.close();
+		}
+	}
 }
