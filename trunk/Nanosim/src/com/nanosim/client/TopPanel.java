@@ -2,7 +2,7 @@ package com.nanosim.client;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -16,6 +16,7 @@ public class TopPanel extends Composite {
 	private EventHandlerCollection<ISignoutHandler> signoutHandlerColl = new EventHandlerCollection<ISignoutHandler>();
 	private final FlexTable layout;
 
+	@SuppressWarnings("deprecation")
 	public TopPanel() {
 		layout = new FlexTable();
 		layout.setWidth("100%");
@@ -39,7 +40,7 @@ public class TopPanel extends Composite {
 
 		layout.setHTML(1, 0, "");
 		cellFormatter.setWidth(1, 0, "50%");
-		final Anchor signOutLink = new Anchor("Sign Out", "signout");
+		final Hyperlink signOutLink = new Hyperlink("Sign Out", "signout");
 		signOutLink.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
@@ -54,7 +55,7 @@ public class TopPanel extends Composite {
 				.setVerticalAlignment(1, 1, HasVerticalAlignment.ALIGN_TOP);
 		cellFormatter.setWidth(1, 1, "200px");
 
-		final Anchor aboutLink = new Anchor("About", "about");
+		final Hyperlink aboutLink = new Hyperlink("About", "about");
 		aboutLink.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {

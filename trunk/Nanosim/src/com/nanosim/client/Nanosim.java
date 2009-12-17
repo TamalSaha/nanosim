@@ -10,6 +10,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.nanosim.client.event.ISigninHandler;
+import com.nanosim.client.event.ISignoutHandler;
 import com.nanosim.client.icons.NanosimImages;
 import com.nanosim.client.rpc.SigninService;
 import com.nanosim.client.rpc.SigninServiceAsync;
@@ -61,26 +62,26 @@ public class Nanosim implements EntryPoint, ResizeHandler {
 		};
 
 		// for test
-		signinService.signin("ibm", "demo", new AsyncCallback<Person>() {
-
-			@Override
-			public void onFailure(Throwable caught) {
-			}
-
-			@Override
-			public void onSuccess(Person result) {
-				Person = result;
-				cookieHelper.setIsLoggedIn(true);
-				setHomeScreen();
-			}
-		});
-		RootPanel rootPanel = RootPanel.get();
-		rootPanel.clear();
-
-		// if (!cookieHelper.getIsLoggedIn()) {
-		// setSigninScreen();
-		// } else
+		// signinService.signin("ibm", "demo", new AsyncCallback<Person>() {
+		//
+		// @Override
+		// public void onFailure(Throwable caught) {
+		// }
+		//
+		// @Override
+		// public void onSuccess(Person result) {
+		// Person = result;
+		// cookieHelper.setIsLoggedIn(true);
 		// setHomeScreen();
+		// }
+		// });
+		// RootPanel rootPanel = RootPanel.get();
+		// rootPanel.clear();
+
+		if (!cookieHelper.getIsLoggedIn()) {
+			setSigninScreen();
+		} else
+			setHomeScreen();
 	}
 
 	private void setSigninScreen() {
@@ -103,6 +104,12 @@ public class Nanosim implements EntryPoint, ResizeHandler {
 
 	private void setHomeScreen() {
 		homeScreen = new HomeScreen();
+		homeScreen.topPanel.addLoginHandler(new ISignoutHandler() {
+			@Override
+			public void OnSignout() {
+				signout();
+			}
+		});
 		Window.addResizeHandler(this);
 		Window.enableScrolling(true);
 		Window.setMargin("0px");
@@ -142,7 +149,7 @@ public class Nanosim implements EntryPoint, ResizeHandler {
 		}
 	}
 
-	public void logout() {
+	public void signout() {
 		cookieHelper.setIsLoggedIn(false);
 		setSigninScreen();
 	}

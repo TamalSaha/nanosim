@@ -1,6 +1,5 @@
 package com.nanosim.client.transfer;
 
-import java.sql.ResultSet;
 import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -13,7 +12,6 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
@@ -24,7 +22,6 @@ import com.nanosim.client.rpc.GroupServiceAsync;
 import com.nanosim.client.rpc.TransferService;
 import com.nanosim.client.rpc.TransferServiceAsync;
 import com.nanosim.model.Group;
-import com.nanosim.model.ResearchType;
 
 public class SendFundScreen extends Composite {
 
