@@ -72,9 +72,3 @@ public class Objective extends Composite {
 		initWidget(layout);
 	}
 }
-
-// DockLayoutPanel p = new DockLayoutPanel(Unit.EM);
-// p.addNorth(new HTML("header"), 2);
-// p.addSouth(new HTML("footer"), 2);
-// p.addWest(new HTML("navigation"), 10);
-// p.add(new HTML(content))
