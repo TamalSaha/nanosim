@@ -28,14 +28,6 @@
 		<url-pattern>/nanosim/PatentService</url-pattern>
 	</servlet-mapping>
 	<servlet>
-		<servlet-name>ProposalService</servlet-name>
-		<servlet-class>com.nanosim.server.ProposalServiceImpl</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>ProposalService</servlet-name>
-		<url-pattern>/nanosim/ProposalService</url-pattern>
-	</servlet-mapping>
-	<servlet>
 		<servlet-name>GroupService</servlet-name>
 		<servlet-class>com.nanosim.server.GroupServiceImpl</servlet-class>
 	</servlet>
@@ -74,6 +66,14 @@
 	<servlet-mapping>
 		<servlet-name>MailService</servlet-name>
 		<url-pattern>/nanosim/MailService</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>RiskCertificateService</servlet-name>
+		<servlet-class>com.nanosim.server.RiskCertificateServiceImpl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>RiskCertificateService</servlet-name>
+		<url-pattern>/nanosim/RiskCertificateService</url-pattern>
 	</servlet-mapping>
 
 </web-app>
