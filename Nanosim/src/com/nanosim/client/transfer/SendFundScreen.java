@@ -1,5 +1,7 @@
 package com.nanosim.client.transfer;
 
+import java.sql.ResultSet;
+import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -10,21 +12,30 @@ import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.nanosim.client.event.ISendBudgetHandler;
 import com.nanosim.client.internal.EventHandlerCollection;
+import com.nanosim.client.rpc.GroupService;
+import com.nanosim.client.rpc.GroupServiceAsync;
 import com.nanosim.client.rpc.TransferService;
 import com.nanosim.client.rpc.TransferServiceAsync;
+import com.nanosim.model.Group;
+import com.nanosim.model.ResearchType;
 
 public class SendFundScreen extends Composite {
 
 	private EventHandlerCollection<ISendBudgetHandler> sendBudgetHandlerColl = new EventHandlerCollection<ISendBudgetHandler>();
+	private ListBox lstGroupID;
 
 	private final TransferServiceAsync transferService = TransferService.Util
-	.getInstance();
+			.getInstance();
+
+	private final GroupServiceAsync groupService = GroupService.Util
+			.getInstance();
 
 	public SendFundScreen() {
 		DockPanel dock = new DockPanel();
@@ -57,9 +68,33 @@ public class SendFundScreen extends Composite {
 		lblToGroupID.setText("To groupID: ");
 		flexTable.setWidget(2, 0, lblToGroupID);
 
-		final TextBox txtToGroupID = new TextBox();
-		flexTable.setWidget(2, 1, txtToGroupID);
-		
+		// final TextBox txtToGroupID = new TextBox();
+		// flexTable.setWidget(2, 1, txtToGroupID);
+
+		lstGroupID = new ListBox(false);
+		lstGroupID.setWidth("400px");
+		flexTable.setWidget(2, 1, lstGroupID);
+
+		groupService.getGroups(new AsyncCallback<List<Group>>() {
+			@Override
+			public void onFailure(Throwable caught) {
+				flexTable.setHTML(0, 0, "Failure !!!");
+			}
+
+			@Override
+			public void onSuccess(List<Group> result) {
+				if (result == null) {
+					flexTable.setHTML(0, 0, "Failure !!!");
+				} else {
+					flexTable.setHTML(0, 0, "");
+					for (Group group : result) {
+						lstGroupID.addItem(group.getName(), ""
+								+ group.getGroupId());
+					}
+				}
+			}
+		});
+
 		final Label lblPurpose = new Label();
 		lblPurpose.setText("Purpose: ");
 		flexTable.setWidget(3, 0, lblPurpose);
@@ -75,7 +110,11 @@ public class SendFundScreen extends Composite {
 			@Override
 			public void onClick(ClickEvent event) {
 				String creditString = txtUsername.getText();
-				String groupIDString = txtToGroupID.getText();
+				String groupIDString = "51";// txtToGroupID.getText();
+				String groupNameString = lstGroupID.getItemText(lstGroupID
+						.getSelectedIndex());
+				
+				groupIDString = groupNameString.substring(groupNameString.indexOf(' '),groupNameString.length() - 1);
 				String purposeString = txtPurpose.getText();
 
 				if (creditString == null || creditString.equals("")) {
@@ -86,52 +125,57 @@ public class SendFundScreen extends Composite {
 					boolean valid = true;
 					char[] credit = creditString.toCharArray();
 					for (int i = 0; i < credit.length; i++) {
-						if(Character.isDigit(credit[i]) || credit[i] == '.')
+						if (Character.isDigit(credit[i]) || credit[i] == '.')
 							continue;
-						else{
-							flexTable.setHTML(0, 0, "Invalid credit. Please inter a number.");
+						else {
+							flexTable.setHTML(0, 0,
+									"Invalid credit. Please inter a number.");
 							valid = false;
 						}
 					}
-					
+
 					char[] id = groupIDString.toCharArray();
 					for (int i = 0; i < id.length; i++) {
-						if(Character.isDigit(id[i]) )
+						if (Character.isDigit(id[i]))
 							continue;
-						else{
-							flexTable.setHTML(0, 0, "Invalid group ID. Please inter a number.");
+						else {
+							flexTable.setHTML(0, 0,
+									"Invalid group ID. Please inter a number.");
 							valid = false;
 						}
 					}
-					
-					if(purposeString.equals("")){
+
+					if (purposeString.equals("")) {
 						flexTable.setHTML(0, 0, "Please enter your purposal.");
 						valid = false;
 					}
-					if(valid){
-						
-					transferService.insertBudget(creditString, groupIDString, purposeString,
-							new AsyncCallback<Integer>() {
-								@Override
-								public void onFailure(Throwable caught) {
-									flexTable.setHTML(0, 0,
-											"Transaction failed !!!");
-								}
+					if (valid) {
 
-								@Override
-								public void onSuccess(Integer result) {
-									if (result == -1) {
+						transferService.insertBudget(creditString,
+								groupIDString, purposeString,
+								new AsyncCallback<Integer>() {
+									@Override
+									public void onFailure(Throwable caught) {
 										flexTable.setHTML(0, 0,
 												"Transaction failed !!!");
-									} else {
-										flexTable.setHTML(0, 0, "You send your purposal successfully!");
-										for (ISendBudgetHandler handler : sendBudgetHandlerColl
-												.getList()) {
-											handler.OnSuccess(result);
+									}
+
+									@Override
+									public void onSuccess(Integer result) {
+										if (result == -1) {
+											flexTable.setHTML(0, 0,
+													"Transaction failed !!!");
+										} else {
+											flexTable
+													.setHTML(0, 0,
+															"You send your purposal successfully!");
+											for (ISendBudgetHandler handler : sendBudgetHandlerColl
+													.getList()) {
+												handler.OnSuccess(result);
+											}
 										}
 									}
-								}
-							});
+								});
 					}
 				}
 			}
@@ -148,4 +192,5 @@ public class SendFundScreen extends Composite {
 	public void removeLoginHandler(ISendBudgetHandler handler) {
 		sendBudgetHandlerColl.removeListener(handler);
 	}
+
 }

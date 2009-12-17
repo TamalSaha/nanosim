@@ -16,7 +16,7 @@ public class AboutDialog extends DialogBox {
 	public AboutDialog() {
 		
 	    setAnimationEnabled(true);
-	    setGlassEnabled(true);
+	    //setGlassEnabled(true);
 	    
 		VerticalPanel outer = new VerticalPanel();
 		

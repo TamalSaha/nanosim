@@ -21,5 +21,11 @@ public class TransferServiceImpl extends RemoteServiceServlet implements
 		}
 	}
 
+	@Override
+	public String[] getGroupNames() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }
