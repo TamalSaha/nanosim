@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE web-app
+    PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+    "http://java.sun.com/dtd/web-app_2_3.dtd">
+
+<web-app>
+
+	<!-- Default page to serve -->
+	<welcome-file-list>
+		<welcome-file>Nanosim.html</welcome-file>
+	</welcome-file-list>
+
+	<!-- Servlets -->
+	<servlet>
+		<servlet-name>SigninService</servlet-name>
+		<servlet-class>com.nanosim.server.SigninServiceImpl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SigninService</servlet-name>
+		<url-pattern>/nanosim/SigninService</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>PatentService</servlet-name>
+		<servlet-class>com.nanosim.server.PatentServiceImpl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PatentService</servlet-name>
+		<url-pattern>/nanosim/PatentService</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>GroupService</servlet-name>
+		<servlet-class>com.nanosim.server.GroupServiceImpl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GroupService</servlet-name>
+		<url-pattern>/nanosim/GroupService</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>TransferService</servlet-name>
+		<servlet-class>com.nanosim.server.TransferServiceImpl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>TransferService</servlet-name>
+		<url-pattern>/nanosim/TransferService</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>ResearchService</servlet-name>
+		<servlet-class>com.nanosim.server.ResearchServiceImpl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ResearchService</servlet-name>
+		<url-pattern>/nanosim/ResearchService</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>NanopostService</servlet-name>
+		<servlet-class>com.nanosim.server.NanopostServiceImpl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>NanopostService</servlet-name>
+		<url-pattern>/nanosim/NanopostService</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>MailService</servlet-name>
+		<servlet-class>com.nanosim.server.MailServiceImpl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>MailService</servlet-name>
+		<url-pattern>/nanosim/MailService</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>RiskCertificateService</servlet-name>
+		<servlet-class>com.nanosim.server.RiskCertificateServiceImpl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>RiskCertificateService</servlet-name>
+		<url-pattern>/nanosim/RiskCertificateService</url-pattern>
+	</servlet-mapping>
+		<servlet>
+		<servlet-name>BudgetService</servlet-name>
+		<servlet-class>com.nanosim.server.BudgetServiceImpl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>BudgetService</servlet-name>
+		<url-pattern>/nanosim/BudgetService</url-pattern>
+	</servlet-mapping>
+
+</web-app>
