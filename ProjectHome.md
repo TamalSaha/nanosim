@@ -1,0 +1,1 @@
+Role Play simulation of the NNI
